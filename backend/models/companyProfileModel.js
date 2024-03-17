@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const generalProfileSchema = new Schema(
+const companyProfileSchema = new Schema(
   {
     firstName: {
       type: String,
@@ -50,22 +50,18 @@ const generalProfileSchema = new Schema(
       required: true,
     },
     universityAttened: {
-      type: [
-        {
-          universityName: String,
-          year: Number,
-          degree: String,
-        },
-      ],
+      type: {
+        universityName: String,
+        year: Number,
+        degree: String,
+      },
     },
     currentEmployment: {
-      type: [
-        {
-          company: String,
-          position: String,
-          industry: String,
-        },
-      ],
+      type: {
+        company: String,
+        position: String,
+        industry: String,
+      },
     },
     previousExperiences: {
       type: [
@@ -99,4 +95,4 @@ const generalProfileSchema = new Schema(
 );
 
 // needs to keep the name single here. it will pluralize when creating on the mongo db
-module.exports = mongoose.model("GeneralProfile", generalProfileSchema);
+module.exports = mongoose.model("CompanyProfile", companyProfileSchema);

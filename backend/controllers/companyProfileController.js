@@ -1,8 +1,8 @@
-const GeneralProfile = require("../models/generalProfileModel");
+const CompanyProfile = require("../models/companyProfileModel");
 
-const getGeneralProfile = async (req, res) => {
+const getCompanyProfile = async (req, res) => {
   try {
-    const profile = await GeneralProfile.find({});
+    const profile = await CompanyProfile.find({});
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not yet created!" });
@@ -14,16 +14,16 @@ const getGeneralProfile = async (req, res) => {
   }
 };
 
-const getAllGeneralProfiles = async (req, res) => {
+const getAllCompanyProfiles = async (req, res) => {
   try {
-    const profiles = await GeneralProfile.find({});
+    const profiles = await CompanyProfile.find({});
     res.status(200).json(profiles);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const createGeneralProfile = async (req, res) => {
+const createCompanyProfile = async (req, res) => {
   const {
     firstName,
     lastName,
@@ -43,7 +43,7 @@ const createGeneralProfile = async (req, res) => {
   } = req.body;
 
   try {
-    const generalProfile = await GeneralProfile.create({
+    const companyProfile = await CompanyProfile.create({
       firstName,
       lastName,
       dateOfBirth,
@@ -60,19 +60,19 @@ const createGeneralProfile = async (req, res) => {
       skills,
       achievements,
     });
-    res.status(200).json(generalProfile);
+    res.status(200).json(companyProfile);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const updateGeneralProfile = async (req, res) => {
+const updateCompanyProfile = async (req, res) => {
   // TODO
 };
 
-const deleteGeneralProfile = async (req, res) => {
+const deleteCompanyProfile = async (req, res) => {
   try {
-    const profile = await GeneralProfile.findOneAndDelete({});
+    const profile = await CompanyProfile.findOneAndDelete({});
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not yet created!" });
@@ -86,9 +86,9 @@ const deleteGeneralProfile = async (req, res) => {
 
 // export the methods to be used from other places
 module.exports = {
-  createGeneralProfile,
-  getGeneralProfile,
-  getAllGeneralProfiles,
-  updateGeneralProfile,
-  deleteGeneralProfile,
+  createCompanyProfile,
+  getCompanyProfile,
+  getAllCompanyProfiles,
+  updateCompanyProfile,
+  deleteCompanyProfile,
 };
