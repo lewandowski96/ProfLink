@@ -37,7 +37,12 @@ const {
   deleteBusinessProfile,
 } = require("../controllers/businessProfileController");
 
+const checkAuth = require("../middleware/checkAuth");
+
 const router = express.Router();
+
+// run this before all the other routes to authenticate the API calls
+router.use(checkAuth);
 
 router.get("/general", getGeneralProfile);
 router.get("/general/all", getAllGeneralProfiles);

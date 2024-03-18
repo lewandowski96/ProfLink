@@ -2,7 +2,8 @@ const CompanyProfile = require("../models/companyProfileModel");
 
 const getCompanyProfile = async (req, res) => {
   try {
-    const profile = await CompanyProfile.find({});
+    const user_id = req.user._id;
+    const profile = await CompanyProfile.find({ user_id });
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not yet created!" });
@@ -42,7 +43,43 @@ const createCompanyProfile = async (req, res) => {
     achievements,
   } = req.body;
 
+  let emptyFields = [];
+
+  if (!firstName) {
+    emptyFields.push("firstName");
+  }
+  if (!lastName) {
+    emptyFields.push("lastName");
+  }
+  if (!dateOfBirth) {
+    emptyFields.push("dateOfBirth");
+  }
+  if (!contactNo) {
+    emptyFields.push("contactNo");
+  }
+  if (!email) {
+    emptyFields.push("email");
+  }
+  if (!sex) {
+    emptyFields.push("sex");
+  }
+  if (!city) {
+    emptyFields.push("city");
+  }
+  if (!country) {
+    emptyFields.push("country");
+  }
+  if (!bio) {
+    emptyFields.push("bio");
+  }
+  if (emptyFields.length > 0) {
+    return res
+      .status(400)
+      .json({ error: "Please fill in all the required fields.", emptyFields });
+  }
+
   try {
+    const user_id = req.user._id;
     const companyProfile = await CompanyProfile.create({
       firstName,
       lastName,
@@ -59,6 +96,7 @@ const createCompanyProfile = async (req, res) => {
       previousExperiences,
       skills,
       achievements,
+      user_id,
     });
     res.status(200).json(companyProfile);
   } catch (error) {

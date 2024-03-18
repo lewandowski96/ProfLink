@@ -47,7 +47,6 @@ const generalProfileSchema = new Schema(
           year: Number,
         },
       ],
-      required: true,
     },
     universityAttened: {
       type: [
@@ -93,6 +92,10 @@ const generalProfileSchema = new Schema(
           media_type: String,
         },
       ],
+    },
+    user_id: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

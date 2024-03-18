@@ -47,7 +47,6 @@ const businessProfileSchema = new Schema(
           year: Number,
         },
       ],
-      required: true,
     },
     universityAttened: {
       type: {
@@ -57,11 +56,13 @@ const businessProfileSchema = new Schema(
       },
     },
     currentEmployment: {
-      type: {
-        company: String,
-        position: String,
-        industry: String,
-      },
+      type: [
+        {
+          company: String,
+          position: String,
+          industry: String,
+        },
+      ],
     },
     previousExperiences: {
       type: [
@@ -89,6 +90,10 @@ const businessProfileSchema = new Schema(
           media_type: String,
         },
       ],
+    },
+    user_id: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const GeneralProfileCreateForm = () => {
+const ConsultantIndividualProfileCreateForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -166,7 +166,7 @@ const GeneralProfileCreateForm = () => {
 
     console.log(data);
 
-    const response = await fetch("/api/profiles/general", {
+    const response = await fetch("/api/profiles/consultant/individual", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -220,7 +220,7 @@ const GeneralProfileCreateForm = () => {
 
   return (
     <form class="create" onSubmit={handleSubmit}>
-      <h3>Create Your Profile!</h3>
+      <h3>Create Your Individual Consultant Profile!</h3>
       <label>Your First Name:</label>
       <input
         type="text"
@@ -487,4 +487,4 @@ const GeneralProfileCreateForm = () => {
   );
 };
 
-export default GeneralProfileCreateForm;
+export default ConsultantIndividualProfileCreateForm;
