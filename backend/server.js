@@ -20,6 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // defining the routes
 app.get("/health-check", (req, res) => {
   res.json({ msg: "Backend is up and running..." });

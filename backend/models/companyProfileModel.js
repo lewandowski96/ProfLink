@@ -4,92 +4,29 @@ const Schema = mongoose.Schema;
 
 const companyProfileSchema = new Schema(
   {
-    firstName: {
+    CompanyName: {
       type: String,
       required: true,
     },
-    lastName: {
+    locationsName: {
       type: String,
       required: true,
     },
-    dateOfBirth: {
+    foundedYear: {
       type: Date,
       required: true,
     },
-    contactNo: {
+    members: {
       type: Number,
       required: true,
     },
-    email: {
+    industry: {
       type: String,
       required: true,
     },
-    sex: {
+    about: {
       type: String,
       required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
-    bio: {
-      type: String,
-      required: true,
-    },
-    schoolsAttended: {
-      type: [
-        {
-          schoolName: String,
-          year: Number,
-        },
-      ],
-    },
-    universityAttened: {
-      type: {
-        universityName: String,
-        year: Number,
-        degree: String,
-      },
-    },
-    currentEmployment: {
-      type: [
-        {
-          company: String,
-          position: String,
-          industry: String,
-        },
-      ],
-    },
-    previousExperiences: {
-      type: [
-        {
-          position: String,
-          company: String,
-          year: Number,
-          industry: String,
-        },
-      ],
-    },
-    skills: {
-      type: [
-        {
-          name: String,
-          level: String,
-        },
-      ],
-    },
-    achievements: {
-      type: [
-        {
-          name: String,
-          multimedia: String,
-          media_type: String,
-        },
-      ],
     },
     user_id: {
       type: String,
