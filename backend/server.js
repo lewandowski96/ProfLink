@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 // import routes
 const profileRoutes = require("./routes/profiles");
 const userRoutes = require("./routes/user");
+const businessRoutes = require("./routes/business.routes");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.get("/health-check", (req, res) => {
 
 app.use("/api/profiles", profileRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/business", businessRoutes);
 
 // connect the database. this is async method. will take a little time to connect
 mongoose
