@@ -7,7 +7,6 @@ import ConsultantTeamProfileCreateForm from "./components/ConsultantTeamProfileC
 import GeneralProfileCreateForm from "./components/GeneralProfileCreateForm";
 import Navbar from "./components/Navbar";
 import { useAuthContext } from "./hooks/useAuthContext";
-import BusinessListing from "./pages/BusinessListing";
 import BusinessProfile from "./pages/BusinessProfile";
 import CompanyListing from "./pages/CompanyListing";
 import CompanyProfile from "./pages/CompanyProfile";
@@ -17,6 +16,13 @@ import GeneralProfile from "./pages/GeneralProfile";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+
+// business
+import BusinessCreate from "./pages/business/create/create";
+import BusinessEdit from "./pages/business/edit/edit";
+import BusinessOverview from "./pages/business/list/list";
+import BusinessView from "./pages/business/view/view";
+
 
 function App() {
   const { user } = useAuthContext();
@@ -48,8 +54,20 @@ function App() {
               element={user ? <ConsultantListing /> : <Navigate to="/login" />}
             />
             <Route
-              path="/businesses"
-              element={user ? <BusinessListing /> : <Navigate to="/login" />}
+              path="/business/list"
+              element={user ? <BusinessOverview /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/create"
+              element={user ? <BusinessCreate /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/edit/:id"
+              element={user ? <BusinessEdit /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/view/:id"
+              element={user ? <BusinessView /> : <Navigate to="/login" />}
             />
             <Route
               path="/general/create"

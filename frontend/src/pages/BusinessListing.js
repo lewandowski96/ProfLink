@@ -1,31 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import BusinessDetails from "../components/BusinessDetails";
+
+// components
 import Sidemenu from "../components/Sidemenu";
-import { useAuthContext } from "../hooks/useAuthContext";
 
-const BusinessListing = () => {
-  const [businesses, setBusinesses] = useState(null);
-  const { user } = useAuthContext();
-
-  useEffect(() => {
-    const fetchBusinesses = async () => {
-      const response = await fetch("/api/profiles/business/all", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        setBusinesses(json);
-      }
-    };
-
-    if (user) {
-      fetchBusinesses();
-    }
-  }, [user]);
+const BusinessListing = () => { 
 
   return (
     <div className="business-listing">
@@ -34,11 +13,7 @@ const BusinessListing = () => {
         <div className="sidemenu">
           <Sidemenu />
         </div>
-        <div className="businesses">
-          {businesses &&
-            businesses.map((business) => (
-              <BusinessDetails key={business._id} business={business} />
-            ))}
+        <div className="businesses"> 
         </div>
       </div>
     </div>
