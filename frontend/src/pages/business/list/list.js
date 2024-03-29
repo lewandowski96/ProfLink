@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
@@ -59,6 +60,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const List = () => {
+  const navigate = useNavigate()
+
   const [businesses, setBusinesses] = useState([])
 
   useEffect(() => {
@@ -68,7 +71,7 @@ const List = () => {
   return (
     <>
       <div className="business-listing">
-        <h2>Businesses</h2>
+        <h2>Businesses Overview</h2>
         <div className="sub">
           <div className="sidemenu">
             <Sidemenu />
@@ -92,6 +95,9 @@ const List = () => {
                     variant="contained"
                     startIcon={<AddCircleOutline />}
                     fullWidth
+                    onClick={() => {
+                      navigate(`/business/create`)
+                    }}
                   >
                     Create Business
                   </Button>

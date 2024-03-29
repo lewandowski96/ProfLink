@@ -1,5 +1,6 @@
 export const SampleBusinessData = [
     {
+        "id": 1,
         "user_id": "609d7c3672a9e95b06fc0835",
         "basicDetails": {
             "name": "Tech Solutions Inc.",
@@ -68,6 +69,7 @@ export const SampleBusinessData = [
         ]
     },
     {
+        "id": 2,
         "user_id": "609d7c3672a9e95b06fc0836",
         "basicDetails": {
             "name": "HealthFirst Clinic",

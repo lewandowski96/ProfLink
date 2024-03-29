@@ -9,13 +9,13 @@ import Sidemenu from '../../../components/Sidemenu';
 
 
 
-const View = () => {
+const Advertisements = () => {
   const navigate = useNavigate()
 
   return (
     <>
       <div className="business-listing">
-        <h2>View Businesses</h2>
+        <h2>Advertisements Businesses</h2>
         <div className="sub">
           <div className="sidemenu">
             <Sidemenu />
@@ -32,4 +32,4 @@ const View = () => {
   )
 }
 
-export default View
+export default Advertisements

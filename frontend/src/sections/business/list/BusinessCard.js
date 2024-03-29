@@ -1,3 +1,5 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material ui
 import BusinessIcon from '@mui/icons-material/Business';
@@ -11,7 +13,6 @@ import ShopIcon from '@mui/icons-material/Shop';
 import ViewIcon from '@mui/icons-material/Visibility';
 import { Card, CardContent, Chip, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import React from 'react';
 
 // Customizing styles for the Card component
 const StyledCard = styled(Card)({
@@ -29,6 +30,7 @@ const StyledIconButton = styled(IconButton)({
 });
 
 export default function BusinessCard({ businessData }) {
+    const navigate = useNavigate()
     const { basicDetails } = businessData;
 
     return (
@@ -63,22 +65,57 @@ export default function BusinessCard({ businessData }) {
                     </Grid>
 
                     <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexDirection: "column" }}>
-                        <StyledIconButton size="small" title="View">
+                        <StyledIconButton
+                            onClick={() => {
+                                navigate(`/business/view/${businessData.id}`)
+                            }}
+                            size="small"
+                            title="View"
+                        >
                             <ViewIcon />
                         </StyledIconButton>
-                        <StyledIconButton size="small" title="Delete">
+                        <StyledIconButton
+                            onClick={() => { 
+                            }}
+                            size="small"
+                            title="Delete"
+                        >
                             <DeleteIcon />
                         </StyledIconButton>
-                        <StyledIconButton size="small" title="Edit">
+                        <StyledIconButton
+                            onClick={() => {
+                                navigate(`/business/edit/${businessData.id}`)
+                            }}
+                            size="small"
+                            title="Edit"
+                        >
                             <EditIcon />
                         </StyledIconButton>
-                        <StyledIconButton size="small" title="Page">
+                        <StyledIconButton
+                            onClick={() => {
+                                navigate(`/business/page/${businessData.id}`)
+                            }}
+                            size="small"
+                            title="Page"
+                        >
                             <PageIcon />
                         </StyledIconButton>
-                        <StyledIconButton size="small" title="Customer Testimonials">
+                        <StyledIconButton
+                            onClick={() => {
+                                navigate(`/business/customer-testimonials/${businessData.id}`)
+                            }}
+                            size="small"
+                            title="Customer Testimonials"
+                        >
                             <TestimonialIcon />
                         </StyledIconButton>
-                        <StyledIconButton size="small" title="Advertisements">
+                        <StyledIconButton
+                            onClick={() => {
+                                navigate(`/business/advertisements/${businessData.id}`)
+                            }}
+                            size="small"
+                            title="Advertisements"
+                        >
                             <ShopIcon />
                         </StyledIconButton>
                     </Grid>
