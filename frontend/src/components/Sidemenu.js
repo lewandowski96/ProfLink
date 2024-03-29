@@ -8,7 +8,7 @@ const Sidemenu = () => {
         <h4>Companies</h4>
       </Link>
       <Link to="/business/list">
-        <h4>Businesses Overview</h4>
+        <h4>Businesses</h4>
       </Link>
       <Link to="/consultants">
         <h4>Consultants</h4>
