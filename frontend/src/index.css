@@ -221,9 +221,9 @@ header a {
 }
 
 .view-general-profile .general-profile {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
+  /* display: grid; */
+  /* grid-template-columns: 5fr 5fr; */
+  /* gap: 100px; */
 }
 
 .view-general-profile .general-profile {
@@ -233,7 +233,7 @@ header a {
   padding: 20px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
   width: 80%;
-  height: 700px;
+  height: 100%;
   position: relative;
 }
 
@@ -241,26 +241,120 @@ header a {
   text-align: center;
 }
 
-.general-profile-details {
+.general-profile .bio {
+}
+
+.general-profile .bio img {
+  float: left;
+}
+
+.general-profile .bio .bio-details {
+  width: 50%;
+}
+
+.general-profile .bio-details {
   background: #fff;
   border-radius: 4px;
-  margin: 20px auto;
+  margin: 1% auto;
   padding: 20px;
-  position: relative;
+  /* position: relative; */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  height: 40%;
-  width: 40%;
+  height: 160px;
 }
+
+.general-profile .row-1 {
+  height: 350px;
+}
+
+.general-profile .row-2 {
+  height: 520px;
+}
+
+.general-profile .personal-section {
+  width: 50%;
+  float: left;
+}
+
+.general-profile .personal-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .skills-section {
+  width: 50%;
+  float: right;
+}
+
+.general-profile .skills-section-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 1% auto;
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .education-section {
+  width: 50%;
+  float: left;
+}
+
+.general-profile .achievements-section {
+  width: 50%;
+  float: right;
+}
+
+.general-profile .education-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .achievements-section-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 1% auto;
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .work-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
 .general-profile-details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
+
 .general-profile-details p {
   margin: 0;
   font-size: 0.9em;
   color: #555;
 }
+
 .general-profile-details span {
   position: absolute;
   top: 20px;
