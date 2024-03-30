@@ -8,90 +8,70 @@ const consultantTeamProfileSchema = new Schema(
       type: String,
       required: true,
     },
-    firstName: {
+    fullName: {
       type: String,
       required: true,
     },
-    lastName: {
+    userName: {
       type: String,
-      required: true,
-    },
-    dateOfBirth: {
-      type: Date,
-      required: true,
-    },
-    contactNo: {
-      type: Number,
       required: true,
     },
     email: {
       type: String,
       required: true,
     },
-    sex: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
-    bio: {
-      type: String,
-      required: true,
-    },
-    schoolsAttended: {
+    Addmember: {
       type: [
         {
-          schoolName: String,
-          year: Number,
+          memberName: String,
+          memberEmail: String,
+          memberContactNo: Number,
         },
       ],
     },
-    universityAttened: {
-      type: {
-        universityName: String,
-        year: Number,
-        degree: String,
-      },
+    contactNo: {
+      type: Number,
+      required: true,
     },
-    currentEmployment: {
+    workExperience: {
       type: [
         {
-          company: String,
-          position: String,
-          industry: String,
-        },
-      ],
-    },
-    previousExperiences: {
-      type: [
-        {
-          position: String,
-          company: String,
-          year: Number,
-          industry: String,
+          nameOfPosition: String,
+          companyName: String,
+          startDate: Date,
+          endDate: Date,
+          industryName: String,
         },
       ],
     },
     skills: {
       type: [
         {
-          name: String,
-          level: String,
+          AddSkills: String,
+        },
+      ],
+    },
+    projects: {
+      type: [
+        {
+          projectName: String,
+          projectDescription: String,
         },
       ],
     },
     achievements: {
       type: [
         {
-          name: String,
-          multimedia: String,
-          media_type: String,
+          achievementsName: String,
+          achievementsDescription: String,
+        },
+      ],
+    },
+    expertise: {
+      type: [
+        {
+          expertiseField: String,
+          describeExpertise: String,
         },
       ],
     },

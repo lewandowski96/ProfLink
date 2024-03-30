@@ -1,0 +1,59 @@
+.container-profile{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 100px;
+    border-radius: 10px;
+    background-color: #dde6ed;
+
+}
+
+h1{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 50px;
+}
+.create-profile{
+    display: flex;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #dde6ed;
+}
+
+.create-profile :Link{
+    text-decoration: none;
+    color: #27374d;
+}
+.indiviual{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+}
+.team{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+
+}
+
+.team:hover{
+    background-color: #39475c;
+}
+
+.indiviual:hover{
+    background-color: #27374d;
+}

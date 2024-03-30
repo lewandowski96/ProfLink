@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
+import { BiSearchAlt2 , BiSolidCompass, BiSolidHome, BiSolidMessageAltDetail, BiSolidLocationPlus, BiSolidBox, BiSolidBell} from "react-icons/bi";
 
 const Navbar = () => {
   const { logout } = useLogout();
@@ -63,9 +64,36 @@ const Navbar = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h1>ProfLink</h1>
-          <p>Your Professional Community</p>
+          <h1 className="logo">ProfLink</h1>
+          <p className="logo--icon">Your Professional Community</p>
         </Link>
+        <div className='content--header'>
+        <div className="header--activity">
+            <div className="search-box">
+                <input type="text" placeholder='Search anything here..'/>
+                <BiSearchAlt2 className='icon1'/>
+            </div>
+            <div className="home">
+             <BiSolidHome className='icon'/>
+            </div>
+            <div className="compass">
+             <BiSolidCompass className='icon'/>
+            </div>
+            <div className="message">
+             <BiSolidMessageAltDetail className='icon'/>
+            </div>
+            <div className="location">
+             <BiSolidLocationPlus className='icon'/>
+            </div>
+            <div className="search-jobbox">
+                <BiSolidBox className='icon'/>
+            </div>
+            <div className="notify">
+                <BiSolidBell className='icon'/>     
+            </div>
+        </div>
+
+    </div>
         <nav>
           {user && (
             <div>

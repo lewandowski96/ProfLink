@@ -46,15 +46,14 @@ const ConsultantProfile = () => {
               <div>
                 {pf.consultantType === "TEAM" && (
                   <div>
-                    <p>{pf.firstName}</p>
-                    <p>{pf.lastName}</p>
-                    <p>{pf.country}</p>
+                    <p>{pf.fullName}</p>
+                    <p>{pf.email}</p>
                   </div>
                 )}
                 {pf.consultantType === "INDIVIDUAL" && (
                   <div>
-                    <p>{pf.lastName}</p>
-                    <p>{pf.country}</p>
+                    <p>{pf.userName}</p>
+                    <p>{pf.email}</p>
                   </div>
                 )}
               </div>

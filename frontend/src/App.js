@@ -17,6 +17,10 @@ import GeneralProfile from "./pages/GeneralProfile";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import './styles/navbar.css';
+import './styles/profile.css';
+import './styles/form.css';
+
 
 function App() {
   const { user } = useAuthContext();
