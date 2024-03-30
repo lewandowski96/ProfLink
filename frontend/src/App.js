@@ -18,6 +18,15 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
+// business
+import BusinessAdvertisements from "./pages/business/advertisements/advertisements";
+import BusinessCreate from "./pages/business/create/create";
+import BusinessCustomerTestimonials from "./pages/business/customerTestimonials/customerTestimonials";
+import BusinessEdit from "./pages/business/edit/edit";
+import BusinessOverview from "./pages/business/list/list";
+import BusinessPage from "./pages/business/page/page";
+import BusinessView from "./pages/business/view/view";
+
 function App() {
   const { user } = useAuthContext();
 
@@ -48,8 +57,32 @@ function App() {
               element={user ? <ConsultantListing /> : <Navigate to="/login" />}
             />
             <Route
-              path="/businesses"
-              element={user ? <BusinessListing /> : <Navigate to="/login" />}
+              path="/business/list"
+              element={user ? <BusinessOverview /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/create"
+              element={user ? <BusinessCreate /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/edit/:id"
+              element={user ? <BusinessEdit /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/view/:id"
+              element={user ? <BusinessView /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/page/:id"
+              element={user ? <BusinessPage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/customer-testimonials/:id"
+              element={user ? <BusinessCustomerTestimonials /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/business/advertisements/:id"
+              element={user ? <BusinessAdvertisements /> : <Navigate to="/login" />}
             />
             <Route
               path="/general/create"
