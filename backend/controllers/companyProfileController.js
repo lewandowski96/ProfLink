@@ -32,6 +32,7 @@ const createCompanyProfile = async (req, res) => {
     foundedYear,
     members,
     industry,
+    website,
     about,
   } = req.body;
 
@@ -55,6 +56,9 @@ const createCompanyProfile = async (req, res) => {
   if (!about) {
     emptyFields.push("about");
   }
+  if (!website) {
+    emptyFields.push("website");
+  }
 
   if (emptyFields.length > 0) {
     return res
@@ -70,6 +74,7 @@ const createCompanyProfile = async (req, res) => {
       foundedYear,
       members,
       industry,
+      website,
       about,
       user_id,
     });

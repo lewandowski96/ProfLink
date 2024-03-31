@@ -107,7 +107,7 @@ const PostJob = () => {
     setEndTime("");
     setSelectedOption("");
 
-    navigate("/") // Redirect to home page
+    navigate("/company/profile") // Redirect to home page
   };
 
   return (
@@ -118,9 +118,9 @@ const PostJob = () => {
           <Sidemenu />
         </div>
         <div className="w-full">
-          <form className="create flex flex-col items-center rounded-md " onSubmit={handleSubmit}>
+          <form className="create flex flex-col items-center rounded-md bg-gray-300 px-5 py-8 " onSubmit={handleSubmit}>
             <div className='w-[75%]'>
-              <label className=''>Job Title *</label>
+              <label className=''>Job Title <span className='text-red-600'>*</span></label>
               <input
                 type="text"
                 onChange={(e) => setJobTitle(e.target.value)}
@@ -130,7 +130,7 @@ const PostJob = () => {
               />
             </div>
             <div className='w-[75%]'>
-              <label className=''>Locations *</label>
+              <label className=''>Locations <span className='text-red-600'>*</span></label>
               <input
                 type="text"
                 onChange={(e) => setLocations(e.target.value)}
@@ -140,17 +140,22 @@ const PostJob = () => {
               />
             </div>
             <div className='w-[75%]'>
-              <label className=''>Salary *</label>
+              <label className=''>Salary <span className='text-red-600'>*</span></label>
               <input
                 type="text"
-                onChange={(e) => setSalary(e.target.value)}
+                onChange={(e) => {
+                  const inputSalary = e.target.value;
+                  if (/^\d{0,10}(\.\d{0,2})?$/.test(inputSalary)) {
+                    setSalary(inputSalary);
+                  }
+                }}
                 required
                 value={salary}
                 className={emptyFields.includes("salary") ? "error" : ""}
               />
             </div>
             <div className='w-[75%]'>
-              <label className=''>Start Time *</label>
+              <label className=''>Start Time <span className='text-red-600'>*</span></label>
               <input
                 type="date"
                 onChange={(e) => setStartTime(e.target.value)}
@@ -160,7 +165,7 @@ const PostJob = () => {
               />
             </div>
             <div className='w-[75%]'>
-              <label className=''>End Time *</label>
+              <label className=''>End Time <span className='text-red-600'>*</span></label>
               <input
                 type="date"
                 onChange={(e) => setEndTime(e.target.value)}
@@ -170,7 +175,7 @@ const PostJob = () => {
               />
             </div>
             <div className='w-[75%] flex flex-row place-content-between items-center mt-2'>
-              <label className='relative top-5'>Application submission method *</label>
+              <label className='relative top-5'>Application submission method <span className='text-red-600'>*</span></label>
               <div className='mr-16 relative right-14 top-0'>
                 <button
                   id="dropdownDividerButton"

@@ -12,6 +12,10 @@ const companyProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    website: {
+      type: String,
+      required: true,
+    },
     foundedYear: {
       type: Date,
       required: true,

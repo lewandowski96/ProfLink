@@ -25,6 +25,12 @@ const CompanyProfileCreateForm = () => {
       return;
     }
 
+    if (!handleWebsiteChange(website)) {
+      setError("Please enter a valid website URL");
+      return;
+    }
+
+
     const data = {
       CompanyName,
       website,
@@ -97,12 +103,27 @@ const CompanyProfileCreateForm = () => {
     navigate("/"); // Redirect to home page
   };
 
+
+
+  const handleWebsiteChange = (site) => {
+    const inputWebsite = site;
+
+    // Regex to check for a basic URL format with domain extension
+    if (/^(ftp|http|https):\/\/[^ "]+(\.[a-zA-Z]{2,})+$/.test(inputWebsite)) {
+      return true;
+    } else {
+      return false;
+    }
+
+  };
+
+
   return (
-    <form className="create" onSubmit={handleSubmit}>
-      <h3 className="text-black text-3xl text-center mb-5">
+    <form className="create bg-gray-400 px-14 py-16 rounded-lg" onSubmit={handleSubmit}>
+      <h3 className="text-black text-3xl text-center -mt-4 mb-10">
         Create Your Company Profile!
       </h3>
-      <label>Company Name:</label>
+      <label>Company Name: <span className='text-red-600'>*</span></label>
       <input
         type="text"
         onChange={(e) => setCompanyName(e.target.value)}
@@ -111,7 +132,7 @@ const CompanyProfileCreateForm = () => {
         className={emptyFields?.includes("companyName") ? "error" : ""}
       />
 
-      <label>Website:</label>
+      <label>Website: <span className='text-red-600'>*</span></label>
       <input
         type="text"
         onChange={(e) => setWebsite(e.target.value)}
@@ -119,7 +140,7 @@ const CompanyProfileCreateForm = () => {
         value={website}
         className={emptyFields?.includes("website") ? "error" : ""}
       />
-      <label>Locations Name:</label>
+      <label>Location Name: <span className='text-red-600'>*</span></label>
       <input
         type="text"
         onChange={(e) => setLocationsName(e.target.value)}
@@ -128,10 +149,9 @@ const CompanyProfileCreateForm = () => {
         className={emptyFields?.includes("locationsName") ? "error" : ""}
       />
 
-      <label>Founded Year:</label>
+      <label>Founded Year: <span className='text-red-600'>*</span></label>
       <input
         type="text"
-        pattern="[1-9]*"
         required
         minLength="4"
         maxLength="4"
@@ -145,16 +165,21 @@ const CompanyProfileCreateForm = () => {
         className={emptyFields?.includes("foundedyear") ? "error" : ""}
       />
 
-      <label>Members:</label>
+      <label>Members: <span className='text-red-600'>*</span></label>
       <input
         type="text"
-        onChange={(e) => setMembers(e.target.value)}
+        onChange={(e) => {
+          const inputMembers = e.target.value;
+          if (/^\d{0,9}$/.test(inputMembers)) {
+            setMembers(inputMembers);
+          }
+        }}
         required
         value={members}
         className={emptyFields?.includes("members") ? "error" : ""}
       />
 
-      <label>Industry:</label>
+      <label>Industry: <span className='text-red-600'>*</span></label>
       <input
         type="text"
         onChange={(e) => setIndustry(e.target.value)}
@@ -164,14 +189,15 @@ const CompanyProfileCreateForm = () => {
       />
 
       {/* Other form inputs */}
-      <label>Company Logo:</label>
+      <label>Company Logo: <span className=''>*</span></label>
       <input
         type="file"
         onChange={(e) => setFile(e.target.files[0])}
         className={emptyFields?.includes("file") ? "error" : ""}
       />
 
-      <label>Achievements:</label>
+
+      <label>Achievements: <span className=''>*</span></label>
       {achievements.map((achievement, index) => (
         <div key={index}>
           <input
@@ -198,14 +224,14 @@ const CompanyProfileCreateForm = () => {
       {achievements.length < 4 && (
         <button
           type="button"
-          className="mb-2 w-fit rounded-lg bg-green-600 px-5 py-2 text-xs font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
+          className="mb-5 w-fit rounded-lg bg-green-600 px-5 py-2 text-xs font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
           onClick={addAchievementField}
         >
           Add Achievement
         </button>
       )}
 
-      <label>About your Company:</label>
+      <label>About your Company: <span className='text-red-600'>*</span></label>
       <textarea
         required
         type="text"
@@ -218,7 +244,7 @@ const CompanyProfileCreateForm = () => {
       <br></br>
       <br></br>
 
-      <div className="flex flex-row gap-6">
+      <div className="flex flex-row gap-6 -mb-3">
         <button
           type="button"
           onClick={cancelCreateProfile}

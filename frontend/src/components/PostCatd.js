@@ -213,7 +213,7 @@ export default function PostCatd(props) {
               <span className="text-xs font-semibold text-gray-700">
                 Salary:
               </span>
-              <span className="text-xs">{details.salary}</span>
+              <span className="text-xs">{'Rs. ' + details.salary}</span>
             </div>
             <div className="flex flex-row gap-3 pb-1">
               <span className="text-xs font-semibold text-gray-700">From:</span>
@@ -273,7 +273,12 @@ export default function PostCatd(props) {
             <input
               type="text"
               value={updatedSalary}
-              onChange={(e) => setUpdatedSalary(e.target.value)}
+              onChange={(e) => {
+                const inputSalary = e.target.value;
+                if (/^\d{0,10}(\.\d{0,2})?$/.test(inputSalary)) {
+                  setUpdatedSalary(inputSalary);
+                }
+              }}
               placeholder="Salary"
               className="border border-gray-300 px-3 py-2 rounded-md mb-4 w-full"
             />
