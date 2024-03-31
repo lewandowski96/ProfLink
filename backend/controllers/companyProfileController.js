@@ -25,6 +25,7 @@ const getAllCompanyProfiles = async (req, res) => {
 };
 
 const createCompanyProfile = async (req, res) => {
+  console.log(req.body)
   const {
     CompanyName,
     locationsName,
@@ -73,9 +74,9 @@ const createCompanyProfile = async (req, res) => {
       user_id,
     });
 
-    console.log({"companyProfile": companyProfile});
+    console.log({ "companyProfile": companyProfile });
     res.status(200).json(companyProfile);
-    
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
