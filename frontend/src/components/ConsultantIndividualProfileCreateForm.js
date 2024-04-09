@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+
 const ConsultantIndividualProfileCreateForm = () => {
   const[activeTab, setActiveTab] = useState("personal");
   const [formData, setFormData] = useState({
@@ -41,6 +42,9 @@ const ConsultantIndividualProfileCreateForm = () => {
     setActiveTab(tab);
   };
   const [fullName, setFullName] = useState("");
+  const [fullNameError, setFullNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [contactNoError, setContactNoError] = useState("");
   const [userName, setUserName] = useState("");
   const [contactNo, setContactNo] = useState("");
   const [email, setEmail] = useState("");
@@ -192,26 +196,25 @@ const ConsultantIndividualProfileCreateForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isFullNameValid = validateFullName();
+    const isEmailValid = validateEmail();
+    const isContactNoValid = validateContactNo();
 
-    if (!user) {
-      setError("You must be logged in");
-      return;
-    }
-
-    const data = {
-      fullName,
-      userName,
-      email,
-      contactNo,
-      yourLocation,
-      yourSelf,
-      schoolsUniversityAttended,
-      workExperience,
-      addSkills,
-      skills,
-      achievements,
-      Project,
-    };
+    if (isFullNameValid && isEmailValid && isContactNoValid) {
+      const data = {
+        fullName,
+        userName,
+        email,
+        contactNo,
+        yourLocation,
+        yourSelf,
+        schoolsUniversityAttended,
+        workExperience,
+        addSkills,
+        skills,
+        achievements,
+        Project,
+      };
 
     console.log(data);
 
@@ -270,13 +273,29 @@ const ConsultantIndividualProfileCreateForm = () => {
     }
   };
 
+}
 
-  // const handleNext = () => {
-  //   const nextTab = getNextTab();
-  //   if(nextTab){
-  //     setActiveTab(nextTab);
-  //   }
-  // };
+const handleSave = () => {
+  if (activeTab === "personal") {
+    if (fullName === "") {
+      setError("Please enter your full name");
+      return;
+    }
+    if (!email.trim()) {
+      setError("Please enter your email");
+      return;
+    }
+    if (!contactNo.trim()) {
+      setError("Please enter your contact number");
+      return;
+    }} else if (activeTab === "work") {
+      // Example validation for work tab
+      if (workExperience.some(work => !work.nameOfPosition.trim() || !work.companyName.trim())) {
+        setError("Please fill in all work experience fields");
+        return;
+      }
+    }
+};
 
   const getNextTab = () => {
     const tabs = ["personal", "education", "work", "skills", "achievements", "Project"];
@@ -287,13 +306,6 @@ const ConsultantIndividualProfileCreateForm = () => {
     return null;
   };
 
-  const handleSave = () => {
-    const nextTab = getNextTab();
-    if(nextTab){
-      setActiveTab(nextTab);
-    }
-  }
-
   /* setFormData is used to update the form data state object. */
   const setFormValues = (key, value) => {
     setFormData((prevState) => ({
@@ -302,9 +314,43 @@ const ConsultantIndividualProfileCreateForm = () => {
     }));
   };
 
+  /*validation for the form fields*/  
+  const validateFullName = () => {
+    if (!fullName.trim()) {
+      setFullNameError("Full name is required");
+      return false;
+    }
+    setFullNameError("");
+    return true;
+  };
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.trim()) {
+        setEmailError("Email is required");
+        return false;
+      } else if (!emailRegex.test(email)) {
+        setEmailError("Invalid email format");
+        return false;
+      }
+      setEmailError("");
+      return true;
+    };
+
+    const validateContactNo = () => {
+      if (!contactNo.trim()) {
+        setContactNoError("Contact number is required");
+        return false;
+      }
+      setContactNoError("");
+      return true;
+    };
 
 
-  return (
+
+
+
+return (
     <div className="individual-header">
       <h3>Create Your Individual Consultant Profile</h3>
       {/*Tab navigation*/}
@@ -319,51 +365,54 @@ const ConsultantIndividualProfileCreateForm = () => {
 
     <form class="create" onSubmit={handleSubmit} className="form-container">  
       {activeTab === "personal" && (
+
         <div>
           {/* <label>Personal</label> */}
+          
           <label>Your Full Name:</label>
-          <input
+          <input placeholder="Enter your full name"
             type="text"
             onChange={(e) => setFullName(e.target.value)}
             value={fullName}
             className={emptyFields.includes("fullName") ? "error" : ""}
           />
           <label>Your User Name:</label>
-          <input
+          <input placeholder="Enter your username"
             type="text"
             onChange={(e) => setUserName(e.target.value)}
             value={userName}
             className={emptyFields.includes("userName") ? "error" : ""}
           />
           <label>Email:</label>
-          <input
+          <input placeholder="Enter your email"
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             className={emptyFields.includes("email") ? "error" : ""}
           />
           <label>Contact No:</label>
-          <input
+          <input  placeholder="Enter your contact number"
             type="text"
             onChange={(e) => setContactNo(e.target.value)}
             value={contactNo}
             className={emptyFields.includes("contactNo") ? "error" : ""}
           />
           <label>Your Location:</label>
-          <input
+          <input placeholder="Enter your location"
             type="text"
             onChange={(e) => setYourLocation(e.target.value)}
             value={yourLocation}
             className={emptyFields.includes("yourLocation") ? "error" : ""}
           />
           <label>Your Self:</label>
-          <input
+          <input placeholder="Enter about yourself"
             type="text"
             onChange={(e) => setYourSelf(e.target.value)}
             value={yourSelf}
             className={emptyFields.includes("yourSelf") ? "error" : ""}
           />
           <button type="button" onClick={handleSave}> Save </button>
+          {error && <div className="error">{error}</div>}
         </div>
       )}
       {activeTab === "education" && (
@@ -373,41 +422,42 @@ const ConsultantIndividualProfileCreateForm = () => {
             return (
               <div key={index}>
                 <label>University Name:</label>
-                <input
+                <input placeholder="Enter your university name"
                   name="universityName"
                   type="text"
                   onChange={(e) => handleSchoolsAttended(e, index)}
                   value={school.universityName}
                 />
                 <label>Year:</label>
-                <input
+                <input placeholder="Enter your joind year"
                   name="year"
                   type="text"
                   onChange={(e) => handleSchoolsAttended(e, index)}
                   value={school.year}
                 />
                 <label>Degree:</label>
-                <input
+                <input placeholder="Enter your degree ex: Bsc in IT"
                   name="degree"
                   type="text"
                   onChange={(e) => handleSchoolsAttended(e, index)}
                   value={school.degree}
                 />
                 <label>Field of Study:</label>
-                <input
+                <input placeholder="Enter your field of study"
                   name="fieldOfStudy"
                   type="text"
                   onChange={(e) => handleSchoolsAttended(e, index)}
                   value={school.fieldOfStudy}
                 />
                 <label>Description:</label>
-                <input
+                <input  placeholder="Enter your description"
                   name="description"
                   type="text"
                   onChange={(e) => handleSchoolsAttended(e, index)}
                   value={school.description}
                 /> 
                 <button  className="icon" type="button" onClick={handleSave}> Save </button>
+                {error && <div className="error">{error}</div>}
                 <br></br>
                 <br></br>
                 <button className="icon" type="button" onClick={() => removeSchoolsAttended(index)}>
@@ -418,7 +468,7 @@ const ConsultantIndividualProfileCreateForm = () => {
           })}
           <br></br>
           <button className="icon" type="button" onClick={addSchoolsAttended}>
-            Add More..
+            Add Education
           </button>
         </div>
       )}
@@ -429,41 +479,42 @@ const ConsultantIndividualProfileCreateForm = () => {
             return (
               <div key={index}>
                 <label>Name of Position:</label>
-                <input
+                <input placeholder="Enter your position name ex: Software Engineer"
                   name="nameOfPosition"
                   type="text"
                   onChange={(e) => handleWorkExperience(e, index)}
                   value={work.nameOfPosition}
                 />
                 <label>Company Name:</label>
-                <input
+                <input placeholder="Enter your company name"
                   name="companyName"
                   type="text"
                   onChange={(e) => handleWorkExperience(e, index)}
                   value={work.companyName}
                 />
                 <label>Start Date:</label>
-                <input
+                <input  placeholder="Enter your first joind date"
                   name="startDate"
                   type="date"
                   onChange={(e) => handleWorkExperience(e, index)}
                   value={work.startDate}
                 />
                 <label>End Date:</label>
-                <input
+                <input placeholder="Enter your resign date"
                   name="endDate"
                   type="date"
                   onChange={(e) => handleWorkExperience(e, index)}
                   value={work.endDate}
                 />
                 <label>Industry Name:</label>
-                <input
+                <input placeholder="Enter your industry name ex: IT"
                   name="industryName"
                   type="text"
                   onChange={(e) => handleWorkExperience(e, index)}
                   value={work.industryName}
                 />
                 <button type="button" onClick={handleSave}> Save </button>
+                {error && <div className="error">{error}</div>}
                 <br></br>
                 <br></br>
                 <button type="button" onClick={() => removeWorkExperience(index)}>
@@ -474,24 +525,39 @@ const ConsultantIndividualProfileCreateForm = () => {
           })}
           <br></br>
           <button type="button" onClick={addWorkExperience}>
-            Add More..
+            Add Work Experience
           </button>
         </div>
       )}
       {activeTab === "skills" && (
         <div>
           {/* <label>Skills</label> */}
+          <label>Select your Programming Skills</label>
+              <select>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="c#">C#</option>
+                <option value="mysql">mySql</option>
+              </select>
+              <label>Select your Language Skills</label>
+              <select>
+                <option value="English">English</option>
+                <option value="Tamil">Tamil</option>
+                <option value="sinhala">Sinhala</option>
+                <option value="french">French</option>
+              </select>
           {skills.map((skill, index) => {
             return (
               <div key={index}>
-                <label>Skill Name:</label>
-                <input
+                <label>Skill:</label>
+                <input placeholder="Enter your skill"
                   name="AddSkills"
                   type="text"
                   onChange={(e) => handleSkills(e, index)}
                   value={skill.AddSkills}
                 />
                 <button type="button" onClick={handleSave}> Save </button>
+                {error && <div className="error">{error}</div>}
                 <br></br>
                 <br></br>
                 <button type="button" onClick={() => removeSkills(index)}>
@@ -502,7 +568,7 @@ const ConsultantIndividualProfileCreateForm = () => {
           })}
           <br></br>
           <button type="button" onClick={addSkills}>
-            Add More..
+            Add Skills
           </button>
         </div>
       )}
@@ -513,21 +579,31 @@ const ConsultantIndividualProfileCreateForm = () => {
             return (
               <div key={index}>
                 <label>Name:</label>
-                <input
+                <input placeholder="Enter your achievement ex: Best Employee of the year"
                   name="achievementsName"
                   type="text"
                   onChange={(e) => handleAchievements(e, index)}
                   value={achievement.achievementsName}
                 />
                 <label>Description:</label>
-                <input
+                <input placeholder="Enter your achievement description"
                   name="achievementsDescription"
                   type="text"
                   onChange={(e) => handleAchievements(e, index)}
                   value={achievement.achievementsDescription}
                 />
-
+                <label>Images/Videos</label> 
+                  <div className="form-image">
+                    {achievement.image && (
+                      <img src={achievement.image} alt="member" width="100" />
+                    )}
+                    <input 
+                      type="file"
+                      onChange={(e) => handleAchievements(e, index)}
+                    />
+                    </div>
                 <button type="button" onClick={handleSave}> Save </button>
+                {error && <div className="error">{error}</div>}
                 <br></br>
                 <br></br>
                 <button type="button" onClick={() => removeAchievements(index)}>
@@ -538,7 +614,7 @@ const ConsultantIndividualProfileCreateForm = () => {
           })}
           <br></br>
           <button type="button" onClick={addAchievements}>
-            Add More..
+            Add Achievements
           </button>
         </div>
       )}
@@ -549,19 +625,29 @@ const ConsultantIndividualProfileCreateForm = () => {
             return (
               <div key={index}>
                 <label>Project Name:</label>
-                <input
+                <input placeholder="Enter your project name ex: Online Shopping System"
                   name="ProjectName"
                   type="text"
                   onChange={(e) => handleProject(e, index)}
                   value={project.ProjectName}
                 />
                 <label>Project Description:</label>
-                <input
+                <input placeholder="Enter your project description"
                   name="ProjectDescription"
                   type="text"
                   onChange={(e) => handleProject(e, index)}
                   value={project.ProjectDescription}
                 />
+                <label>Images/Videos</label> 
+                  <div className="form-image">
+                    {project.image && (
+                      <img src={project.image} alt="member" width="100" />
+                    )}
+                    <input
+                      type="file"
+                      onChange={(e) => handleProject(e, index)}
+                    />
+                    </div>
                 <button type="button" onClick={() => removeProject(index)}>
                   REMOVE
                 </button>
@@ -570,7 +656,7 @@ const ConsultantIndividualProfileCreateForm = () => {
           })}
           <br></br>
           <button type="button" onClick={addProject}>
-            Add More
+            Add Project
           </button>
           <br></br>
           <br></br>

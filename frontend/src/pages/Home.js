@@ -1,5 +1,6 @@
 import React from "react";
 import Sidemenu from "../components/Sidemenu";
+import Card from "../components/Card";
 
 const Home = () => {
   return (
@@ -8,7 +9,7 @@ const Home = () => {
         <div className="sidemenu">
           <Sidemenu />
         </div>
-        <div className="content">this is content</div>
+        <Card/>
       </div>
     </div>
   );

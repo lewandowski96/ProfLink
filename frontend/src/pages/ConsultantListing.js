@@ -44,14 +44,12 @@ const ConsultantListing = () => {
 
   return (
     <div className="consultant-listing">
-      <h2>Consultants</h2>
       <div className="sub">
         <div className="sidemenu">
           <Sidemenu />
         </div>
-        <div className="consultants">
-          <div className="indi-consultants">
-            <h4>Individual Consultants</h4>
+        <div className="consultants-main">
+          <div className="consultants">
             {indiConsultants &&
               indiConsultants.map((consultant) => (
                 <ConsultantDetails
@@ -60,8 +58,7 @@ const ConsultantListing = () => {
                 />
               ))}
           </div>
-          <div className="team-consultants">
-            <h4>Team Consultants</h4>
+          <div className="consultants">
             {teamConsultants &&
               teamConsultants.map((consultant) => (
                 <ConsultantDetails

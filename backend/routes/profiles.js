@@ -51,6 +51,7 @@ router.patch("/general", updateGeneralProfile);
 router.delete("/general", deleteGeneralProfile);
 
 router.get("/consultant", getConsultantProfile);
+// router.get("/consultant/ConsultantDashboard", getConsultantDashboard);
 router.get("/consultant/individual/all", getAllConsultantIndividualProfiles);
 router.get("/consultant/team/all", getAllConsultantTeamProfiles);
 router.post("/consultant/individual", createConsultantIndividualProfile);
@@ -59,6 +60,7 @@ router.patch("/consultant/individual", updateConsultantIndividualProfile);
 router.patch("/consultant/team", updateConsultantTeamProfile);
 router.delete("/consultant/individual", deleteConsultantIndividualProfile);
 router.delete("/consultant/team", deleteConsultantTeamProfile);
+
 
 router.get("/company", getCompanyProfile);
 router.get("/company/all", getAllCompanyProfiles);

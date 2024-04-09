@@ -146,13 +146,9 @@ const createConsultantTeamProfile = async (req, res) => {
   const {
     consultantType,
     fullName,
-    userName,
     email,
     Addmember,
     contactNo,
-    yourLocation,
-    yourSelf,
-    schoolsUniversityAttended,
     degree,
     fieldOfStudy,
     description,
@@ -186,12 +182,10 @@ const createConsultantTeamProfile = async (req, res) => {
   if (!contactNo) {
     emptyFields.push("contactNo");
   }
-  if (!yourLocation) {
-    emptyFields.push("yourLocation");
+  if (!workExperience) {
+    emptyFields.push("workExperience");
   }
-  if (!yourSelf) {
-    emptyFields.push("yourSelf");
-  }
+
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -205,13 +199,9 @@ const createConsultantTeamProfile = async (req, res) => {
     const consultantTeamProfile = await ConsultantTeamProfile.create({
       consultantType,
       fullName,
-      userName,
       email,
       Addmember,
       contactNo,
-      yourLocation,
-      yourSelf,
-      schoolsUniversityAttended,
       degree,
       fieldOfStudy,
       description,

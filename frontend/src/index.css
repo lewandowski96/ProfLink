@@ -7,12 +7,12 @@
   --error: #e7195a;
 }
 body {
-  background: #f1f1f1;
+  background: #dde6ed;
   margin: 0;
   font-family: "Poppins";
 }
 header {
-  background: #fff;
+  background: #9BB0C1;
 }
 header .container {
   max-width: 1400px;
@@ -37,19 +37,18 @@ header a {
 
 /* company listing */
 .company-listing .sub {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 100%;
 }
 
 .company-listing .companies {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
+  display: flex;
   gap: 100px;
 }
 
 .company-listing .companies {
-  background: #e3e3e3;
+  background: #c0dbf0;
   border-radius: 4px;
   margin: 10px;
   padding: 20px;
@@ -96,45 +95,27 @@ header a {
 
 /* consultant listing */
 .consultant-listing .sub {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 100%;
 }
 
-.consultant-listing .consultants .indi-consultants {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
+.consultant-listing .consultants-main .consultants {
+  display: flex;
+  gap: 10px;
 }
-
-.consultant-listing .consultants .team-consultants {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
-}
-
-.consultant-listing .consultants .indi-consultants {
-  background: #e3e3e3;
+.consultant-listing .consultants-main .consultants {
+  background: #c0dbf0;
   border-radius: 4px;
   margin: 10px;
   padding: 20px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 190%;
+  width: 100%;
   height: 700px;
   position: relative;
+  display: flex;
+  gap: 10px;
 }
-
-.consultant-listing .consultants .team-consultants {
-  background: #e3e3e3;
-  border-radius: 4px;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 190%;
-  height: 700px;
-  position: relative;
-}
-
 .consultant-listing h2 {
   text-align: center;
 }
@@ -172,19 +153,18 @@ header a {
 
 /* business listing */
 .business-listing .sub {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 100%;
 }
 
 .business-listing .businesses {
-  display: grid;
-  grid-template-columns: 3fr 3fr;
+  display: flex;
   gap: 100px;
 }
 
 .business-listing .businesses {
-  background: #e3e3e3;
+  background: #c0dbf0;
   border-radius: 4px;
   margin: 10px;
   padding: 20px;
