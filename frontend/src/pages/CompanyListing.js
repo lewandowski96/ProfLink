@@ -29,7 +29,6 @@ const CompanyListing = () => {
 
   return (
     <div className="company-listing">
-      <h2>Companies</h2>
       <div className="sub">
         <div className="sidemenu">
           <Sidemenu />

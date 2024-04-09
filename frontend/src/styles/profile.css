@@ -1,0 +1,281 @@
+.container-profile{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 100px;
+    border-radius: 10px;
+    background-color: #dde6ed;
+
+}
+
+h1{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 50px;
+}
+.create-profile{
+    display: flex;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #dde6ed;
+}
+
+.create-profile :Link{
+    text-decoration: none;
+    color: #27374d;
+}
+.indiviual{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+}
+.team{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+
+}
+
+.team:hover{
+    background-color: #39475c;
+}
+
+.indiviual:hover{
+    background-color: #27374d;
+}
+
+/* consultant profile css */
+.view-consultant-profile{
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #dde6ed;
+}
+.consultant-profile{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+}
+/* .profile--cover{
+    width: 100%;
+    height: 300px;
+    background-color: #27374d;
+    border-radius: 10px;
+} */
+.profile--item{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: 300px;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+}
+.image-container{
+    margin-left: auto;
+    margin-right: auto;
+}
+.userImage{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.create-dashboard{
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+    
+}
+.dashboard-contaioner{
+    margin-top: 20px;
+    padding: 40px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.dashboard-contaioner :Link{
+    text-decoration: none;
+    color: #27374d;
+}
+.dashboard-contaioner:hover{
+    background-color: #39475c;
+}
+
+/* general profile view page */
+.view-general-profile .sub {
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .view-general-profile .general-profile {
+    /* display: grid; */
+    /* grid-template-columns: 5fr 5fr; */
+    /* gap: 100px; */
+  }
+  
+  .view-general-profile .general-profile {
+    background: #e3e3e3;
+    border-radius: 4px;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    width: 80%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .view-general-profile h2 {
+    text-align: center;
+  }
+  
+  .general-profile .bio {
+  }
+  
+  .general-profile .bio img {
+    float: left;
+  }
+  
+  .general-profile .bio .bio-details {
+    width: 50%;
+  }
+  
+  .general-profile .bio-details {
+    background: #fff;
+    border-radius: 4px;
+    margin: 1% auto;
+    padding: 20px;
+    /* position: relative; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    height: 160px;
+  }
+  
+  .general-profile .row-1 {
+    height: 350px;
+  }
+  
+  .general-profile .row-2 {
+    height: 520px;
+  }
+  
+  .general-profile .personal-section {
+    width: 50%;
+    float: left;
+  }
+  
+  .general-profile .personal-section-details {
+    width: 90%;
+    background: #fff;
+    border-radius: 4px;
+    /* margin: 1% auto; */
+    padding: 20px;
+    /* position: relative; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+  }
+  
+  .general-profile .skills-section {
+    width: 50%;
+    float: right;
+  }
+  
+  .general-profile .skills-section-details {
+    background: #fff;
+    border-radius: 4px;
+    margin: 1% auto;
+    padding: 20px;
+    /* position: relative; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+  }
+  
+  .general-profile .education-section {
+    width: 50%;
+    float: left;
+  }
+  
+  .general-profile .achievements-section {
+    width: 50%;
+    float: right;
+  }
+  
+  .general-profile .education-section-details {
+    width: 90%;
+    background: #fff;
+    border-radius: 4px;
+    /* margin: 1% auto; */
+    padding: 20px;
+    /* position: relative; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+  }
+  
+  .general-profile .achievements-section-details {
+    background: #fff;
+    border-radius: 4px;
+    margin: 1% auto;
+    padding: 20px;
+    /* position: relative; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+  }
+  
+  .general-profile .work-section-details {
+    width: 90%;
+    background: #fff;
+    border-radius: 4px;
+    /* margin: 1% auto; */
+    padding: 20px;
+    /* position: relative; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    height: 100%;
+  }
+  
+  .general-profile-details h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: var(--primary);
+  }
+  
+  .general-profile-details p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  .general-profile-details span {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    background: #f1f1f1;
+    padding: 6px;
+    border-radius: 50%;
+    color: #333;
+  }

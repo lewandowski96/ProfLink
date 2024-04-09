@@ -1,0 +1,111 @@
+
+/*individual  styles*/
+.individual-header{
+    background-color: #dde6ed;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
+/* Tab navigation styles */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  h3{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+  .tab-navigation button {
+    display: flex;
+    background-color: #043365;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    padding: 20px 30px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  .tab-navigation button:hover {
+    background-color: #0056b3;
+  }
+  
+  .tab-navigation button.active {
+    background-color: #6baaed;
+  }
+  
+  /* Form container styles */
+  .form-container {
+    padding: 30px 50px;
+    background: #babed7;
+    border-radius: 5px;
+   
+  }
+  
+  /* Input field styles */
+  .form-container input[type="text"],
+  .form-container input[type="email"],
+  .form-container input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* Button styles */
+  .form-container button[type="button"],
+  .form-container button[type="submit"] {
+    background-color: #021f3d;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  .form-container button[type="button"]:hover,
+  .form-container button[type="submit"]:hover {
+    background-color: #0056b3;
+    
+  }
+  
+  /* Error message styles */
+  .error-message {
+    color: #ff0000;
+    margin-top: 5px;
+  }
+  
+  /* Highlight error fields */
+  .error {
+    border-color: #ff0000;
+  }
+  
+  .icon{
+    color: #27374d;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+  }
+
+  /*team styles*/
+  .team-header{
+    background-color: #dde6ed;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.form-image{
+  background: #fff;
+  border-radius: 5px;
+
+}

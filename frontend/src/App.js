@@ -17,6 +17,13 @@ import GeneralProfile from "./pages/GeneralProfile";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import './styles/navbar.css';
+import './styles/profile.css';
+import './styles/form.css';
+import ConsultantDashboard from "./components/ConsultantDashboard";
+import CreateAd from "./components/CreateAd";
+
+
 
 function App() {
   const { user } = useAuthContext();
@@ -151,7 +158,28 @@ function App() {
                 )
               }
             />
+            <Route
+              path="/consultant/consultantdashboard"
+              element={
+                user && user.userType === "CONSULTANT" ? (
+                  <ConsultantDashboard/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/consultant/createad"
+              element={
+                user && user.userType === "CONSULTANT" ? (
+                  <CreateAd/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
           </Routes>
+          
         </div>
       </BrowserRouter>
     </div>

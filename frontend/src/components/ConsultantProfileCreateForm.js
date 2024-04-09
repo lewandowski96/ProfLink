@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+
 
 const ConsultantProfileCreateForm = () => {
   return (
-    <div>
-      <p>Select type</p>
-      <Link to="/consultant/individual/create">INDIVIDUAL</Link>
-      <br></br>
-      <Link to="/consultant/team/create">TEAM</Link>
+    <div className="container-profile">
+      <h1 >Create Your Profile</h1>
+      <div className="create-profile">
+        
+        <div className="indiviual">
+        <Link to="/consultant/individual/create">INDIVIDUAL CONSULTANT</Link>
+        </div>
+        <div className="team">
+        <Link to="/consultant/team/create">TEAM CONSULTANT</Link>
+        </div>
+      </div>
     </div>
   );
 };

@@ -51,51 +51,51 @@ const getAllConsultantTeamProfiles = async (req, res) => {
 
 const createConsultantIndividualProfile = async (req, res) => {
   const {
-    firstName,
-    lastName,
-    dateOfBirth,
-    contactNo,
+    fullName,
+    userName,
     email,
-    sex,
-    city,
-    country,
-    bio,
-    schoolsAttended,
-    universityAttened,
-    currentEmployment,
-    previousExperiences,
+    contactNo,
+    yourLocation,
+    yourSelf,
+    schoolsUniversityAttended,
+    degree,
+    fieldOfStudy,
+    description,
+    workExperience,
+    nameOfPosition,
+    companyName,
+    startDate,
+    endDate,
+    industryName,
+    AddSkills,
     skills,
-    achievements,
+    achievementsName,
+    achievementsDescription,
+    projectName,
+    projectDescription,
+    expertiseField,
+    describeExpertise,
   } = req.body;
 
   let emptyFields = [];
 
-  if (!firstName) {
-    emptyFields.push("firstName");
+  if (!fullName) {
+    emptyFields.push("fullName");
   }
-  if (!lastName) {
-    emptyFields.push("lastName");
-  }
-  if (!dateOfBirth) {
-    emptyFields.push("dateOfBirth");
-  }
-  if (!contactNo) {
-    emptyFields.push("contactNo");
+  if (!userName) {
+    emptyFields.push("userName");
   }
   if (!email) {
     emptyFields.push("email");
   }
-  if (!sex) {
-    emptyFields.push("sex");
+  if (!contactNo) {
+    emptyFields.push("contactNo");
   }
-  if (!city) {
-    emptyFields.push("city");
+  if (!yourLocation) {
+    emptyFields.push("yourLocation");
   }
-  if (!country) {
-    emptyFields.push("country");
-  }
-  if (!bio) {
-    emptyFields.push("bio");
+  if (!yourSelf) {
+    emptyFields.push("yourSelf");
   }
   if (emptyFields.length > 0) {
     return res
@@ -110,21 +110,30 @@ const createConsultantIndividualProfile = async (req, res) => {
     const consultantIndividualProfile =
       await ConsultantIndividualProfile.create({
         consultantType,
-        firstName,
-        lastName,
-        dateOfBirth,
-        contactNo,
+        fullName,
+        userName,
         email,
-        sex,
-        city,
-        country,
-        bio,
-        schoolsAttended,
-        universityAttened,
-        currentEmployment,
-        previousExperiences,
+        contactNo,
+        yourLocation,
+        yourSelf,
+        schoolsUniversityAttended,
+        degree,
+        fieldOfStudy,
+        description,
+        workExperience,
+        nameOfPosition,
+        companyName,
+        startDate,
+        endDate,
+        industryName,
+        AddSkills,
         skills,
-        achievements,
+        achievementsName,
+        achievementsDescription,
+        projectName,
+        projectDescription,
+        expertiseField,
+        describeExpertise,
         user_id,
       });
     res.status(200).json(consultantIndividualProfile);
@@ -136,52 +145,47 @@ const createConsultantIndividualProfile = async (req, res) => {
 const createConsultantTeamProfile = async (req, res) => {
   const {
     consultantType,
-    firstName,
-    lastName,
-    dateOfBirth,
-    contactNo,
+    fullName,
     email,
-    sex,
-    city,
-    country,
-    bio,
-    schoolsAttended,
-    universityAttened,
-    currentEmployment,
-    previousExperiences,
+    Addmember,
+    contactNo,
+    degree,
+    fieldOfStudy,
+    description,
+    workExperience,
+    nameOfPosition,
+    companyName,
+    startDate,
+    endDate,
+    industryName,
+    AddSkills,
     skills,
-    achievements,
+    achievementsName,
+    achievementsDescription,
+    projectName,
+    projectDescription,
+    expertiseField,
+    describeExpertise,
   } = req.body;
 
   let emptyFields = [];
 
-  if (!firstName) {
-    emptyFields.push("firstName");
-  }
-  if (!lastName) {
-    emptyFields.push("lastName");
-  }
-  if (!dateOfBirth) {
-    emptyFields.push("dateOfBirth");
-  }
-  if (!contactNo) {
-    emptyFields.push("contactNo");
+  if (!fullName) {
+    emptyFields.push("fullName");
   }
   if (!email) {
     emptyFields.push("email");
   }
-  if (!sex) {
-    emptyFields.push("sex");
+  if(!Addmember) {
+    emptyFields.push("Addmember");
   }
-  if (!city) {
-    emptyFields.push("city");
+  if (!contactNo) {
+    emptyFields.push("contactNo");
   }
-  if (!country) {
-    emptyFields.push("country");
+  if (!workExperience) {
+    emptyFields.push("workExperience");
   }
-  if (!bio) {
-    emptyFields.push("bio");
-  }
+
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -194,21 +198,27 @@ const createConsultantTeamProfile = async (req, res) => {
 
     const consultantTeamProfile = await ConsultantTeamProfile.create({
       consultantType,
-      firstName,
-      lastName,
-      dateOfBirth,
-      contactNo,
+      fullName,
       email,
-      sex,
-      city,
-      country,
-      bio,
-      schoolsAttended,
-      universityAttened,
-      currentEmployment,
-      previousExperiences,
+      Addmember,
+      contactNo,
+      degree,
+      fieldOfStudy,
+      description,
+      workExperience,
+      nameOfPosition,
+      companyName,
+      startDate,
+      endDate,
+      industryName,
+      AddSkills,
       skills,
-      achievements,
+      achievementsName,
+      achievementsDescription,
+      projectName,
+      projectDescription,
+      expertiseField,
+      describeExpertise,
       user_id,
     });
     res.status(200).json(consultantTeamProfile);
