@@ -1,9 +1,9 @@
 **Unique Social Media Platform**<br><br>
 **Members of Group**<br>
-Nayanannanda K.S 
-Kongahawatte D.D 
-Nanayakkara A.G.D.R.C 
-Kawya R.M.S
+Nayanannanda K.S<br>
+Kongahawatte D.D<br>
+Nanayakkara A.G.D.R.C<br>
+Kawya R.M.S<br>
 
 **Project Decription**<br>
 Unique social media platform that caters to the needs of general users, 
