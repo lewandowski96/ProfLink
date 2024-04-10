@@ -682,7 +682,7 @@ const ConsultantTeamProfileCreateForm = () => {
           </button>
           <br></br>
           <br></br>
-            <button  className="" type="submit">CREATE PROFILE</button>
+            <button  className="" type="submit" onClick={()=> handleSubmit}>CREATE PROFILE</button>
             {error && <div className="error">{error}</div>}
               </div>
       )} 
