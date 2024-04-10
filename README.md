@@ -1,4 +1,4 @@
-<h1>Unique Social Media Platform<h1></h1><br><br>
+<h1>Unique Social Media Platform<h1></h1>
   Unique social media platform that caters to the needs of general users, 
 employers/organizations, businesses, and consultants. The platform aims 
 to provide a comprehensive set of features to facilitate networking, 
