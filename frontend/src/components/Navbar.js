@@ -110,7 +110,7 @@ const Navbar = () => {
                       <Link  className="user-text" to={profileCreateUrl}>Create Profile</Link>
                     )}
                     {isProfileCreated && (
-                      <Link className="user-text" to={profileViewUrl}>View Profile</Link>
+                      <Link className="user-text" to={profileViewUrl}>My Profile</Link>
                     )}
                     <Link to={"/consultant/consultantdashboard"} className="user-text">Dashboard</Link>
                     <Link className="user-text" to={"/consultant/createad"}>Create Ad</Link>
