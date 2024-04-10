@@ -1,4 +1,4 @@
-**Unique Social Media Platform**<br><br>
+<h1>**Unique Social Media Platform**<h1></h1><br><br>
 **Members of Group**<br>
 Nayanannanda K.S<br>
 Kongahawatte D.D<br>
