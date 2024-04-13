@@ -1,10 +1,11 @@
 require("dotenv").config();
-
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 // import routes
 const profileRoutes = require("./routes/profiles");
 const userRoutes = require("./routes/user");
+const postJobs = require("./routes/postJobs");
 
 const app = express();
 
@@ -13,12 +14,14 @@ const app = express();
 
 // this will enable us to access the request body
 app.use(express.json());
+app.use(cors());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   // we need to call next in order to proceed with the application.
   next();
 });
+
 
 // defining the routes
 app.get("/health-check", (req, res) => {
@@ -27,6 +30,7 @@ app.get("/health-check", (req, res) => {
 
 app.use("/api/profiles", profileRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/post", postJobs);
 
 // connect the database. this is async method. will take a little time to connect
 mongoose

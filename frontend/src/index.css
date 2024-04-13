@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* google font */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap");
 
@@ -12,7 +16,7 @@ body {
   font-family: "Poppins";
 }
 header {
-  background: #9BB0C1;
+  background: #9bb0c1;
 }
 header .container {
   max-width: 1400px;
@@ -511,4 +515,28 @@ form.login {
   padding: 20px;
   background: #fff;
   border-radius: 4px;
+}
+
+.scrollbar-style {
+  overflow-y: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: rgba(155, 155, 155, 0.5) rgba(255, 255, 255, 0.1); /* For Firefox */
+}
+
+.scrollbar-style::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.scrollbar-style::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Track color */
+}
+
+.scrollbar-style::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5); /* Thumb color */
+  border-radius: 8px; /* Border radius of the thumb */
+  border: 2px solid rgba(255, 255, 255, 0.1); /* Border around the thumb */
+}
+
+.scrollbar-style::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.8); /* Thumb color on hover */
 }
