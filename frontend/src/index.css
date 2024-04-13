@@ -9,6 +9,7 @@
 :root {
   --primary: #1a53af;
   --error: #e7195a;
+  --success: #094109;
 }
 body {
   background: #dde6ed;
@@ -104,22 +105,42 @@ header a {
   height: 100%;
 }
 
-.consultant-listing .consultants-main .consultants {
+.consultant-listing .consultants .indi-consultants {
   display: flex;
+  /* grid-template-columns: 5fr 5fr; */
   gap: 10px;
 }
-.consultant-listing .consultants-main .consultants {
-  background: #c0dbf0;
+
+.consultant-listing .consultants .team-consultants {
+  display: flex;
+  /* grid-template-columns: 5fr 5fr; */
+  gap: 10px;
+}
+
+.consultant-listing .consultants .indi-consultants {
+  background: #e3e3e3;
   border-radius: 4px;
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 100%;
+  width: 130%;
   height: 700px;
   position: relative;
   display: flex;
   gap: 10px;
 }
+
+.consultant-listing .consultants .team-consultants {
+  background: #e3e3e3;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  width: 130%;
+  height: 700px;
+  position: relative;
+}
+
 .consultant-listing h2 {
   text-align: center;
 }
@@ -164,6 +185,7 @@ header a {
 
 .business-listing .businesses {
   display: flex;
+  /* grid-template-columns: 3fr 3fr; */
   gap: 100px;
 }
 
@@ -221,9 +243,9 @@ header a {
 }
 
 .view-general-profile .general-profile {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
+  /* display: grid; */
+  /* grid-template-columns: 5fr 5fr; */
+  /* gap: 100px; */
 }
 
 .view-general-profile .general-profile {
@@ -233,7 +255,7 @@ header a {
   padding: 20px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
   width: 80%;
-  height: 700px;
+  height: 100%;
   position: relative;
 }
 
@@ -241,26 +263,120 @@ header a {
   text-align: center;
 }
 
-.general-profile-details {
+.general-profile .bio {
+}
+
+.general-profile .bio img {
+  float: left;
+}
+
+.general-profile .bio .bio-details {
+  width: 50%;
+}
+
+.general-profile .bio-details {
   background: #fff;
   border-radius: 4px;
-  margin: 20px auto;
+  margin: 1% auto;
   padding: 20px;
-  position: relative;
+  /* position: relative; */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  height: 40%;
-  width: 40%;
+  height: 160px;
 }
+
+.general-profile .row-1 {
+  height: 350px;
+}
+
+.general-profile .row-2 {
+  height: 520px;
+}
+
+.general-profile .personal-section {
+  width: 50%;
+  float: left;
+}
+
+.general-profile .personal-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .skills-section {
+  width: 50%;
+  float: right;
+}
+
+.general-profile .skills-section-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 1% auto;
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .education-section {
+  width: 50%;
+  float: left;
+}
+
+.general-profile .achievements-section {
+  width: 50%;
+  float: right;
+}
+
+.general-profile .education-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .achievements-section-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 1% auto;
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .work-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
 .general-profile-details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
+
 .general-profile-details p {
   margin: 0;
   font-size: 0.9em;
   color: #555;
 }
+
 .general-profile-details span {
   position: absolute;
   top: 20px;
@@ -434,6 +550,18 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+
+div.success {
+  padding: 10px;
+  background: #effff2;
+  border: 1px solid var(--success);
+  color: var(--success);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+input.success {
+  border: 1px solid var(--success);
 }
 
 .sidemenu {

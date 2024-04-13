@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
+import {
+  BiSearchAlt2,
+  BiSolidBell,
+  BiSolidBox,
+  BiSolidCompass,
+  BiSolidHome,
+  BiSolidLocationPlus,
+  BiSolidMessageAltDetail,
+} from "react-icons/bi";
 import { Link } from "react-router-dom";
+import user1 from "../assest/user.jpeg";
 import { useAuthContext } from "../hooks/useAuthContext";
-import user1 from "../assest/user.jpeg"
 import { useLogout } from "../hooks/useLogout";
-import { BiSearchAlt2 , BiSolidCompass, BiSolidHome, BiSolidMessageAltDetail, BiSolidLocationPlus, BiSolidBox, BiSolidBell} from "react-icons/bi";
 
 const Navbar = () => {
-  const[open,setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
 
-  const Menu=[];
+  const Menu = [];
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const [isProfileCreated, setIsProfileCreated] = useState(false);
@@ -71,61 +79,80 @@ const Navbar = () => {
           <h1 className="logo">ProfLink</h1>
           <p className="logo--icon">Your Professional Community</p>
         </Link>
-        <div className='content--header'>
-        <div className="header--activity">
+        <div className="content--header">
+          <div className="header--activity">
             <div className="search-box">
-                <input type="text" placeholder='Search anything here..'/>
-                <BiSearchAlt2 className='icon1'/>
+              <input type="text" placeholder="Search anything here.." />
+              <BiSearchAlt2 className="icon1" />
             </div>
             <div className="home">
-             <BiSolidHome className='icon'/>
+              <BiSolidHome className="icon" />
             </div>
             <div className="compass">
-             <BiSolidCompass className='icon'/>
+              <BiSolidCompass className="icon" />
             </div>
             <div className="message">
-             <BiSolidMessageAltDetail className='icon'/>
+              <BiSolidMessageAltDetail className="icon" />
             </div>
             <div className="location">
-             <BiSolidLocationPlus className='icon'/>
+              <BiSolidLocationPlus className="icon" />
             </div>
             <div className="search-jobbox">
-                <BiSolidBox className='icon'/>
+              <BiSolidBox className="icon" />
             </div>
             <div className="notify">
-                <BiSolidBell className='icon'/>     
+              <BiSolidBell className="icon" />
             </div>
+          </div>
         </div>
-
-    </div>
         <nav>
           {user && (
             <div className="profile-header">
-              <img onClick={()=>setOpen(!open)} src={user1} alt="user" className='profile-picture'/>
-              {
-                open && (
-                  <div className="menu-items">
-                    <span className="user-text">{user.email}</span>
-                    {!isProfileCreated && (
-                      <Link  className="user-text" to={profileCreateUrl}>Create Profile</Link>
-                    )}
-                    {isProfileCreated && (
-                      <Link className="user-text" to={profileViewUrl}>My Profile</Link>
-                    )}
-                    <Link to={"/consultant/consultantdashboard"} className="user-text">Dashboard</Link>
-                    <Link className="user-text" to={"/consultant/createad"}>Create Ad</Link>
-                    <Link className="logout-button"  onClick={handleLogout}>Log Out</Link>  
-                  </div>
-          )}
+              <img
+                onClick={() => setOpen(!open)}
+                src={user1}
+                alt="user"
+                className="profile-picture"
+              />
+              {open && (
+                <div className="menu-items">
+                  <span className="user-text">{user.email}</span>
+                  {!isProfileCreated && (
+                    <Link className="user-text" to={profileCreateUrl}>
+                      Create Profile
+                    </Link>
+                  )}
+                  {isProfileCreated && (
+                    <Link className="user-text" to={profileViewUrl}>
+                      My Profile
+                    </Link>
+                  )}
+                  <Link
+                    to={"/consultant/consultantdashboard"}
+                    className="user-text"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link className="user-text" to={"/consultant/createad"}>
+                    Create Ad
+                  </Link>
+                  <Link className="logout-button" onClick={handleLogout}>
+                    Log Out
+                  </Link>
+                </div>
+              )}
             </div>
           )}
           {!user && (
             <div>
-              <Link to="/login" className="login-container">Login</Link>
-              <Link to="/signup" className="signup-container">Singup</Link>
+              <Link to="/login" className="login-container">
+                Login
+              </Link>
+              <Link to="/signup" className="signup-container">
+                Singup
+              </Link>
             </div>
           )}
-          
         </nav>
       </div>
     </header>

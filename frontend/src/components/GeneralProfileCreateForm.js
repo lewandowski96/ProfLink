@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import validator from "validator";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const GeneralProfileCreateForm = () => {
@@ -25,17 +26,18 @@ const GeneralProfileCreateForm = () => {
     {
       company: "",
       position: "",
-      industry: "",
+      industry: "IT",
     },
   ]);
   const [previousExperiences, setPreviousExperiences] = useState([
-    { company: "", position: "", year: "", industry: "" },
+    { company: "", position: "", year: "", industry: "IT" },
   ]);
-  const [skills, setSkills] = useState([{ name: "", level: "" }]);
+  const [skills, setSkills] = useState([{ name: "", level: "MEDIUM" }]);
   const [achievements, setAchievements] = useState([
-    { name: "", multimedia: "", media_type: "" },
+    { name: "", multimedia: "", media_type: "DOCUMENT" },
   ]);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
   const { user } = useAuthContext();
 
@@ -84,7 +86,7 @@ const GeneralProfileCreateForm = () => {
       company: "",
       position: "",
       year: "",
-      industry: "",
+      // industry: "",
     };
     setPreviousExperiences([...previousExperiences, newExperience]);
   };
@@ -105,7 +107,7 @@ const GeneralProfileCreateForm = () => {
   const addSkills = () => {
     let newSkill = {
       name: "",
-      level: "",
+      // level: "",
     };
     setSkills([...skills, newSkill]);
   };
@@ -127,7 +129,7 @@ const GeneralProfileCreateForm = () => {
     let newAchievement = {
       name: "",
       multimedia: "",
-      media_type: "",
+      // media_type: "",
     };
     setAchievements([...achievements, newAchievement]);
   };
@@ -143,6 +145,16 @@ const GeneralProfileCreateForm = () => {
 
     if (!user) {
       setError("You must be logged in");
+      return;
+    }
+
+    if (!validator.isEmail(email)) {
+      setError("Enter a valid email");
+      return;
+    }
+
+    if (!validator.isMobilePhone(contactNo)) {
+      setError("Enter a valid phone number");
       return;
     }
 
@@ -204,16 +216,18 @@ const GeneralProfileCreateForm = () => {
         {
           company: "",
           position: "",
-          industry: "",
+          industry: "IT",
         },
       ]);
       setPreviousExperiences([
-        { company: "", position: "", year: "", industry: "" },
+        { company: "", position: "", year: "", industry: "IT" },
       ]);
-      setSkills([{ name: "", level: "" }]);
-      setAchievements([{ name: "", multimedia: "", media_type: "" }]);
+      setSkills([{ name: "", level: "MEDIUM" }]);
+      setAchievements([{ name: "", multimedia: "", media_type: "DOCUMENT" }]);
       setError(null);
       setEmptyFields([]);
+      setSuccess("Profile saved successfully!");
+      window.location.reload();
       console.log("profile saved", json);
     }
   };
@@ -221,56 +235,59 @@ const GeneralProfileCreateForm = () => {
   return (
     <form class="create" onSubmit={handleSubmit}>
       <h3>Create Your Profile!</h3>
-      <label>Your First Name:</label>
+      <label>Your First Name</label>
       <input
         type="text"
         onChange={(e) => setFirstName(e.target.value)}
         value={firstName}
         className={emptyFields.includes("firstName") ? "error" : ""}
       />
-      <label>Your Last Name:</label>
+      <label>Your Last Name</label>
       <input
         type="text"
         onChange={(e) => setLastName(e.target.value)}
         value={lastName}
         className={emptyFields.includes("lastName") ? "error" : ""}
       />
-      <label>Your DOB:</label>
+      <label>Your Date of Birth</label>
       <input
         type="date"
         onChange={(e) => setDateOfBirth(e.target.value)}
         value={dateOfBirth}
         className={emptyFields.includes("dateOfBirth") ? "error" : ""}
       />
-      <label>Contact No:</label>
+      <label>Contact Number</label>
       <input
-        type="text"
+        type="number"
         onChange={(e) => setContactNo(e.target.value)}
         value={contactNo}
         className={emptyFields.includes("contactNo") ? "error" : ""}
       />
-      <label>Email:</label>
+      <label>Email</label>
       <input
-        type="email"
+        type="text"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
         className={emptyFields.includes("email") ? "error" : ""}
       />
-      <label>Sex:</label>
-      <input
-        type="text"
+      <label>Sex</label>
+      <select
+        id="sex"
         onChange={(e) => setSex(e.target.value)}
         value={sex}
         className={emptyFields.includes("sex") ? "error" : ""}
-      />
-      <label>City:</label>
+      >
+        <option value="MALE">Male</option>
+        <option value="FEMALE">Female</option>
+      </select>
+      <label>City</label>
       <input
         type="text"
         onChange={(e) => setCity(e.target.value)}
         value={city}
         className={emptyFields.includes("city") ? "error" : ""}
       />
-      <label>Country:</label>
+      <label>Country</label>
       <input
         type="text"
         onChange={(e) => setCountry(e.target.value)}
@@ -284,18 +301,21 @@ const GeneralProfileCreateForm = () => {
         value={bio}
         className={emptyFields.includes("bio") ? "error" : ""}
       />
-      <label>Schools Attended:</label>
+      {/* <p>
+        --------------------------------------------------------------------------------
+      </p> */}
+      <h4>Schools Attended</h4>
       {schoolsAttended.map((school, index) => {
         return (
           <div key={index}>
-            <label>School Name:</label>
+            <label>School Name</label>
             <input
               name="schoolName"
               type="text"
               onChange={(e) => handleSchoolsAttended(e, index)}
               value={school.schoolName}
             />
-            <label>Year:</label>
+            <label>Year</label>
             <input
               name="year"
               type="number"
@@ -305,6 +325,8 @@ const GeneralProfileCreateForm = () => {
             <button type="button" onClick={removeSchoolsAttended}>
               REMOVE
             </button>
+            <br></br>
+            <br></br>
           </div>
         );
       })}
@@ -314,25 +336,28 @@ const GeneralProfileCreateForm = () => {
       </button>
       <br></br>
       <br></br>
-      <label>University Attended:</label>
+      {/* <p>
+        --------------------------------------------------------------------------------
+      </p> */}
+      <h4>University Attended</h4>
       {universityAttended.map((university, index) => {
         return (
           <div key={index}>
-            <label>University Name:</label>
+            <label>University Name</label>
             <input
               name="universityName"
               type="text"
               onChange={(e) => handleUniversityAttended(e, index)}
               value={university.universityName}
             />
-            <label>Year:</label>
+            <label>Year</label>
             <input
               name="year"
               type="number"
               onChange={(e) => handleUniversityAttended(e, index)}
               value={university.year}
             />
-            <label>Degree:</label>
+            <label>Degree</label>
             <input
               name="degree"
               type="text"
@@ -342,69 +367,87 @@ const GeneralProfileCreateForm = () => {
           </div>
         );
       })}
-      <label>Current Employment:</label>
+      {/* <p>
+        --------------------------------------------------------------------------------
+      </p> */}
+      <h4>Current Employment</h4>
       {currentEmployment.map((current, index) => {
         return (
           <div key={index}>
-            <label>Company Name:</label>
+            <label>Company Name</label>
             <input
               name="company"
               type="text"
               onChange={(e) => handleCurrentEmployment(e, index)}
               value={current.company}
             />
-            <label>Year:</label>
+            <label>Position</label>
             <input
               name="position"
               type="text"
               onChange={(e) => handleCurrentEmployment(e, index)}
               value={current.position}
             />
-            <label>Industry:</label>
-            <input
-              name="industry"
-              type="text"
+            {/* <label>Industry</label>
+            <select
+              id="industry"
               onChange={(e) => handleCurrentEmployment(e, index)}
               value={current.industry}
-            />
+            >
+              <option value="IT">Information Technology</option>
+              <option value="BUSINESS">Business</option>
+              <option value="TRANSPORTATION">Transportation</option>
+              <option value="CONSTRUCTION">Construction</option>
+              <option value="OTHER">Other</option>
+            </select> */}
           </div>
         );
       })}
-      <label>Previous Experiences:</label>
+      {/* <p>
+        --------------------------------------------------------------------------------
+      </p> */}
+      <h4>Previous Experiences</h4>
       {previousExperiences.map((company, index) => {
         return (
           <div key={index}>
-            <label>Company Name:</label>
+            <label>Company Name</label>
             <input
               name="company"
               type="text"
               onChange={(e) => handlePreviousExperiences(e, index)}
               value={company.company}
             />
-            <label>Position:</label>
+            <label>Position</label>
             <input
               name="position"
               type="text"
               onChange={(e) => handlePreviousExperiences(e, index)}
               value={company.position}
             />
-            <label>Year:</label>
+            <label>Year</label>
             <input
               name="year"
               type="number"
               onChange={(e) => handlePreviousExperiences(e, index)}
               value={company.year}
             />
-            <label>Industry:</label>
-            <input
-              name="industry"
-              type="text"
+            {/* <label>Industry:</label>
+            <select
+              id="industry"
               onChange={(e) => handlePreviousExperiences(e, index)}
               value={company.industry}
-            />
+            >
+              <option value="IT">Information Technology</option>
+              <option value="BUSINESS">Business</option>
+              <option value="TRANSPORTATION">Transportation</option>
+              <option value="CONSTRUCTION">Construction</option>
+              <option value="OTHER">Other</option>
+            </select> */}
             <button type="button" onClick={removePreviousExperiences}>
               REMOVE
             </button>
+            <br></br>
+            <br></br>
           </div>
         );
       })}
@@ -414,27 +457,42 @@ const GeneralProfileCreateForm = () => {
       </button>
       <br></br>
       <br></br>
-      <label>Skills:</label>
+      {/* <p>
+        --------------------------------------------------------------------------------
+      </p> */}
+      <h4>Skills</h4>
       {skills.map((skill, index) => {
         return (
           <div key={index}>
-            <label>Skill Name:</label>
+            <label>Skill Name</label>
             <input
               name="name"
               type="text"
               onChange={(e) => handleSkills(e, index)}
               value={skill.name}
             />
-            <label>Level:</label>
+            {/* <label>Level:</label>
             <input
               name="level"
               type="text"
               onChange={(e) => handleSkills(e, index)}
               value={skill.level}
             />
+            <select
+              id="level"
+              onChange={(e) => handleSkills(e, index)}
+              value={skill.level}
+            >
+              <option value="LOW">Low</option>
+              <option value="AVERAGE">Average</option>
+              <option value="HIGH">High</option>
+              <option value="EXPERT">Expert</option>
+            </select> */}
             <button type="button" onClick={removeSkills}>
               REMOVE
             </button>
+            <br></br>
+            <br></br>
           </div>
         );
       })}
@@ -444,34 +502,48 @@ const GeneralProfileCreateForm = () => {
       </button>
       <br></br>
       <br></br>
-      <label>Achievements:</label>
+      {/* <p>
+        --------------------------------------------------------------------------------
+      </p> */}
+      <h4>Achievements</h4>
       {achievements.map((achievement, index) => {
         return (
           <div key={index}>
-            <label>Name:</label>
+            <label>Name</label>
             <input
               name="name"
               type="text"
               onChange={(e) => handleAchievements(e, index)}
               value={achievement.name}
             />
-            <label>Multimedia:</label>
+            <label>Multimedia</label>
             <input
               name="multimedia"
               type="text"
+              disabled
               onChange={(e) => handleAchievements(e, index)}
               value={achievement.multimedia}
             />
-            <label>Media Type:</label>
+            {/* <label>Media Type</label>
             <input
               name="media_type"
               type="text"
               onChange={(e) => handleAchievements(e, index)}
               value={achievement.media_type}
             />
+            <select
+              id="media_type"
+              onChange={(e) => handleAchievements(e, index)}
+              value={achievement.media_type}
+            >
+              <option value="DOCUMENT">Document</option>
+              <option value="VIDEO">Video</option>
+            </select> */}
             <button type="button" onClick={removeAchievements}>
               REMOVE
             </button>
+            <br></br>
+            <br></br>
           </div>
         );
       })}
@@ -483,6 +555,7 @@ const GeneralProfileCreateForm = () => {
       <br></br>
       <button type="submit">CREATE PROFILE!</button>
       {error && <div className="error">{error}</div>}
+      {success && <div className="success">{success}</div>}
     </form>
   );
 };
