@@ -9,6 +9,7 @@
 :root {
   --primary: #1a53af;
   --error: #e7195a;
+  --success: #094109;
 }
 body {
   background: #dde6ed;
@@ -104,22 +105,42 @@ header a {
   height: 100%;
 }
 
-.consultant-listing .consultants-main .consultants {
+.consultant-listing .consultants .indi-consultants {
   display: flex;
+  /* grid-template-columns: 5fr 5fr; */
   gap: 10px;
 }
-.consultant-listing .consultants-main .consultants {
-  background: #c0dbf0;
+
+.consultant-listing .consultants .team-consultants {
+  display: flex;
+  /* grid-template-columns: 5fr 5fr; */
+  gap: 10px;
+}
+
+.consultant-listing .consultants .indi-consultants {
+  background: #e3e3e3;
   border-radius: 4px;
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 100%;
+  width: 130%;
   height: 700px;
   position: relative;
   display: flex;
   gap: 10px;
 }
+
+.consultant-listing .consultants .team-consultants {
+  background: #e3e3e3;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  width: 130%;
+  height: 700px;
+  position: relative;
+}
+
 .consultant-listing h2 {
   text-align: center;
 }
@@ -164,6 +185,7 @@ header a {
 
 .business-listing .businesses {
   display: flex;
+  /* grid-template-columns: 3fr 3fr; */
   gap: 100px;
 }
 
@@ -528,6 +550,18 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+
+div.success {
+  padding: 10px;
+  background: #effff2;
+  border: 1px solid var(--success);
+  color: var(--success);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+input.success {
+  border: 1px solid var(--success);
 }
 
 .sidemenu {

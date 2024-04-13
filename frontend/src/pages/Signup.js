@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import validator from "validator";
 import { useSignup } from "../hooks/useSignup";
 
 const Signup = () => {
@@ -6,9 +7,15 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
   const { signup, error, isLoading } = useSignup();
+  const [emailError, setEmailError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validator.isEmail(email)) {
+      setEmailError("Enter a valid email");
+      return;
+    }
 
     await signup(email, password, userType);
   };
@@ -19,7 +26,7 @@ const Signup = () => {
 
       <label>Email</label>
       <input
-        type="email"
+        type="text"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
@@ -43,6 +50,7 @@ const Signup = () => {
 
       <button disabled={isLoading}>Sign Up</button>
       {error && <div className="error">{error}</div>}
+      {emailError && <div className="error">{emailError}</div>}
     </form>
   );
 };

@@ -84,11 +84,7 @@ const GeneralProfile = () => {
                   profile.map((pf) => (
                     <>
                       {pf.skills.length > 1 &&
-                        pf.skills.map((skill) => (
-                          <p>
-                            {skill.name} - {skill.level}
-                          </p>
-                        ))}
+                        pf.skills.map((skill) => <p>{skill.name}</p>)}
                     </>
                   ))}
               </div>

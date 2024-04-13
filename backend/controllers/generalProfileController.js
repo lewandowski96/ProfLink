@@ -73,6 +73,25 @@ const createGeneralProfile = async (req, res) => {
   if (!bio) {
     emptyFields.push("bio");
   }
+  console.log("schoolsattened length", schoolsAttended.length);
+  if (!schoolsAttended.length == 1) {
+    emptyFields.push("schoolsAttended");
+  }
+  if (!universityAttended) {
+    emptyFields.push("universityAttended");
+  }
+  if (!currentEmployment) {
+    emptyFields.push("currentEmployment");
+  }
+  if (!previousExperiences) {
+    emptyFields.push("previousExperiences");
+  }
+  if (!skills) {
+    emptyFields.push("skills");
+  }
+  if (!achievements) {
+    emptyFields.push("achievements");
+  }
   if (emptyFields.length > 0) {
     return res
       .status(400)
