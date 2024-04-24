@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* google font */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap");
 
@@ -5,14 +9,15 @@
 :root {
   --primary: #1a53af;
   --error: #e7195a;
+  --success: #094109;
 }
 body {
-  background: #f1f1f1;
+  background: #dde6ed;
   margin: 0;
   font-family: "Poppins";
 }
 header {
-  background: #fff;
+  background: #9bb0c1;
 }
 header .container {
   max-width: 1400px;
@@ -37,19 +42,18 @@ header a {
 
 /* company listing */
 .company-listing .sub {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 100%;
 }
 
 .company-listing .companies {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
+  display: flex;
   gap: 100px;
 }
 
 .company-listing .companies {
-  background: #e3e3e3;
+  background: #c0dbf0;
   border-radius: 4px;
   margin: 10px;
   padding: 20px;
@@ -96,41 +100,43 @@ header a {
 
 /* consultant listing */
 .consultant-listing .sub {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 100%;
 }
 
 .consultant-listing .consultants .indi-consultants {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
+  display: flex;
+  /* grid-template-columns: 5fr 5fr; */
+  gap: 10px;
 }
 
 .consultant-listing .consultants .team-consultants {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
+  display: flex;
+  /* grid-template-columns: 5fr 5fr; */
+  gap: 10px;
 }
 
 .consultant-listing .consultants .indi-consultants {
   background: #e3e3e3;
   border-radius: 4px;
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 190%;
+  width: 130%;
   height: 700px;
   position: relative;
+  display: flex;
+  gap: 10px;
 }
 
 .consultant-listing .consultants .team-consultants {
   background: #e3e3e3;
   border-radius: 4px;
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 190%;
+  width: 130%;
   height: 700px;
   position: relative;
 }
@@ -172,19 +178,19 @@ header a {
 
 /* business listing */
 .business-listing .sub {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 100%;
 }
 
 .business-listing .businesses {
-  display: grid;
-  grid-template-columns: 3fr 3fr;
+  display: flex;
+  /* grid-template-columns: 3fr 3fr; */
   gap: 100px;
 }
 
 .business-listing .businesses {
-  background: #e3e3e3;
+  background: #c0dbf0;
   border-radius: 4px;
   margin: 10px;
   padding: 20px;
@@ -237,9 +243,9 @@ header a {
 }
 
 .view-general-profile .general-profile {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 100px;
+  /* display: grid; */
+  /* grid-template-columns: 5fr 5fr; */
+  /* gap: 100px; */
 }
 
 .view-general-profile .general-profile {
@@ -249,7 +255,7 @@ header a {
   padding: 20px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
   width: 80%;
-  height: 700px;
+  height: 100%;
   position: relative;
 }
 
@@ -257,26 +263,120 @@ header a {
   text-align: center;
 }
 
-.general-profile-details {
+.general-profile .bio {
+}
+
+.general-profile .bio img {
+  float: left;
+}
+
+.general-profile .bio .bio-details {
+  width: 50%;
+}
+
+.general-profile .bio-details {
   background: #fff;
   border-radius: 4px;
-  margin: 20px auto;
+  margin: 1% auto;
   padding: 20px;
-  position: relative;
+  /* position: relative; */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  height: 40%;
-  width: 40%;
+  height: 160px;
 }
+
+.general-profile .row-1 {
+  height: 350px;
+}
+
+.general-profile .row-2 {
+  height: 520px;
+}
+
+.general-profile .personal-section {
+  width: 50%;
+  float: left;
+}
+
+.general-profile .personal-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .skills-section {
+  width: 50%;
+  float: right;
+}
+
+.general-profile .skills-section-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 1% auto;
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .education-section {
+  width: 50%;
+  float: left;
+}
+
+.general-profile .achievements-section {
+  width: 50%;
+  float: right;
+}
+
+.general-profile .education-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .achievements-section-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 1% auto;
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.general-profile .work-section-details {
+  width: 90%;
+  background: #fff;
+  border-radius: 4px;
+  /* margin: 1% auto; */
+  padding: 20px;
+  /* position: relative; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
 .general-profile-details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
+
 .general-profile-details p {
   margin: 0;
   font-size: 0.9em;
   color: #555;
 }
+
 .general-profile-details span {
   position: absolute;
   top: 20px;
@@ -452,6 +552,18 @@ input.error {
   border: 1px solid var(--error);
 }
 
+div.success {
+  padding: 10px;
+  background: #effff2;
+  border: 1px solid var(--success);
+  color: var(--success);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+input.success {
+  border: 1px solid var(--success);
+}
+
 .sidemenu {
   background: #fff;
   border-radius: 4px;
@@ -531,4 +643,28 @@ form.login {
   padding: 20px;
   background: #fff;
   border-radius: 4px;
+}
+
+.scrollbar-style {
+  overflow-y: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: rgba(155, 155, 155, 0.5) rgba(255, 255, 255, 0.1); /* For Firefox */
+}
+
+.scrollbar-style::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.scrollbar-style::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Track color */
+}
+
+.scrollbar-style::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5); /* Thumb color */
+  border-radius: 8px; /* Border radius of the thumb */
+  border: 2px solid rgba(255, 255, 255, 0.1); /* Border around the thumb */
+}
+
+.scrollbar-style::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.8); /* Thumb color on hover */
 }

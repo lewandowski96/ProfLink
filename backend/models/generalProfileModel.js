@@ -48,7 +48,7 @@ const generalProfileSchema = new Schema(
         },
       ],
     },
-    universityAttened: {
+    universityAttended: {
       type: [
         {
           universityName: String,

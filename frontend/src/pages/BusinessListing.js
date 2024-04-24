@@ -29,7 +29,6 @@ const BusinessListing = () => {
 
   return (
     <div className="business-listing">
-      <h2>Businesses</h2>
       <div className="sub">
         <div className="sidemenu">
           <Sidemenu />

@@ -1,0 +1,91 @@
+.menu--list{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 10px;
+    
+}
+.menu--list .item{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    padding: 2px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    text-decoration: none;
+    color: #27374d;
+
+}
+.menu--list .item:hover{
+    background: #27374d;
+    color: #dde6ed ;
+}
+.item h4{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.footer-links{
+    background: #cadbf2;
+    border-radius: 10px;
+    padding: 20px 40px;
+    margin-bottom: 80px;
+
+}
+.footer-links a{
+    color: #27374d;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.footer-links a:hover{
+    color: #dde6ed;
+}
+.footer-links p{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+/* card container */
+.card--container{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: auto;
+    margin-left: 20px;
+}
+.card{
+    flex: 1;
+    background: #15344b;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    transition: 0.5s ease-in-out;
+}
+.card:hover{
+    transform: scale(1.04);
+    cursor: pointer;
+}
+.card--cover{
+    background: #fff;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+    color: #969393;
+}
+.card--title{
+    background: #e4dfdfc0;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    font-size: 14px;
+    color: #031c30;
+    border-radius: 10px;
+}
