@@ -6,7 +6,7 @@ import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Alert, Button, Dialog, Grid, IconButton, Paper, Snackbar, Tooltip } from "@mui/material";
+import { Alert, Box, Button, Dialog, Grid, IconButton, Paper, Rating, Snackbar, Stack, Tooltip, Typography } from "@mui/material";
 import InputBase from '@mui/material/InputBase';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -175,7 +175,7 @@ const CustomerTestimonials = () => {
                       setOpen(true)
                     }}
                   >
-                    Create Customer Testimonial
+                    Create Testimonial
                   </Button>
                 </Grid>
                 <Grid item md={12}>
@@ -205,30 +205,45 @@ const CustomerTestimonials = () => {
                                   </TableCell>
                                   <TableCell align="left">{testimonial.name ? testimonial.name : '-'}</TableCell>
                                   <TableCell align="left">{testimonial.email ? testimonial.email : '-'}</TableCell>
-                                  <TableCell align="left">{testimonial.rating ? testimonial.rating : '-'}</TableCell>
+                                  <TableCell align="left">{testimonial.rating ? <>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                      <Rating
+                                        name="rating"
+                                        value={testimonial.rating}
+                                        readOnly
+                                        precision={0.5}
+                                      />
+                                      <Typography variant="body2" color="text.secondary">
+                                        ({testimonial.rating})
+                                      </Typography>
+                                    </Box>
+                                  </>
+                                    : '-'}</TableCell>
                                   <TableCell align="left">{testimonial.description ? testimonial.description : '-'}</TableCell>
                                   <TableCell align="center">
-                                    <Tooltip title="Edit Testimonial" placement="right-start">
-                                      <IconButton onClick={() => {
-                                        setOpen(true)
-                                        setCustomerTestimonial(testimonial)
-                                      }} size="large" color="error">
-                                        <EditOutlined />
-                                      </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="View Testimonial" placement="right-start">
-                                      <IconButton onClick={() => { }} size="large" color="error">
-                                        <VisibilityIcon />
-                                      </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Delete Testimonial" placement="right-start">
-                                      <IconButton onClick={() => {
-                                        setOpenAlert(true)
-                                        setCustomerTestimonialId(testimonial._id)
-                                      }} size="large" color="error">
-                                        <DeleteOutlined />
-                                      </IconButton>
-                                    </Tooltip>
+                                    <Stack direction={"row"}>
+                                      <Tooltip title="Edit Testimonial" placement="right-start">
+                                        <IconButton onClick={() => {
+                                          setOpen(true)
+                                          setCustomerTestimonial(testimonial)
+                                        }} size="large" color="primary">
+                                          <EditOutlined />
+                                        </IconButton>
+                                      </Tooltip>
+                                      <Tooltip title="View Testimonial" placement="right-start">
+                                        <IconButton onClick={() => { }} size="large" color="primary">
+                                          <VisibilityIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                      <Tooltip title="Delete Testimonial" placement="right-start">
+                                        <IconButton onClick={() => {
+                                          setOpenAlert(true)
+                                          setCustomerTestimonialId(testimonial._id)
+                                        }} size="large" color="error">
+                                          <DeleteOutlined />
+                                        </IconButton>
+                                      </Tooltip>
+                                    </Stack>
                                   </TableCell>
                                 </TableRow>
                               </>

@@ -18,15 +18,41 @@ import { useTheme } from '@mui/material/styles';
 // third-party
 import { Form, FormikProvider, useFormik } from 'formik';
 import _ from 'lodash';
+import FileBase from 'react-file-base64';
 import * as Yup from 'yup';
 import { targetAudienceNames } from '../../../data/business';
-import { dispatch } from '../../../store';
-import { addAdvertisement, updateAdvertisement } from '../../../store/reducers/advertisement';
 
 //data
 
 
+// store
+import { dispatch } from '../../../store';
+import { addAdvertisement, updateAdvertisement } from '../../../store/reducers/advertisement';
+
 // constant
+const MAX_IMAGE_SIZE = 250;
+
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+
+// Function to validate the image size
+const validateImageSize = (value) => {
+    if (value && value.size) {
+        const fileSizeInKB = parseFloat(value.size)
+        if (fileSizeInKB > MAX_IMAGE_SIZE) {
+            return false;
+        }
+    }
+    return true;
+};
+
+// Function to validate the image type
+const validateImageType = (value) => {
+    if (value && value.type && !ALLOWED_IMAGE_TYPES.includes(value.type)) {
+        return false;
+    }
+    return true;
+};
+
 const getInitialValues = (advertisement) => {
 
     const newAdvertisement = {
@@ -35,7 +61,14 @@ const getInitialValues = (advertisement) => {
         description: '',
         targetAudience: '',
         budget: '',
-        image: ''
+        image: '',
+        validateImage: {
+            "name": "luffy-dark-1.png",
+            "type": "image/png",
+            "size": "73 kB",
+            "base64": "",
+            "file": {}
+        }
     }
 
     if (advertisement) {
@@ -52,13 +85,16 @@ const CreateEditAdvertisement = ({ businessId, advertisement, onClose }) => {
 
     const AdvertisementSchema = Yup.object().shape({
         title: Yup.string().required('Advertisement Title is required'),
+        validateImage: Yup.mixed()
+            .test('fileSize', `Image size must be less than ${MAX_IMAGE_SIZE} kB`, validateImageSize)
+            .test('fileType', 'Only JPEG, PNG, and JPG image formats are allowed', validateImageType),
     });
 
     const formik = useFormik({
         initialValues: getInitialValues(advertisement),
         validationSchema: AdvertisementSchema,
         enableReinitialize: true,
-        onSubmit: (values, { setSubmitting, resetForm }) => {
+        onSubmit: (values, { setSubmitting, resetForm }) => { 
             try {
                 if (advertisement) {
                     // put 
@@ -154,7 +190,7 @@ const CreateEditAdvertisement = ({ businessId, advertisement, onClose }) => {
                             <Grid item xs={12} sm={12}>
                                 <Stack spacing={0.5}>
                                     <InputLabel>Image </InputLabel>
-                                    <TextField
+                                    {/* <TextField
                                         id="image"
                                         name="image"
                                         placeholder="Enter Image"
@@ -164,7 +200,22 @@ const CreateEditAdvertisement = ({ businessId, advertisement, onClose }) => {
                                         helperText={formik.touched.image && formik.errors.image}
                                         fullWidth
                                         size='small'
+                                    /> */}
+                                    <FileBase
+                                        type="file"
+                                        multiple={false}
+                                        value={formik.values.image}
+                                        onDone={(e) => {
+                                            console.log(e);
+                                            formik.setFieldValue('validateImage', e)
+                                            formik.setFieldValue('image', e.base64);
+                                        }}
                                     />
+                                    {formik.touched.validateImage && formik.errors.validateImage && (
+                                        <FormHelperText error id="helper-text-validateImage">
+                                            {formik.errors.validateImage}
+                                        </FormHelperText>
+                                    )}
                                 </Stack>
                             </Grid>
                             <Grid item xs={12} sm={12}>

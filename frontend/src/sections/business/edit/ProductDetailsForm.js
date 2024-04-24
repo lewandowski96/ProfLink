@@ -16,28 +16,30 @@ import { useTheme } from '@mui/material/styles';
 import { FieldArray, Form, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 
-// project import
-import CreateEditAchievement from "./CreateEditAchievement";
+// project imports
+import CreateEditProduct from "./CreateEditProduct";
 
 // data
 
 const validationSchema = yup.object({
-  // name: yup.string().required('Name is required'),  
+  // name: yup.string().required('Name is required'),
+  // industry: yup.string().required('Industry is required'),
 });
 
 // ==============================|| VALIDATION WIZARD - ADDRESS  ||============================== //
 
-const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsData, handleNext, handleBack, setErrorIndex }) => {
+const ProductDetailsForm = ({ productDetailsData, setProductDetailsData, handleNext, handleBack, setErrorIndex }) => {
   const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
-      achievements: achievementDetailsData.achievements,
+      products: productDetailsData.products
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
-      setAchievementDetailsData({
-        achievements: values.achievements,
+      setProductDetailsData({
+        products: values.products,
       });
       handleNext();
     }
@@ -47,7 +49,7 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
 
   //dialog model 
   const [open, setOpen] = useState(false);
-  const [achievement, setAchievement] = useState()
+  const [product, setProduct] = useState()
 
   const onClose = () => {
     setOpen(!open);
@@ -56,13 +58,13 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
   return (
     <>
       <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
-        Achievement Details
+        Product Details
       </Typography>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ margin: 0 }}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <FieldArray name="achievements">
+              <FieldArray name="products">
                 {({ insert, remove, push, }) => {
                   return (
                     <>
@@ -77,14 +79,15 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
                                 setOpen(true)
                                 // push(
                                 //   {
-                                //     title: "",
+                                //     name: '',
+                                //     industry: '',
                                 //     description: '',
                                 //     image: ''
                                 //   }
                                 // )
                               }}
                               variant="contained" >
-                              Create Achievement
+                              Create Product
                             </Button>
                           </Grid>
                           <Grid item md={12}>
@@ -93,15 +96,16 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
                                 <TableHead>
                                   <TableRow>
                                     <TableCell align="center"> # </TableCell>
-                                    <TableCell align="left"> Title </TableCell>
+                                    <TableCell align="left"> Name </TableCell>
+                                    <TableCell align="left"> Industry </TableCell>
                                     <TableCell align="left"> Description </TableCell>
                                     <TableCell align="left"> Image </TableCell>
                                     <TableCell align="center"> Actions </TableCell>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                  {values.achievements && values.achievements.length > 0 ?
-                                    values.achievements.map((achievement, index) => {
+                                  {values.products && values.products.length > 0 ?
+                                    values.products.map((product, index) => {
                                       return (
                                         <>
                                           <TableRow
@@ -111,11 +115,12 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
                                             <TableCell component="th" scope="row" align="center">
                                               {index + 1}
                                             </TableCell>
-                                            <TableCell align="left">{achievement.title ? achievement.title : '-'}</TableCell>
-                                            <TableCell align="left">{achievement.description ? achievement.description : '-'}</TableCell>
-                                            <TableCell align="left">{achievement.image ? <img height={85} width={125} src={achievement.image} title={achievement.title} /> : '-'}</TableCell>
+                                            <TableCell align="left">{product.name ? product.name : '-'}</TableCell>
+                                            <TableCell align="left">{product.industry ? product.industry : '-'}</TableCell>
+                                            <TableCell align="left">{product.description ? product.description : '-'}</TableCell>
+                                            <TableCell align="left">{product.image ? <img height={85} width={125} src={product.image} title={product.name} /> : '-'}</TableCell>
                                             <TableCell align="center">
-                                              <Tooltip title="Delete Achievement" placement="right-start">
+                                              <Tooltip title="Delete Product" placement="right-start">
                                                 <IconButton onClick={() => { remove(index) }} size="large" color="error">
                                                   <DeleteOutlined />
                                                 </IconButton>
@@ -146,7 +151,7 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
                         sx={{ '& .MuiDialog-paper': { p: 0 }, transition: 'transform 225ms' }}
                         aria-describedby="alert-dialog-slide-description"
                       >
-                        <CreateEditAchievement onClose={onClose} push={push} achievement={achievement} />
+                        <CreateEditProduct onClose={onClose} push={push} product={product} />
                       </Dialog>
                     </>
                   )
@@ -170,4 +175,4 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
   );
 };
 
-export default AchievementDetailsForm;
+export default ProductDetailsForm;

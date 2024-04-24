@@ -35,6 +35,7 @@ const AchievementDetailsForm = ({ achievementDetailsData, setAchievementDetailsD
       achievements: achievementDetailsData.achievements,
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       setAchievementDetailsData({
         achievements: values.achievements,

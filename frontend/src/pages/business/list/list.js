@@ -19,7 +19,6 @@ import BusinessCard from '../../../sections/business/list/BusinessCard';
 import { useDispatch, useSelector } from '../../../store';
 import { fetchBusinesses, toInitialState } from '../../../store/reducers/business';
 
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -98,7 +97,6 @@ const List = () => {
     }
   }, [success])
 
-
   //alert model
   const [openAlert, setOpenAlert] = useState(false);
   const [businessId, setBusinessId] = useState(null)
@@ -126,7 +124,7 @@ const List = () => {
 
   return (
     <>
-      <div className="business-listing">
+      {/* <div className="business-listing">
         <h2>Businesses</h2>
         <div className="sub">
           <div className="sidemenu">
@@ -179,7 +177,75 @@ const List = () => {
             </Paper>
           </div>
         </div>
+      </div> */}
+
+
+
+      <div className="company-listing">
+        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+          Businesses
+        </h2>
+
+        <div className="sub w-full">
+          <div className="sidemenu">
+            <Sidemenu />
+          </div>
+          <div className="w-full ">
+            <div className="">
+              <div className="flex flex-row px-20 place-content-center gap-3">
+                <Grid container spacing={2}>
+                  <Grid item md={9}>
+                    <Search>
+                      <SearchIconWrapper>
+                        <SearchIcon />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
+                      />
+                    </Search>
+                  </Grid>
+                  <Grid item md={3}>
+                    <Button
+                      variant="contained"
+                      startIcon={<AddCircleOutline />}
+                      fullWidth
+                      onClick={() => {
+                        navigate(`/business/create`)
+                      }}
+                    >
+                      Create Business
+                    </Button>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
+
+            <div className="w-full px-20 mt-4 h-[500px] overflow-auto py-5">
+              <Grid container spacing={2}>
+                {isLoading ?
+                  <Grid item xs={12} md={12} style={{ textAlign: 'center' }}>
+                    <CircularProgress />
+                  </Grid>
+                  : <>
+                    {data && data.length > 0 ? data.map((business, index) => {
+                      return (
+                        <Grid item key={index} xs={12} md={12} >
+                          <BusinessCard businessData={business} setOpenAlert={setOpenAlert} setBusinessId={setBusinessId} />
+                        </Grid>
+                      )
+                    }) :
+                      <Grid item xs={12} md={12} style={{ textAlign: 'center' }}>
+                        No Business to view...
+                      </Grid>
+                    }
+                  </>}
+              </Grid>
+            </div>
+          </div>
+        </div>
       </div>
+
       {businessId && <AlertBusinessDelete title={""} open={openAlert} handleClose={handleAlertClose} deleteId={businessId} />}
       <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert

@@ -38,28 +38,22 @@ export default function BusinessCard({ businessData, setOpenAlert, setBusinessId
             <CardContent>
                 <Grid container>
                     <Grid item xs={11}>
-                        <Typography variant="h5" sx={{ marginBottom: "8px", color: '#333' }}>
+                        <Typography variant="h5" sx={{ marginBottom: "8px", color: '#333', fontWeight: "bold" }}>
                             {basicDetails && basicDetails.name ? basicDetails.name : "-"}
                         </Typography>
-                        <Typography mt={1} variant="subtitle1" color="text.secondary" component="div" style={{ display: 'flex', alignItems: 'center', color: '#777' }}>
-                            <div>
-                                <BusinessIcon fontSize="small" /> {basicDetails && basicDetails.industry ? basicDetails.industry : "-"}
-                            </div>
+                        <Typography mt={1} variant="subtitle1" color="text.secondary" component="div" style={{ display: 'flex', alignItems: 'center', color: '#777', }}>
+                            <BusinessIcon fontSize="small" sx={{ marginRight: "6px" }} /> {basicDetails && basicDetails.industry ? basicDetails.industry : "-"}
                             <Divider orientation="vertical" flexItem sx={{ ml: "8px", mr: "8px", backgroundColor: '#ccc' }} />
-                            <div>
-                                <BusinessCenterIcon fontSize="small" /> {basicDetails && basicDetails.organizationType ? basicDetails.organizationType : "-"}
-                            </div>
+                            <BusinessCenterIcon fontSize="small" sx={{ marginRight: "6px" }} /> {basicDetails && basicDetails.organizationType ? basicDetails.organizationType : "-"}
                             <Divider orientation="vertical" flexItem sx={{ ml: "8px", mr: "8px", backgroundColor: '#ccc' }} />
-                            <div>
-                                <PeopleIcon fontSize="small" />  {basicDetails && basicDetails.organizationSize ? basicDetails.organizationSize : "-"}
-                            </div>
+                            <PeopleIcon fontSize="small" sx={{ marginRight: "6px" }} />  {basicDetails && basicDetails.organizationSize ? basicDetails.organizationSize : "-"}
                         </Typography>
                         <Typography variant="body1" component="div" mt={1} >
                             {basicDetails && basicDetails.tagline && basicDetails.tagline.map(tag => (
-                                <Chip key={tag} label={`# ${tag}`} variant="outlined" style={{ marginRight: '8px', backgroundColor: '#f5f5f5' }} />
+                                <Chip key={tag} label={`# ${tag}`} variant="outlined" style={{ marginRight: '8px', backgroundColor: '#D7E5F0' }} />
                             ))}
                         </Typography>
-                        <Typography variant="body1" component="div" mt={3} style={{ color: '#444' }}>
+                        <Typography variant="body1" component="div" mt={3} style={{ color: '#444', fontSize: '14px' }}>
                             {basicDetails && basicDetails.description ? basicDetails.description : "-"}
                         </Typography>
                     </Grid>
@@ -75,7 +69,7 @@ export default function BusinessCard({ businessData, setOpenAlert, setBusinessId
                             <ViewIcon />
                         </StyledIconButton>
                         <StyledIconButton
-                            onClick={() => { 
+                            onClick={() => {
                                 setOpenAlert(true)
                                 setBusinessId(businessData._id)
                             }}

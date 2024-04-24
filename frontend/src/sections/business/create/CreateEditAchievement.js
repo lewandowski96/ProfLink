@@ -17,6 +17,7 @@ import { useTheme } from '@mui/material/styles';
 import { Form, FormikProvider, useFormik } from 'formik';
 import _ from 'lodash';
 import * as Yup from 'yup';
+import FileBase from 'react-file-base64';
 
 //data
 
@@ -98,7 +99,7 @@ const CreateEditAchievement = ({ achievement, onClose, push }) => {
                             <Grid item xs={12} sm={12}>
                                 <Stack spacing={0.5}>
                                     <InputLabel>Image </InputLabel>
-                                    <TextField
+                                    {/* <TextField
                                         id="image"
                                         name="image"
                                         placeholder="Enter Image"
@@ -108,7 +109,14 @@ const CreateEditAchievement = ({ achievement, onClose, push }) => {
                                         helperText={formik.touched.image && formik.errors.image}
                                         fullWidth
                                         size='small'
-                                    />
+                                    /> */}
+                                    <FileBase
+                                        type="file"
+                                        multiple={false}
+                                        value={formik.values.image}
+                                        onDone={({ base64 }) => {
+                                            formik.setFieldValue('image', base64);
+                                        }} />
                                 </Stack>
                             </Grid>
                             <Grid item xs={12} sm={12}>

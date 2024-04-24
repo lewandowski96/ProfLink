@@ -117,7 +117,7 @@ const ProductDetailsForm = ({ productDetailsData, setProductDetailsData, handleN
                                             <TableCell align="left">{product.name ? product.name : '-'}</TableCell>
                                             <TableCell align="left">{product.industry ? product.industry : '-'}</TableCell>
                                             <TableCell align="left">{product.description ? product.description : '-'}</TableCell>
-                                            <TableCell align="left">{product.image ? product.image : '-'}</TableCell>
+                                            <TableCell align="left">{product.image ? <img height={85} width={125} src={product.image} title={product.name} /> : '-'}</TableCell>
                                             <TableCell align="center">
                                               <Tooltip title="Delete Product" placement="right-start">
                                                 <IconButton onClick={() => { remove(index) }} size="large" color="error">

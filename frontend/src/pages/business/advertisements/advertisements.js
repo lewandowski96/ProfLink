@@ -187,8 +187,8 @@ const Advertisements = () => {
                           <TableCell align="left"> Title </TableCell>
                           <TableCell align="left"> Target Audience </TableCell>
                           <TableCell align="left"> Budget </TableCell>
-                          <TableCell align="left"> Image </TableCell>
                           <TableCell align="left"> Description </TableCell>
+                          <TableCell align="left"> Image </TableCell>
                           <TableCell align="center"> Actions </TableCell>
                         </TableRow>
                       </TableHead>
@@ -207,20 +207,20 @@ const Advertisements = () => {
                                   <TableCell align="left">{advertisement.title ? advertisement.title : '-'}</TableCell>
                                   <TableCell align="left">{advertisement.targetAudience ? advertisement.targetAudience : '-'}</TableCell>
                                   <TableCell align="left">{advertisement.budget ? advertisement.budget : '-'}</TableCell>
-                                  <TableCell align="left">{advertisement.image ? advertisement.image : '-'}</TableCell>
                                   <TableCell align="left">{advertisement.description ? advertisement.description : '-'}</TableCell>
+                                  <TableCell align="left">{advertisement.image ? <img height={85} width={125} src={advertisement.image} title={advertisement.title} /> : '-'}</TableCell>
                                   <TableCell align="center" spacing={1}>
-                                    <Stack direction={"column"}>
+                                    <Stack direction={"row"}>
                                       <Tooltip title="Edit Testimonial" placement="right-start">
                                         <IconButton onClick={() => {
                                           setOpen(true)
                                           setAdvertisement(advertisement)
-                                        }} size="large" color="error">
+                                        }} size="large" color="info">
                                           <EditOutlined />
                                         </IconButton>
                                       </Tooltip>
                                       <Tooltip title="View Testimonial" placement="right-start">
-                                        <IconButton onClick={() => { }} size="large" color="error">
+                                        <IconButton onClick={() => { }} size="large" color="primary">
                                           <VisibilityIcon />
                                         </IconButton>
                                       </Tooltip>

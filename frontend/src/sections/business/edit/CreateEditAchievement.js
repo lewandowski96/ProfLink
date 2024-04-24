@@ -1,13 +1,11 @@
 
 // material-ui
 import {
-    Autocomplete,
     Button,
     DialogActions,
     DialogContent,
     DialogTitle,
     Divider,
-    FormHelperText,
     Grid,
     InputLabel,
     Stack,
@@ -18,53 +16,49 @@ import { useTheme } from '@mui/material/styles';
 // third-party
 import { Form, FormikProvider, useFormik } from 'formik';
 import _ from 'lodash';
+import FileBase from 'react-file-base64';
 import * as Yup from 'yup';
-import FileBase from 'react-file-base64'
 
 //data
-import { industries } from '../../../data/business';
 
 
 // constant
-const getInitialValues = (product) => {
+const getInitialValues = (achievement) => {
 
-    const newProduct = {
-        name: '',
-        industry: '',
+    const newAchievement = {
+        title: "",
         description: '',
         image: ''
     }
 
-    if (product) {
-        return _.merge({}, newProduct, product);
+    if (achievement) {
+        return _.merge({}, newAchievement, achievement);
     }
 
-    return newProduct;
+    return newAchievement;
 };
 
-// ==============================|| PRODUCT CREATE / EDIT ||============================== //
+// ==============================|| Achievement CREATE / EDIT ||============================== //
 
-const CreateEditProduct = ({ product, onClose, push }) => {
+const CreateEditAchievement = ({ achievement, onClose, push }) => {
     const theme = useTheme();
 
-    const ProductSchema = Yup.object().shape({
-        name: Yup.string().required('Product Name is required'),
-        industry: Yup.string().required('Product Industry is required'),
+    const AchievementSchema = Yup.object().shape({
+        title: Yup.string().required('Achievement title is required'),
     });
 
     const formik = useFormik({
-        initialValues: getInitialValues(product),
-        validationSchema: ProductSchema,
+        initialValues: getInitialValues(achievement),
+        validationSchema: AchievementSchema,
         enableReinitialize: true,
         onSubmit: (values, { setSubmitting, resetForm }) => {
             try {
-                if (product) {
+                if (achievement) {
                     // put 
                 } else {
                     // post 
                     push({
-                        name: values.name,
-                        industry: values.industry,
+                        title: values.title,
                         description: values.description,
                         image: values.image
                     })
@@ -84,52 +78,22 @@ const CreateEditProduct = ({ product, onClose, push }) => {
         <>
             <FormikProvider value={formik}>
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit} style={{ margin: 0 }}>
-                    <DialogTitle>{product ? 'Edit Product' : 'Create Product'}</DialogTitle>
+                    <DialogTitle>{achievement ? 'Edit Achievement' : 'Create Achievement'}</DialogTitle>
                     <Divider />
                     <DialogContent sx={{ p: 2.5 }}>
                         <Grid container spacing={3}>
-                            <Grid item xs={6}>
+                            <Grid item xs={12}>
                                 <Stack spacing={1.25}>
-                                    <InputLabel htmlFor="name">Name <span style={{ color: 'red' }}>*</span></InputLabel>
+                                    <InputLabel htmlFor="title">Title <span style={{ color: 'red' }}>*</span></InputLabel>
                                     <TextField
                                         fullWidth
-                                        id="name"
-                                        placeholder="Enter Name"
-                                        {...getFieldProps('name')}
-                                        error={Boolean(touched.name && errors.name)}
-                                        helperText={touched.name && errors.name}
+                                        id="title"
+                                        placeholder="Enter title"
+                                        {...getFieldProps('title')}
+                                        error={Boolean(touched.title && errors.title)}
+                                        helperText={touched.title && errors.title}
                                         size='small'
                                     />
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={6} md={6}>
-                                <Stack spacing={0.5}>
-                                    <InputLabel htmlFor="industry">Industry <span style={{ color: 'red' }}>*</span></InputLabel>
-                                    <Autocomplete
-                                        fullWidth
-                                        size='small'
-                                        id="industry"
-                                        value={industries.find((option) => option === formik.values.industry) || null}
-                                        onChange={(event, newValue) => {
-                                            formik.setFieldValue('industry', newValue);
-                                        }}
-                                        options={industries || []}
-                                        getOptionLabel={(item) => `${item}`}
-                                        renderInput={(params) => {
-                                            return (
-                                                <TextField
-                                                    {...params}
-                                                    placeholder="Select Industry"
-                                                    sx={{ '& .MuiAutocomplete-input.Mui-disabled': { WebkitTextFillColor: theme.palette.text.primary } }}
-                                                />
-                                            )
-                                        }}
-                                    />
-                                    {formik.touched.industry && formik.errors.industry && (
-                                        <FormHelperText error id="helper-text-industry">
-                                            {formik.errors.industry}
-                                        </FormHelperText>
-                                    )}
                                 </Stack>
                             </Grid>
                             <Grid item xs={12} sm={12}>
@@ -185,7 +149,7 @@ const CreateEditProduct = ({ product, onClose, push }) => {
                                         Cancel
                                     </Button>
                                     <Button type="submit" variant="contained" disabled={isSubmitting}>
-                                        {product ? 'Edit' : 'Create'}
+                                        {achievement ? 'Edit' : 'Create'}
                                     </Button>
                                 </Stack>
                             </Grid>
@@ -197,4 +161,4 @@ const CreateEditProduct = ({ product, onClose, push }) => {
     );
 };
 
-export default CreateEditProduct;
+export default CreateEditAchievement;
