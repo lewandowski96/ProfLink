@@ -10,7 +10,6 @@ import CreateAd from "./components/CreateAd";
 import GeneralProfileCreateForm from "./components/GeneralProfileCreateForm";
 import Navbar from "./components/Navbar";
 import { useAuthContext } from "./hooks/useAuthContext";
-import BusinessListing from "./pages/BusinessListing";
 import BusinessProfile from "./pages/BusinessProfile";
 import CandiShortList from "./pages/CandiShortList";
 import ComAnalytics from "./pages/ComAnalytics";
@@ -30,6 +29,7 @@ import "./styles/profile.css";
 
 // business
 import BusinessAdvertisements from "./pages/business/advertisements/advertisements";
+import BusinessAnalytics from "./pages/business/analytics/analytics";
 import BusinessCreate from "./pages/business/create/create";
 import BusinessCustomerTestimonials from "./pages/business/customerTestimonials/customerTestimonials";
 import BusinessEdit from "./pages/business/edit/edit";
@@ -117,6 +117,10 @@ function App() {
             <Route
               path="/business/list"
               element={user ? <BusinessOverview /> : <Navigate to="/login" />}
+            />
+              <Route
+              path="/business/analytics"
+              element={user ? <BusinessAnalytics /> : <Navigate to="/login" />}
             />
             <Route
               path="/business/create"

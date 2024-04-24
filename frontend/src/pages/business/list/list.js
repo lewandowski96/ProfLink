@@ -18,6 +18,7 @@ import BusinessCard from '../../../sections/business/list/BusinessCard';
 // store
 import { useDispatch, useSelector } from '../../../store';
 import { fetchBusinesses, toInitialState } from '../../../store/reducers/business';
+import { WaterfallChartOutlined } from '@mui/icons-material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -123,7 +124,7 @@ const List = () => {
   };
 
   return (
-    <> 
+    <>
       <div className="company-listing">
         <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Businesses
@@ -137,7 +138,7 @@ const List = () => {
             <div className="">
               <div className="flex flex-row px-20 place-content-center gap-3">
                 <Grid container spacing={2}>
-                  <Grid item md={9}>
+                  <Grid item md={8}>
                     <Search>
                       <SearchIconWrapper>
                         <SearchIcon />
@@ -148,7 +149,20 @@ const List = () => {
                       />
                     </Search>
                   </Grid>
-                  <Grid item md={3}>
+                  <Grid item md={2}>
+                    <Button
+                      variant="contained"
+                      startIcon={<WaterfallChartOutlined />}
+                      fullWidth
+                      onClick={() => {
+                        navigate(`/business/analytics`)
+                      }}
+                      color='warning'
+                    >
+                      Analytics
+                    </Button>
+                  </Grid>
+                  <Grid item md={2}>
                     <Button
                       variant="contained"
                       startIcon={<AddCircleOutline />}
@@ -157,7 +171,7 @@ const List = () => {
                         navigate(`/business/create`)
                       }}
                     >
-                      Create Business
+                      Create
                     </Button>
                   </Grid>
                 </Grid>
