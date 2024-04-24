@@ -1,10 +1,14 @@
 require("dotenv").config();
+
 const cors = require("cors");
 const express = require("express");
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); 
+const bodyParser = require("body-parser")
+
 // import routes
 const profileRoutes = require("./routes/profiles");
 const userRoutes = require("./routes/user");
+const businessRoutes = require("./routes/business.routes");
 const postJobs = require("./routes/postJobs");
 
 const app = express();
@@ -13,7 +17,10 @@ const app = express();
 // first the request is received to middleware and then to the actual routes.
 
 // this will enable us to access the request body
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); 
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '30mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -30,6 +37,7 @@ app.get("/health-check", (req, res) => {
 
 app.use("/api/profiles", profileRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/business", businessRoutes);
 app.use("/api/post", postJobs);
 
 // connect the database. this is async method. will take a little time to connect
