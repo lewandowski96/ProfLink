@@ -27,20 +27,25 @@ const Edit = () => {
 
   return (
     <>
-      <div className="business-listing">
-        <h2>Edit Businesses</h2>
-        <div className="sub">
+      <div className="company-listing">
+        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+          Edit Businesses
+        </h2>
+
+        <div className="sub w-full">
           <div className="sidemenu">
             <Sidemenu />
           </div>
-          <div className="businesses" style={{ gridTemplateColumns: "auto" }}>
-            <Paper sx={{ p: 5 }}>
-              <Grid container spacing={2}>
-                <Grid item md={12}>
-                  <BusinessEditStepperForm business={business} />
+          <div className="w-full ">
+            <div className="w-full px-20   h-[500px] overflow-auto py-5">
+              <Paper sx={{ p: 5 }}>
+                <Grid container spacing={2}>
+                  <Grid item md={12}>
+                    <BusinessEditStepperForm business={business} />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </div>
           </div>
         </div>
       </div>

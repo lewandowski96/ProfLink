@@ -146,38 +146,49 @@ const Advertisements = () => {
 
   return (
     <>
-      <div className="business-listing">
-        <h2>Advertisements Businesses</h2>
-        <div className="sub">
+
+      <div className="company-listing">
+        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+          Advertisements Businesses
+        </h2>
+
+        <div className="sub w-full">
           <div className="sidemenu">
             <Sidemenu />
           </div>
-          <div className="businesses" style={{ gridTemplateColumns: "auto" }}>
-            <Paper sx={{ p: 5 }}>
+          <div className="w-full ">
+            <div className="">
+              <div className="flex flex-row px-20 place-content-center gap-3">
+                <Grid container spacing={2}>
+                  <Grid item md={9}>
+                    <Search>
+                      <SearchIconWrapper>
+                        <SearchIcon />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
+                      />
+                    </Search>
+                  </Grid>
+                  <Grid item md={3}>
+                    <Button
+                      variant="contained"
+                      startIcon={<AddCircleOutline />}
+                      fullWidth
+                      onClick={() => {
+                        setOpen(true)
+                      }}
+                    >
+                      Create Advertisement
+                    </Button>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
+
+            <div className="w-full px-20 mt-4 h-[500px] overflow-auto py-5">
               <Grid container spacing={2}>
-                <Grid item md={9}>
-                  <Search>
-                    <SearchIconWrapper>
-                      <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search…"
-                      inputProps={{ 'aria-label': 'search' }}
-                    />
-                  </Search>
-                </Grid>
-                <Grid item md={3}>
-                  <Button
-                    variant="contained"
-                    startIcon={<AddCircleOutline />}
-                    fullWidth
-                    onClick={() => {
-                      setOpen(true)
-                    }}
-                  >
-                    Create Advertisement
-                  </Button>
-                </Grid>
                 <Grid item md={12}>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -249,10 +260,12 @@ const Advertisements = () => {
                   </TableContainer>
                 </Grid>
               </Grid>
-            </Paper>
+            </div>
           </div>
         </div>
       </div>
+
+
       <Dialog
         maxWidth="sm"
         keepMounted
