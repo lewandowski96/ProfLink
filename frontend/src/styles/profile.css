@@ -279,3 +279,13 @@ h1{
     border-radius: 50%;
     color: #333;
   }
+
+  h1{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 25px;
+  }
+  
+  /*Consultant dashboard*/
+
+  

@@ -349,7 +349,6 @@ const ConsultantIndividualProfileCreateForm = () => {
 
   return (
     <div className="individual-header">
-      <h3>Create Your Individual Consultant Profile</h3>
       {/*Tab navigation*/}
       <div className="tab-navigation">
         <button onClick={() => handleTabChange("personal")}>Personal</button>

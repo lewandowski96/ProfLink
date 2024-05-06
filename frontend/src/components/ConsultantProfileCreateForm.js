@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 const ConsultantProfileCreateForm = () => {
   return (
     <div className="container-profile">
-      <h1 >Create Your Profile</h1>
       <div className="create-profile">
         
         <div className="indiviual">
