@@ -233,10 +233,7 @@ const CompanyListing = () => {
           Companies
         </h2>
 
-        <div className="sub w-full">
-          <div className="sidemenu">
-            <Sidemenu />
-          </div>
+        <div className="sub w-full flex ml-6 mr-6">
           <div className="w-full ">
             <div className="">
               <div className="flex flex-row place-content-center gap-3">

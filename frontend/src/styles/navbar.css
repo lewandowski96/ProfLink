@@ -4,12 +4,14 @@
   gap: 2.3rem;
   background: #9bb0c1;
 }
-.logo {
+.logo-proflink {
   text-align: center;
   color: #27374d;
   align-items: center;
   display: flex;
   gap: 5px;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .logo--icon {
   font-size: 8.9px;
@@ -205,4 +207,9 @@
 .login-container:hover {
   background: #27374d;
   color: #dde6ed;
+}
+h1{
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 25px;
 }

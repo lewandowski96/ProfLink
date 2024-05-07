@@ -446,8 +446,7 @@ header a {
   color: #333;
 }
 
-/* consultant profile view page */
-.view-consultant-profile .sub {
+/* consultant profile view page .view-consultant-profile .sub {
   display: inline-flex;
   width: 100%;
   height: 100%;
@@ -457,24 +456,17 @@ header a {
   display: grid;
   grid-template-columns: 5fr 5fr;
   gap: 100px;
-}
+} */
 
 .view-consultant-profile .consultant-profile {
   background: #e3e3e3;
-  border-radius: 4px;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  width: 80%;
-  height: 700px;
-  position: relative;
 }
 
 .view-consultant-profile h2 {
   text-align: center;
 }
 
-.consultant-profile-details {
+/* .consultant-profile-details {
   background: #fff;
   border-radius: 4px;
   margin: 20px auto;
@@ -503,7 +495,7 @@ header a {
   padding: 6px;
   border-radius: 50%;
   color: #333;
-}
+} */
 
 label,
 input {
