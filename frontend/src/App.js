@@ -43,6 +43,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import GeneralProfileForm from "./components/GeneralProfileForm";
+import GeneralConsultantProfileView from "./pages/GeneralConsultantProfileView";
 import RideShare from "./pages/RideShare";
 import { setLogin } from "./store/reducers/auth.slice";
 import { themeSettings } from "./theme";
@@ -309,6 +310,16 @@ function App() {
                 element={
                   user && user.userType === "CONSULTANT" ? (
                     <CreateAd />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/view/:consultantId"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <GeneralConsultantProfileView />
                   ) : (
                     <Navigate to="/" />
                   )

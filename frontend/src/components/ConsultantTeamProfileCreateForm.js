@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { Box, useMediaQuery } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "./Navbar";
 
 const ConsultantTeamProfileCreateForm = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -9,7 +12,7 @@ const ConsultantTeamProfileCreateForm = () => {
     Addmember: "",
     contactNo: "",
     achievements: [{ achievementsName: "", achievementsDescription: "" }],
-    Project: [{ ProjectName: "", ProjectDescription: "" }],
+    projects: [{ projectName: "", projectDescription: "" }],
     expertise: [{ expertiseField: "", describeExpertise: "" }],
   });
 
@@ -25,8 +28,8 @@ const ConsultantTeamProfileCreateForm = () => {
   const [Addmember, setAddmember] = useState([
     { memberName: "", memberEmail: "", memberContactNo: "" },
   ]);
-  const [Project, setProject] = useState([
-    { ProjectName: "", ProjectDescription: "" },
+  const [projects, setProjects] = useState([
+    { projectName: "", projectDescription: "" },
   ]);
   const [expertise, setExpertise] = useState([
     { expertiseField: "", describeExpertise: "" },
@@ -36,7 +39,8 @@ const ConsultantTeamProfileCreateForm = () => {
   ]);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user.user);
 
   const handleAchievements = (e, index) => {
     console.log(index, e.target.name);
@@ -61,23 +65,23 @@ const ConsultantTeamProfileCreateForm = () => {
 
   const handleProject = (e, index) => {
     console.log(index, e.target.name);
-    let data = [...Project];
+    let data = [...projects];
     data[index][e.target.name] = e.target.value;
-    setProject(data);
+    setProjects(data);
   };
 
   const addProject = () => {
     let newProject = {
-      ProjectName: "",
-      ProjectDescription: "",
+      projectName: "",
+      projectDescription: "",
     };
-    setProject([...Project, newProject]);
+    setProjects([...projects, newProject]);
   };
 
   const removeProject = (index) => {
-    let data = [...Project];
+    let data = [...projects];
     data.splice(index, 1);
-    setProject(data);
+    setProjects(data);
   };
 
   const handleExpertise = (e, index) => {
@@ -135,7 +139,7 @@ const ConsultantTeamProfileCreateForm = () => {
         email,
         Addmember,
         contactNo,
-        Project,
+        projects,
         achievements,
         expertise,
       };
@@ -168,7 +172,7 @@ const ConsultantTeamProfileCreateForm = () => {
         setAchievements([
           { achievementsName: "", achievementsDescription: "" },
         ]);
-        setProject([{ ProjectName: "", ProjectDescription: "" }]);
+        setProjects([{ projectName: "", projectDescription: "" }]);
         setExpertise([{ expertiseField: "", describeExpertise: "" }]);
       }
 
@@ -211,11 +215,11 @@ const ConsultantTeamProfileCreateForm = () => {
         return;
       }
     } else if (activeTab === "Project") {
-      if (Project.ProjectName === "") {
+      if (projects.ProjectName === "") {
         setError("Please enter your project name");
         return;
       }
-      if (Project.ProjectDescription === "") {
+      if (projects.ProjectDescription === "") {
         setError("Please enter your project description");
         return;
       }
@@ -279,125 +283,133 @@ const ConsultantTeamProfileCreateForm = () => {
   };
 
   return (
-    <div className="team-header">
-      {/*Tab navigation*/}
-      <div className="tab-navigation">
-        <button onClick={() => handleTabChange("personal")}>
-          Team Members
-        </button>
-        {/* <button onClick={() => handleTabChange("work")}>Work Experience</button> */}
-        {/* <button onClick={() => handleTabChange("skills")}>Skills</button> */}
-        <button onClick={() => handleTabChange("achievements")}>
-          Achievements
-        </button>
-        <button onClick={() => handleTabChange("expertise")}>Expertise</button>
-        <button onClick={() => handleTabChange("Project")}>Project</button>
-      </div>
-      {/*Form*/}
-      <form class="create" onSubmit={handleSubmit} className="form-container">
-        {activeTab === "personal" && (
-          <div>
-            <label>Teame Name:</label>
-            <input
-              placeholder="Enter your team name"
-              type="text"
-              onChange={(e) => setFullName(e.target.value)}
-              value={fullName}
-              className={emptyFields.includes("fullName") ? "error" : ""}
-            />
-            <label>Email:</label>
-            <input
-              placeholder="Enter your email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              className={emptyFields.includes("email") ? "error" : ""}
-            />
-            <label>Contact No:</label>
-            <input
-              placeholder="Enter your contact number"
-              type="text"
-              onChange={(e) => setContactNo(e.target.value)}
-              value={contactNo}
-              className={emptyFields.includes("contactNo") ? "error" : ""}
-            />
-          </div>
-        )}
-        {activeTab === "personal" && (
-          <div>
-            <br></br>
-            <h3>Add Team Members</h3>
-            {Addmember.map((member, index) => {
-              return (
-                <div key={index}>
-                  <label>Member Name:</label>
-                  <input
-                    placeholder="Enter member name"
-                    name="memberName"
-                    type="text"
-                    onChange={(e) => handleAddmember(e, index)}
-                    value={member.memberName}
-                  />
-                  <label>Member Email:</label>
-                  <input
-                    placeholder="Enter member email"
-                    name="memberEmail"
-                    type="text"
-                    onChange={(e) => handleAddmember(e, index)}
-                    value={member.memberEmail}
-                  />
-                  <label>Industry Name</label>
-                  <input
-                    placeholder="Enter memeber field of industry ex:Software Engineer"
-                    name="industryName"
-                    type="text"
-                    onChange={(e) => handleAddmember(e, index)}
-                    value={member.industryName}
-                  />
-                  <label>Member Contact No:</label>
-                  <input
-                    placeholder="Enter member contact number"
-                    name="memberContactNo"
-                    type="text"
-                    onChange={(e) => handleAddmember(e, index)}
-                    value={member.memberContactNo}
-                  />
-                  {/* Render the image preview if available */}
-                  <label>Member Profile:</label>
-                  <div className="form-image">
-                    {member.image && (
-                      <img src={member.image} alt="member" width="100" />
-                    )}
+    <>
+      <Navbar />
+      <Box p="1rem 0" sx={{ background: "#DDE6ED" }}></Box>
+      <div className="team-header">
+        {/*Tab navigation*/}
+        <div className="tab-navigation">
+          <button onClick={() => handleTabChange("personal")}>
+            Team Members
+          </button>
+          {/* <button onClick={() => handleTabChange("work")}>Work Experience</button> */}
+          {/* <button onClick={() => handleTabChange("skills")}>Skills</button> */}
+          <button onClick={() => handleTabChange("achievements")}>
+            Achievements
+          </button>
+          <button onClick={() => handleTabChange("expertise")}>
+            Expertise
+          </button>
+          <button onClick={() => handleTabChange("Project")}>Project</button>
+        </div>
+        {/*Form*/}
+        <form class="create" onSubmit={handleSubmit} className="form-container">
+          {activeTab === "personal" && (
+            <div>
+              <label>Teame Name:</label>
+              <input
+                placeholder="Enter your team name"
+                type="text"
+                onChange={(e) => setFullName(e.target.value)}
+                value={fullName}
+                className={emptyFields.includes("fullName") ? "error" : ""}
+              />
+              <label>Email:</label>
+              <input
+                placeholder="Enter your email"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                className={emptyFields.includes("email") ? "error" : ""}
+              />
+              <label>Contact No:</label>
+              <input
+                placeholder="Enter your contact number"
+                type="text"
+                onChange={(e) => setContactNo(e.target.value)}
+                value={contactNo}
+                className={emptyFields.includes("contactNo") ? "error" : ""}
+              />
+            </div>
+          )}
+          {activeTab === "personal" && (
+            <div>
+              <br></br>
+              <h3>Add Team Members</h3>
+              {Addmember.map((member, index) => {
+                return (
+                  <div key={index}>
+                    <label>Member Name:</label>
                     <input
-                      type="file"
+                      placeholder="Enter member name"
+                      name="memberName"
+                      type="text"
                       onChange={(e) => handleAddmember(e, index)}
+                      value={member.memberName}
                     />
+                    <label>Member Email:</label>
+                    <input
+                      placeholder="Enter member email"
+                      name="memberEmail"
+                      type="text"
+                      onChange={(e) => handleAddmember(e, index)}
+                      value={member.memberEmail}
+                    />
+                    <label>Industry Name</label>
+                    <input
+                      placeholder="Enter memeber field of industry ex:Software Engineer"
+                      name="industryName"
+                      type="text"
+                      onChange={(e) => handleAddmember(e, index)}
+                      value={member.industryName}
+                    />
+                    <label>Member Contact No:</label>
+                    <input
+                      placeholder="Enter member contact number"
+                      name="memberContactNo"
+                      type="text"
+                      onChange={(e) => handleAddmember(e, index)}
+                      value={member.memberContactNo}
+                    />
+                    {/* Render the image preview if available */}
+                    <label>Member Profile:</label>
+                    <div className="form-image">
+                      {member.image && (
+                        <img src={member.image} alt="member" width="100" />
+                      )}
+                      <input
+                        type="file"
+                        onChange={(e) => handleAddmember(e, index)}
+                      />
+                    </div>
+                    <br></br>
+                    <button className="icon" type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button
+                      type="button"
+                      onClick={() => removeAddmember(index)}
+                    >
+                      REMOVE
+                    </button>
                   </div>
-                  <br></br>
-                  <button className="icon" type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button type="button" onClick={() => removeAddmember(index)}>
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addAddmember}>
-              Add Member
-            </button>
-          </div>
-        )}
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addAddmember}>
+                Add Member
+              </button>
+            </div>
+          )}
 
-        {/* {activeTab === "work" && (
+          {/* {activeTab === "work" && (
             <div> */}
-        {/* <label>Work Experience</label> */}
-        {/* {workExperience.map((work, index) => {
+          {/* <label>Work Experience</label> */}
+          {/* {workExperience.map((work, index) => {
                 return (
                   <div key={index}>
                     <label>Name of Position:</label>
@@ -436,13 +448,13 @@ const ConsultantTeamProfileCreateForm = () => {
                       value={work.industryName}
                     /> */}
 
-        {/* <label>
+          {/* <label>
                           <input type="checkbox" name="agree" value="yes"/>
                           I'm currently working here
                         </label>
                         <br></br> */}
 
-        {/* <button type="button" onClick={handleSave}> Save </button>
+          {/* <button type="button" onClick={handleSave}> Save </button>
                     {error && <div className="error">{error}</div>}
                     <br></br>
                     <br></br>
@@ -452,16 +464,16 @@ const ConsultantTeamProfileCreateForm = () => {
                   </div>
                 );
               })} */}
-        {/* <br></br>
+          {/* <br></br>
             <button type="button" onClick={addWorkExperience}>
               Add Work Experience
             </button>
           </div>
         )} */}
-        {/* {activeTab === "skills" && (
+          {/* {activeTab === "skills" && (
           <div> */}
-        {/* <label>Skills</label> */}
-        {/* <label>Select your Programming Skills</label>
+          {/* <label>Skills</label> */}
+          {/* <label>Select your Programming Skills</label>
               <div className="form-check">
                 <input type="checkbox" name="skills" value="Python" /> Python
                 <input type="checkbox" name="skills" value="Java" /> Java
@@ -495,150 +507,154 @@ const ConsultantTeamProfileCreateForm = () => {
           </button>
         </div>
       )} */}
-        {activeTab === "achievements" && (
-          <div>
-            {achievements.map((achievement, index) => {
-              return (
-                <div key={index}>
-                  <label>Name:</label>
-                  <input
-                    placeholder="Enter your achievement name ex: Hackathon Winner"
-                    name="achievementsName"
-                    type="text"
-                    onChange={(e) => handleAchievements(e, index)}
-                    value={achievement.achievementsName}
-                  />
-                  <label>Images/Videos</label>
-                  <div className="form-image">
-                    {achievement.image && (
-                      <img src={achievement.image} alt="member" width="100" />
-                    )}
+          {activeTab === "achievements" && (
+            <div>
+              {achievements.map((achievement, index) => {
+                return (
+                  <div key={index}>
+                    <label>Name:</label>
                     <input
-                      type="file"
+                      placeholder="Enter your achievement name ex: Hackathon Winner"
+                      name="achievementsName"
+                      type="text"
                       onChange={(e) => handleAchievements(e, index)}
+                      value={achievement.achievementsName}
                     />
-                  </div>
-                  <label>Description:</label>
-                  <input
-                    placeholder="Enter your achievement description"
-                    name="achievementsDescription"
-                    type="text"
-                    onChange={(e) => handleAchievements(e, index)}
-                    value={achievement.achievementsDescription}
-                  />
-
-                  <button type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button
-                    type="button"
-                    onClick={() => removeAchievements(index)}
-                  >
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addAchievements}>
-              Add Achievements
-            </button>
-          </div>
-        )}
-
-        {activeTab === "expertise" && (
-          <div>
-            {expertise.map((expert, index) => {
-              return (
-                <div key={index}>
-                  <label>Field:</label>
-                  <input
-                    placeholder="Enter your expertise field ex: Web Development"
-                    name="expertiseField"
-                    type="text"
-                    onChange={(e) => handleExpertise(e, index)}
-                    value={expert.expertiseField}
-                  />
-                  <label>Description:</label>
-                  <input
-                    placeholder="Enter your expertise description"
-                    name="describeExpertise"
-                    type="text"
-                    onChange={(e) => handleExpertise(e, index)}
-                    value={expert.describeExpertise}
-                  />
-                  <button type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button type="button" onClick={() => removeExpertise(index)}>
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addExpertise}>
-              Add Expertise
-            </button>
-          </div>
-        )}
-        {activeTab === "Project" && (
-          <div>
-            {Project.map((project, index) => {
-              return (
-                <div key={index}>
-                  <label>Project Name:</label>
-                  <input
-                    placeholder="Enter your project name ex: E-commerce website"
-                    name="ProjectName"
-                    type="text"
-                    onChange={(e) => handleProject(e, index)}
-                    value={project.ProjectName}
-                  />
-                  <label>Project Description:</label>
-                  <input
-                    placeholder="Enter your project description"
-                    name="ProjectDescription"
-                    type="text"
-                    onChange={(e) => handleProject(e, index)}
-                    value={project.ProjectDescription}
-                  />
-                  <label>Images/Videos</label>
-                  <div className="form-image">
-                    {project.image && (
-                      <img src={project.image} alt="member" width="100" />
-                    )}
+                    <label>Images/Videos</label>
+                    <div className="form-image">
+                      {achievement.image && (
+                        <img src={achievement.image} alt="member" width="100" />
+                      )}
+                      <input
+                        type="file"
+                        onChange={(e) => handleAchievements(e, index)}
+                      />
+                    </div>
+                    <label>Description:</label>
                     <input
-                      type="file"
-                      onChange={(e) => handleProject(e, index)}
+                      placeholder="Enter your achievement description"
+                      name="achievementsDescription"
+                      type="text"
+                      onChange={(e) => handleAchievements(e, index)}
+                      value={achievement.achievementsDescription}
                     />
+
+                    <button type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button
+                      type="button"
+                      onClick={() => removeAchievements(index)}
+                    >
+                      REMOVE
+                    </button>
                   </div>
-                  <button type="button" onClick={() => removeProject(index)}>
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addProject}>
-              Add Project
-            </button>
-            <br></br>
-            <br></br>
-            <button type="submit">CREATE PROFILE</button>
-            {error && <div className="error">{error}</div>}
-          </div>
-        )}
-      </form>
-    </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addAchievements}>
+                Add Achievements
+              </button>
+            </div>
+          )}
+
+          {activeTab === "expertise" && (
+            <div>
+              {expertise.map((expert, index) => {
+                return (
+                  <div key={index}>
+                    <label>Field:</label>
+                    <input
+                      placeholder="Enter your expertise field ex: Web Development"
+                      name="expertiseField"
+                      type="text"
+                      onChange={(e) => handleExpertise(e, index)}
+                      value={expert.expertiseField}
+                    />
+                    <label>Description:</label>
+                    <input
+                      placeholder="Enter your expertise description"
+                      name="describeExpertise"
+                      type="text"
+                      onChange={(e) => handleExpertise(e, index)}
+                      value={expert.describeExpertise}
+                    />
+                    <button type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button
+                      type="button"
+                      onClick={() => removeExpertise(index)}
+                    >
+                      REMOVE
+                    </button>
+                  </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addExpertise}>
+                Add Expertise
+              </button>
+            </div>
+          )}
+          {activeTab === "Project" && (
+            <div>
+              {projects.map((project, index) => {
+                return (
+                  <div key={index}>
+                    <label>Project Name:</label>
+                    <input
+                      placeholder="Enter your project name ex: E-commerce website"
+                      name="projectName"
+                      type="text"
+                      onChange={(e) => handleProject(e, index)}
+                      value={project.projectName}
+                    />
+                    <label>Project Description:</label>
+                    <input
+                      placeholder="Enter your project description"
+                      name="projectDescription"
+                      type="text"
+                      onChange={(e) => handleProject(e, index)}
+                      value={project.projectDescription}
+                    />
+                    <label>Images/Videos</label>
+                    <div className="form-image">
+                      {project.image && (
+                        <img src={project.image} alt="member" width="100" />
+                      )}
+                      <input
+                        type="file"
+                        onChange={(e) => handleProject(e, index)}
+                      />
+                    </div>
+                    <button type="button" onClick={() => removeProject(index)}>
+                      REMOVE
+                    </button>
+                  </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addProject}>
+                Add Project
+              </button>
+              <br></br>
+              <br></br>
+              <button type="submit">CREATE PROFILE</button>
+              {error && <div className="error">{error}</div>}
+            </div>
+          )}
+        </form>
+      </div>
+    </>
   );
 };
 

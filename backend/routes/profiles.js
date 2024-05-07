@@ -19,6 +19,9 @@ const {
   updateConsultantTeamProfile,
   deleteConsultantIndividualProfile,
   deleteConsultantTeamProfile,
+  getConsultantTeamProfile,
+  getConsultantIndividualProfile,
+  getConsultantProfileById,
 } = require("../controllers/consultantProfileController");
 
 const {
@@ -50,6 +53,9 @@ router.patch("/general", updateGeneralProfile);
 router.delete("/general", deleteGeneralProfile);
 
 router.get("/consultant", getConsultantProfile);
+router.get("/consultant/:consultantId", getConsultantProfileById);
+router.get("/consultant/team", getConsultantTeamProfile);
+router.get("/consultant/individual", getConsultantIndividualProfile);
 // router.get("/consultant/ConsultantDashboard", getConsultantDashboard);
 router.get("/consultant/individual/all", getAllConsultantIndividualProfiles);
 router.get("/consultant/team/all", getAllConsultantTeamProfiles);

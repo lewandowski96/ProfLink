@@ -12,11 +12,14 @@ const consultantTeamProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    teamImage: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
     },
-    Addmember: {
+    teamMembers: {
       type: [
         {
           memberName: String,

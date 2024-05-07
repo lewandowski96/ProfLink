@@ -37,6 +37,8 @@ import {
   Work,
 } from "@mui/icons-material";
 
+import TaskIcon from "@mui/icons-material/Task";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../store/reducers/auth.slice";
@@ -171,6 +173,10 @@ const Navbar = () => {
           <Work
             sx={{ fontSize: "25px" }}
             onClick={() => navigate("/companies")}
+          />
+          <TaskIcon
+            sx={{ fontSize: "25px" }}
+            onClick={() => navigate("/consultants")}
           />
           {user.userType === "GENERAL" && (
             <LocalTaxi

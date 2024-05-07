@@ -16,6 +16,7 @@ import Navbar from "../components/Navbar";
 import UserImage from "../components/UserImage";
 import WidgetWrapper from "../components/WidgetWrapper";
 // import "../styles/sideMenu.css";
+import { useParams } from "react-router-dom";
 
 import {
   EditOutlined,
@@ -24,7 +25,7 @@ import {
   WorkOutlineOutlined,
 } from "@mui/icons-material";
 
-const ConsultantProfile = () => {
+const GeneralConsultantProfileView = () => {
   const [profile, setProfile] = useState(null);
   const user = useSelector((state) => state.user.user);
 
@@ -37,9 +38,11 @@ const ConsultantProfile = () => {
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
 
+  const { consultantId } = useParams();
+
   useEffect(() => {
     const fetchProfile = async () => {
-      const response = await fetch("/api/profiles/consultant/", {
+      const response = await fetch(`/api/profiles/consultant/${consultantId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -62,7 +65,7 @@ const ConsultantProfile = () => {
       <Navbar />
       <div className="view-consultant-profile">
         <Typography textAlign="center" fontSize="2rem">
-          Your Consultant Profile
+          {profile && profile.fullName}
         </Typography>
         <div className="sub">
           {/* <div className="sidemenu">
@@ -797,4 +800,4 @@ const ConsultantProfile = () => {
   );
 };
 
-export default ConsultantProfile;
+export default GeneralConsultantProfileView;

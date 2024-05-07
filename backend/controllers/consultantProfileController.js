@@ -4,24 +4,92 @@ const ConsultantTeamProfile = require("../models/consultantTeamProfileModel");
 const getConsultantProfile = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const profile = await ConsultantIndividualProfile.findOne({ user_id });
+
+    console.log("comes here");
+
+    const profile = await ConsultantIndividualProfile.findOne({
+      user_id,
+    });
+
+    const teamProfile = await ConsultantTeamProfile.findOne({ user_id });
+
+    console.log("comes here");
+
+    if (!profile && !teamProfile) {
+      return res.status(404).json({ error: "Profile not yet created!" });
+    }
+
+    console.log("comes here yooo");
 
     if (profile) {
       res.status(200).json(profile);
     } else {
-      const teamProfile = await ConsultantTeamProfile.findOne({ user_id });
-      if (teamProfile) {
-        res.status(200).json(teamProfile);
-      }
+      res.status(200).json(teamProfile);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getConsultantProfileById = async (req, res) => {
+  try {
+    const user_id = req.params.consultantId;
+
+    console.log(req.params);
+
+    const profile = await ConsultantIndividualProfile.findOne({
+      user_id: user_id,
+    });
+
+    const teamProfile = await ConsultantTeamProfile.findOne({
+      user_id: user_id,
+    });
+
+    console.log("comes here");
+
+    if (!profile && !teamProfile) {
+      return res.status(404).json({ error: "Profile not yet created!" });
     }
 
-    // if (!profile) {
-    //   return res.status(404).json({ error: "Profile not yet created!" });
-    // }
+    console.log("comes here yooo");
 
-    // if (!teamProfile) {
-    //   return res.status(404).json({ error: "Profile not yet created!" });
-    // }
+    if (profile) {
+      res.status(200).json(profile);
+    } else {
+      res.status(200).json(teamProfile);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getConsultantTeamProfile = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    const profile = await ConsultantTeamProfile.findOne({ user_id });
+
+    if (!profile) {
+      return res.status(404).json({ error: "Profile not yet created!" });
+    }
+
+    res.status(200).json(profile);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getConsultantIndividualProfile = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    const profile = await ConsultantIndividualProfile.findOne({ user_id });
+
+    if (!profile) {
+      return res.status(404).json({ error: "Profile not yet created!" });
+    }
+
+    res.status(200).json(profile);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -49,6 +117,7 @@ const createConsultantIndividualProfile = async (req, res) => {
   const {
     fullName,
     userName,
+    userImage,
     email,
     contactNo,
     yourLocation,
@@ -64,13 +133,11 @@ const createConsultantIndividualProfile = async (req, res) => {
     endDate,
     industryName,
     AddSkills,
-    skills,
-    achievementsName,
-    achievementsDescription,
-    projectName,
-    projectDescription,
     expertiseField,
     describeExpertise,
+    skills,
+    achievements,
+    projects,
   } = req.body;
 
   let emptyFields = [];
@@ -108,6 +175,7 @@ const createConsultantIndividualProfile = async (req, res) => {
         consultantType,
         fullName,
         userName,
+        userImage,
         email,
         contactNo,
         yourLocation,
@@ -124,10 +192,8 @@ const createConsultantIndividualProfile = async (req, res) => {
         industryName,
         AddSkills,
         skills,
-        achievementsName,
-        achievementsDescription,
-        projectName,
-        projectDescription,
+        achievements,
+        projects,
         expertiseField,
         describeExpertise,
         user_id,
@@ -142,19 +208,14 @@ const createConsultantTeamProfile = async (req, res) => {
   const {
     consultantType,
     fullName,
+    teamImage,
     email,
     Addmember,
     contactNo,
-    degree,
-    fieldOfStudy,
-    description,
     industryName,
-    achievementsName,
-    achievementsDescription,
-    projectName,
-    projectDescription,
-    expertiseField,
-    describeExpertise,
+    achievements,
+    projects,
+    expertise,
   } = req.body;
 
   let emptyFields = [];
@@ -184,19 +245,14 @@ const createConsultantTeamProfile = async (req, res) => {
     const consultantTeamProfile = await ConsultantTeamProfile.create({
       consultantType,
       fullName,
+      teamImage,
       email,
-      Addmember,
+      teamMembers: Addmember,
       contactNo,
-      degree,
-      fieldOfStudy,
-      description,
       industryName,
-      achievementsName,
-      achievementsDescription,
-      projectName,
-      projectDescription,
-      expertiseField,
-      describeExpertise,
+      achievements,
+      projects,
+      expertise,
       user_id,
     });
     res.status(200).json(consultantTeamProfile);
@@ -232,4 +288,7 @@ module.exports = {
   updateConsultantTeamProfile,
   deleteConsultantIndividualProfile,
   deleteConsultantTeamProfile,
+  getConsultantTeamProfile,
+  getConsultantIndividualProfile,
+  getConsultantProfileById,
 };

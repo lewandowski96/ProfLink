@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 // import { useAuthContext } from "../hooks/useAuthContext";
+import { Box, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import Navbar from "./Navbar";
 
 const ConsultantIndividualProfileCreateForm = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -46,8 +48,8 @@ const ConsultantIndividualProfileCreateForm = () => {
   const [email, setEmail] = useState("");
   const [yourLocation, setYourLocation] = useState("");
   const [yourSelf, setYourSelf] = useState("");
-  const [Project, setProject] = useState([
-    { ProjectName: "", ProjectDescription: "" },
+  const [projects, setProjects] = useState([
+    { projectName: "", projectDescription: "" },
   ]);
   const [schoolsUniversityAttended, setschoolsUniversityAttended] = useState([
     {
@@ -74,7 +76,7 @@ const ConsultantIndividualProfileCreateForm = () => {
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
   // const { user } = useAuthContext();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   const handleSchoolsAttended = (e, index) => {
     console.log(index, e.target.name);
@@ -167,27 +169,30 @@ const ConsultantIndividualProfileCreateForm = () => {
 
   const handleProject = (e, index) => {
     console.log(index, e.target.name);
-    let data = [...Project];
+    let data = [...projects];
     data[index][e.target.name] = e.target.value;
-    setProject(data);
+    setProjects(data);
   };
 
   const addProject = () => {
     let newProject = {
-      ProjectName: "",
-      ProjectDescription: "",
+      projectName: "",
+      projectDescription: "",
     };
-    setProject([...Project, newProject]);
+    setProjects([...projects, newProject]);
   };
 
   const removeProject = (index) => {
-    let data = [...Project];
+    let data = [...projects];
     data.splice(index, 1);
-    setProject(data);
+    setProjects(data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("comes here to submit");
+
     const isFullNameValid = validateFullName();
     const isEmailValid = validateEmail();
     const isContactNoValid = validateContactNo();
@@ -205,10 +210,10 @@ const ConsultantIndividualProfileCreateForm = () => {
         addSkills,
         skills,
         achievements,
-        Project,
+        projects,
       };
 
-      console.log(data);
+      console.log("individual cons data", data);
 
       const response = await fetch("/api/profiles/consultant/individual", {
         method: "POST",
@@ -255,7 +260,7 @@ const ConsultantIndividualProfileCreateForm = () => {
         setAchievements([
           { achievementsName: "", achievementsDescription: "" },
         ]);
-        setProject([{ ProjectName: "", ProjectDescription: "" }]);
+        setProjects([{ projectName: "", projectDescription: "" }]);
 
         setError(null);
         setEmptyFields([]);
@@ -348,367 +353,379 @@ const ConsultantIndividualProfileCreateForm = () => {
   };
 
   return (
-    <div className="individual-header">
-      {/*Tab navigation*/}
-      <div className="tab-navigation">
-        <button onClick={() => handleTabChange("personal")}>Personal</button>
-        <button onClick={() => handleTabChange("education")}>Education</button>
-        <button onClick={() => handleTabChange("work")}>Work Experience</button>
-        <button onClick={() => handleTabChange("skills")}>Skills</button>
-        <button onClick={() => handleTabChange("achievements")}>
-          Achievements
-        </button>
-        <button onClick={() => handleTabChange("Project")}>Project</button>
-      </div>
+    <>
+      <Navbar />
+      <Box p="1rem 0" sx={{ background: "#DDE6ED" }}></Box>
+      <div className="individual-header">
+        {/*Tab navigation*/}
+        <div className="tab-navigation">
+          <button onClick={() => handleTabChange("personal")}>Personal</button>
+          <button onClick={() => handleTabChange("education")}>
+            Education
+          </button>
+          <button onClick={() => handleTabChange("work")}>
+            Work Experience
+          </button>
+          <button onClick={() => handleTabChange("skills")}>Skills</button>
+          <button onClick={() => handleTabChange("achievements")}>
+            Achievements
+          </button>
+          <button onClick={() => handleTabChange("Project")}>Project</button>
+        </div>
 
-      <form class="create" onSubmit={handleSubmit} className="form-container">
-        {activeTab === "personal" && (
-          <div>
-            {/* <label>Personal</label> */}
+        <form class="create" onSubmit={handleSubmit} className="form-container">
+          {activeTab === "personal" && (
+            <div>
+              {/* <label>Personal</label> */}
 
-            <label>Your Full Name:</label>
-            <input
-              placeholder="Enter your full name"
-              type="text"
-              onChange={(e) => setFullName(e.target.value)}
-              value={fullName}
-              className={emptyFields.includes("fullName") ? "error" : ""}
-            />
-            <label>Your User Name:</label>
-            <input
-              placeholder="Enter your username"
-              type="text"
-              onChange={(e) => setUserName(e.target.value)}
-              value={userName}
-              className={emptyFields.includes("userName") ? "error" : ""}
-            />
-            <label>Email:</label>
-            <input
-              placeholder="Enter your email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              className={emptyFields.includes("email") ? "error" : ""}
-            />
-            <label>Contact No:</label>
-            <input
-              placeholder="Enter your contact number"
-              type="text"
-              onChange={(e) => setContactNo(e.target.value)}
-              value={contactNo}
-              className={emptyFields.includes("contactNo") ? "error" : ""}
-            />
-            <label>Your Location:</label>
-            <input
-              placeholder="Enter your location"
-              type="text"
-              onChange={(e) => setYourLocation(e.target.value)}
-              value={yourLocation}
-              className={emptyFields.includes("yourLocation") ? "error" : ""}
-            />
-            <label>Your Self:</label>
-            <input
-              placeholder="Enter about yourself"
-              type="text"
-              onChange={(e) => setYourSelf(e.target.value)}
-              value={yourSelf}
-              className={emptyFields.includes("yourSelf") ? "error" : ""}
-            />
-            <button type="button" onClick={handleSave}>
-              {" "}
-              Save{" "}
-            </button>
-            {error && <div className="error">{error}</div>}
-          </div>
-        )}
-        {activeTab === "education" && (
-          <div>
-            {/* <label>Education</label> */}
-            {schoolsUniversityAttended.map((school, index) => {
-              return (
-                <div key={index}>
-                  <label>University Name:</label>
-                  <input
-                    placeholder="Enter your university name"
-                    name="universityName"
-                    type="text"
-                    onChange={(e) => handleSchoolsAttended(e, index)}
-                    value={school.universityName}
-                  />
-                  <label>Year:</label>
-                  <input
-                    placeholder="Enter your joind year"
-                    name="year"
-                    type="text"
-                    onChange={(e) => handleSchoolsAttended(e, index)}
-                    value={school.year}
-                  />
-                  <label>Degree:</label>
-                  <input
-                    placeholder="Enter your degree ex: Bsc in IT"
-                    name="degree"
-                    type="text"
-                    onChange={(e) => handleSchoolsAttended(e, index)}
-                    value={school.degree}
-                  />
-                  <label>Field of Study:</label>
-                  <input
-                    placeholder="Enter your field of study"
-                    name="fieldOfStudy"
-                    type="text"
-                    onChange={(e) => handleSchoolsAttended(e, index)}
-                    value={school.fieldOfStudy}
-                  />
-                  <label>Description:</label>
-                  <input
-                    placeholder="Enter your description"
-                    name="description"
-                    type="text"
-                    onChange={(e) => handleSchoolsAttended(e, index)}
-                    value={school.description}
-                  />
-                  <button className="icon" type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button
-                    className="icon"
-                    type="button"
-                    onClick={() => removeSchoolsAttended(index)}
-                  >
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button className="icon" type="button" onClick={addSchoolsAttended}>
-              Add Education
-            </button>
-          </div>
-        )}
-        {activeTab === "work" && (
-          <div>
-            {/* <label>Work Experience</label> */}
-            {workExperience.map((work, index) => {
-              return (
-                <div key={index}>
-                  <label>Name of Position:</label>
-                  <input
-                    placeholder="Enter your position name ex: Software Engineer"
-                    name="nameOfPosition"
-                    type="text"
-                    onChange={(e) => handleWorkExperience(e, index)}
-                    value={work.nameOfPosition}
-                  />
-                  <label>Company Name:</label>
-                  <input
-                    placeholder="Enter your company name"
-                    name="companyName"
-                    type="text"
-                    onChange={(e) => handleWorkExperience(e, index)}
-                    value={work.companyName}
-                  />
-                  <label>Start Date:</label>
-                  <input
-                    placeholder="Enter your first joind date"
-                    name="startDate"
-                    type="date"
-                    onChange={(e) => handleWorkExperience(e, index)}
-                    value={work.startDate}
-                  />
-                  <label>End Date:</label>
-                  <input
-                    placeholder="Enter your resign date"
-                    name="endDate"
-                    type="date"
-                    onChange={(e) => handleWorkExperience(e, index)}
-                    value={work.endDate}
-                  />
-                  <label>Industry Name:</label>
-                  <input
-                    placeholder="Enter your industry name ex: IT"
-                    name="industryName"
-                    type="text"
-                    onChange={(e) => handleWorkExperience(e, index)}
-                    value={work.industryName}
-                  />
-                  <button type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button
-                    type="button"
-                    onClick={() => removeWorkExperience(index)}
-                  >
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addWorkExperience}>
-              Add Work Experience
-            </button>
-          </div>
-        )}
-        {activeTab === "skills" && (
-          <div>
-            {/* <label>Skills</label> */}
-            <label>Select your Programming Skills</label>
-            <select>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-              <option value="c#">C#</option>
-              <option value="mysql">mySql</option>
-            </select>
-            <label>Select your Language Skills</label>
-            <select>
-              <option value="English">English</option>
-              <option value="Tamil">Tamil</option>
-              <option value="sinhala">Sinhala</option>
-              <option value="french">French</option>
-            </select>
-            {skills.map((skill, index) => {
-              return (
-                <div key={index}>
-                  <label>Skill:</label>
-                  <input
-                    placeholder="Enter your skill"
-                    name="AddSkills"
-                    type="text"
-                    onChange={(e) => handleSkills(e, index)}
-                    value={skill.AddSkills}
-                  />
-                  <button type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button type="button" onClick={() => removeSkills(index)}>
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addSkills}>
-              Add Skills
-            </button>
-          </div>
-        )}
-        {activeTab === "achievements" && (
-          <div>
-            {/* <label>Achievements</label> */}
-            {achievements.map((achievement, index) => {
-              return (
-                <div key={index}>
-                  <label>Name:</label>
-                  <input
-                    placeholder="Enter your achievement ex: Best Employee of the year"
-                    name="achievementsName"
-                    type="text"
-                    onChange={(e) => handleAchievements(e, index)}
-                    value={achievement.achievementsName}
-                  />
-                  <label>Description:</label>
-                  <input
-                    placeholder="Enter your achievement description"
-                    name="achievementsDescription"
-                    type="text"
-                    onChange={(e) => handleAchievements(e, index)}
-                    value={achievement.achievementsDescription}
-                  />
-                  <label>Images/Videos</label>
-                  <div className="form-image">
-                    {achievement.image && (
-                      <img src={achievement.image} alt="member" width="100" />
-                    )}
+              <label>Your Full Name:</label>
+              <input
+                placeholder="Enter your full name"
+                type="text"
+                onChange={(e) => setFullName(e.target.value)}
+                value={fullName}
+                className={emptyFields.includes("fullName") ? "error" : ""}
+              />
+              <label>Your User Name:</label>
+              <input
+                placeholder="Enter your username"
+                type="text"
+                onChange={(e) => setUserName(e.target.value)}
+                value={userName}
+                className={emptyFields.includes("userName") ? "error" : ""}
+              />
+              <label>Email:</label>
+              <input
+                placeholder="Enter your email"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                className={emptyFields.includes("email") ? "error" : ""}
+              />
+              <label>Contact No:</label>
+              <input
+                placeholder="Enter your contact number"
+                type="text"
+                onChange={(e) => setContactNo(e.target.value)}
+                value={contactNo}
+                className={emptyFields.includes("contactNo") ? "error" : ""}
+              />
+              <label>Your Location:</label>
+              <input
+                placeholder="Enter your location"
+                type="text"
+                onChange={(e) => setYourLocation(e.target.value)}
+                value={yourLocation}
+                className={emptyFields.includes("yourLocation") ? "error" : ""}
+              />
+              <label>Your Self:</label>
+              <input
+                placeholder="Enter about yourself"
+                type="text"
+                onChange={(e) => setYourSelf(e.target.value)}
+                value={yourSelf}
+                className={emptyFields.includes("yourSelf") ? "error" : ""}
+              />
+              <button type="button" onClick={handleSave}>
+                {" "}
+                Save{" "}
+              </button>
+              {error && <div className="error">{error}</div>}
+            </div>
+          )}
+          {activeTab === "education" && (
+            <div>
+              {/* <label>Education</label> */}
+              {schoolsUniversityAttended.map((school, index) => {
+                return (
+                  <div key={index}>
+                    <label>University Name:</label>
                     <input
-                      type="file"
+                      placeholder="Enter your university name"
+                      name="universityName"
+                      type="text"
+                      onChange={(e) => handleSchoolsAttended(e, index)}
+                      value={school.universityName}
+                    />
+                    <label>Year:</label>
+                    <input
+                      placeholder="Enter your joind year"
+                      name="year"
+                      type="text"
+                      onChange={(e) => handleSchoolsAttended(e, index)}
+                      value={school.year}
+                    />
+                    <label>Degree:</label>
+                    <input
+                      placeholder="Enter your degree ex: Bsc in IT"
+                      name="degree"
+                      type="text"
+                      onChange={(e) => handleSchoolsAttended(e, index)}
+                      value={school.degree}
+                    />
+                    <label>Field of Study:</label>
+                    <input
+                      placeholder="Enter your field of study"
+                      name="fieldOfStudy"
+                      type="text"
+                      onChange={(e) => handleSchoolsAttended(e, index)}
+                      value={school.fieldOfStudy}
+                    />
+                    <label>Description:</label>
+                    <input
+                      placeholder="Enter your description"
+                      name="description"
+                      type="text"
+                      onChange={(e) => handleSchoolsAttended(e, index)}
+                      value={school.description}
+                    />
+                    <button className="icon" type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button
+                      className="icon"
+                      type="button"
+                      onClick={() => removeSchoolsAttended(index)}
+                    >
+                      REMOVE
+                    </button>
+                  </div>
+                );
+              })}
+              <br></br>
+              <button
+                className="icon"
+                type="button"
+                onClick={addSchoolsAttended}
+              >
+                Add Education
+              </button>
+            </div>
+          )}
+          {activeTab === "work" && (
+            <div>
+              {/* <label>Work Experience</label> */}
+              {workExperience.map((work, index) => {
+                return (
+                  <div key={index}>
+                    <label>Name of Position:</label>
+                    <input
+                      placeholder="Enter your position name ex: Software Engineer"
+                      name="nameOfPosition"
+                      type="text"
+                      onChange={(e) => handleWorkExperience(e, index)}
+                      value={work.nameOfPosition}
+                    />
+                    <label>Company Name:</label>
+                    <input
+                      placeholder="Enter your company name"
+                      name="companyName"
+                      type="text"
+                      onChange={(e) => handleWorkExperience(e, index)}
+                      value={work.companyName}
+                    />
+                    <label>Start Date:</label>
+                    <input
+                      placeholder="Enter your first joind date"
+                      name="startDate"
+                      type="date"
+                      onChange={(e) => handleWorkExperience(e, index)}
+                      value={work.startDate}
+                    />
+                    <label>End Date:</label>
+                    <input
+                      placeholder="Enter your resign date"
+                      name="endDate"
+                      type="date"
+                      onChange={(e) => handleWorkExperience(e, index)}
+                      value={work.endDate}
+                    />
+                    <label>Industry Name:</label>
+                    <input
+                      placeholder="Enter your industry name ex: IT"
+                      name="industryName"
+                      type="text"
+                      onChange={(e) => handleWorkExperience(e, index)}
+                      value={work.industryName}
+                    />
+                    <button type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button
+                      type="button"
+                      onClick={() => removeWorkExperience(index)}
+                    >
+                      REMOVE
+                    </button>
+                  </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addWorkExperience}>
+                Add Work Experience
+              </button>
+            </div>
+          )}
+          {activeTab === "skills" && (
+            <div>
+              {/* <label>Skills</label> */}
+              <label>Select your Programming Skills</label>
+              <select>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="c#">C#</option>
+                <option value="mysql">mySql</option>
+              </select>
+              <label>Select your Language Skills</label>
+              <select>
+                <option value="English">English</option>
+                <option value="Tamil">Tamil</option>
+                <option value="sinhala">Sinhala</option>
+                <option value="french">French</option>
+              </select>
+              {skills.map((skill, index) => {
+                return (
+                  <div key={index}>
+                    <label>Skill:</label>
+                    <input
+                      placeholder="Enter your skill"
+                      name="AddSkills"
+                      type="text"
+                      onChange={(e) => handleSkills(e, index)}
+                      value={skill.AddSkills}
+                    />
+                    <button type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button type="button" onClick={() => removeSkills(index)}>
+                      REMOVE
+                    </button>
+                  </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addSkills}>
+                Add Skills
+              </button>
+            </div>
+          )}
+          {activeTab === "achievements" && (
+            <div>
+              {/* <label>Achievements</label> */}
+              {achievements.map((achievement, index) => {
+                return (
+                  <div key={index}>
+                    <label>Name:</label>
+                    <input
+                      placeholder="Enter your achievement ex: Best Employee of the year"
+                      name="achievementsName"
+                      type="text"
                       onChange={(e) => handleAchievements(e, index)}
+                      value={achievement.achievementsName}
                     />
-                  </div>
-                  <button type="button" onClick={handleSave}>
-                    {" "}
-                    Save{" "}
-                  </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button
-                    type="button"
-                    onClick={() => removeAchievements(index)}
-                  >
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addAchievements}>
-              Add Achievements
-            </button>
-          </div>
-        )}
-        {activeTab === "Project" && (
-          <div>
-            {/* <label>Project</label> */}
-            {Project.map((project, index) => {
-              return (
-                <div key={index}>
-                  <label>Project Name:</label>
-                  <input
-                    placeholder="Enter your project name ex: Online Shopping System"
-                    name="ProjectName"
-                    type="text"
-                    onChange={(e) => handleProject(e, index)}
-                    value={project.ProjectName}
-                  />
-                  <label>Project Description:</label>
-                  <input
-                    placeholder="Enter your project description"
-                    name="ProjectDescription"
-                    type="text"
-                    onChange={(e) => handleProject(e, index)}
-                    value={project.ProjectDescription}
-                  />
-                  <label>Images/Videos</label>
-                  <div className="form-image">
-                    {project.image && (
-                      <img src={project.image} alt="member" width="100" />
-                    )}
+                    <label>Description:</label>
                     <input
-                      type="file"
-                      onChange={(e) => handleProject(e, index)}
+                      placeholder="Enter your achievement description"
+                      name="achievementsDescription"
+                      type="text"
+                      onChange={(e) => handleAchievements(e, index)}
+                      value={achievement.achievementsDescription}
                     />
+                    <label>Images/Videos</label>
+                    <div className="form-image">
+                      {achievement.image && (
+                        <img src={achievement.image} alt="member" width="100" />
+                      )}
+                      <input
+                        type="file"
+                        onChange={(e) => handleAchievements(e, index)}
+                      />
+                    </div>
+                    <button type="button" onClick={handleSave}>
+                      {" "}
+                      Save{" "}
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    <br></br>
+                    <br></br>
+                    <button
+                      type="button"
+                      onClick={() => removeAchievements(index)}
+                    >
+                      REMOVE
+                    </button>
                   </div>
-                  <button type="button" onClick={() => removeProject(index)}>
-                    REMOVE
-                  </button>
-                </div>
-              );
-            })}
-            <br></br>
-            <button type="button" onClick={addProject}>
-              Add Project
-            </button>
-            <br></br>
-            <br></br>
-            <button type="submit">CREATE PROFILE</button>
-            {error && <div className="error">{error}</div>}
-          </div>
-        )}
-      </form>
-    </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addAchievements}>
+                Add Achievements
+              </button>
+            </div>
+          )}
+          {activeTab === "Project" && (
+            <div>
+              {/* <label>Project</label> */}
+              {projects.map((project, index) => {
+                return (
+                  <div key={index}>
+                    <label>Project Name:</label>
+                    <input
+                      placeholder="Enter your project name ex: Online Shopping System"
+                      name="projectName"
+                      type="text"
+                      onChange={(e) => handleProject(e, index)}
+                      value={project.projectName}
+                    />
+                    <label>Project Description:</label>
+                    <input
+                      placeholder="Enter your project description"
+                      name="projectDescription"
+                      type="text"
+                      onChange={(e) => handleProject(e, index)}
+                      value={project.projectDescription}
+                    />
+                    <label>Images/Videos</label>
+                    <div className="form-image">
+                      {project.image && (
+                        <img src={project.image} alt="member" width="100" />
+                      )}
+                      <input
+                        type="file"
+                        onChange={(e) => handleProject(e, index)}
+                      />
+                    </div>
+                    <button type="button" onClick={() => removeProject(index)}>
+                      REMOVE
+                    </button>
+                  </div>
+                );
+              })}
+              <br></br>
+              <button type="button" onClick={addProject}>
+                Add Project
+              </button>
+              <br></br>
+              <br></br>
+              <button type="submit">CREATE PROFILE</button>
+              {error && <div className="error">{error}</div>}
+            </div>
+          )}
+        </form>
+      </div>
+    </>
   );
 };
 
