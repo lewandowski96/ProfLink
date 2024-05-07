@@ -46,7 +46,6 @@ router.use(checkAuth);
 
 router.get("/general", getGeneralProfile);
 router.get("/general/all", getAllGeneralProfiles);
-router.post("/general", createGeneralProfile);
 router.patch("/general", updateGeneralProfile);
 router.delete("/general", deleteGeneralProfile);
 
@@ -60,7 +59,6 @@ router.patch("/consultant/individual", updateConsultantIndividualProfile);
 router.patch("/consultant/team", updateConsultantTeamProfile);
 router.delete("/consultant/individual", deleteConsultantIndividualProfile);
 router.delete("/consultant/team", deleteConsultantTeamProfile);
-
 
 router.get("/company", getCompanyProfile);
 router.get("/company/all", getAllCompanyProfiles);

@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 // material-ui
 import { Grid, Paper } from "@mui/material";
 
 // components
-import Sidemenu from '../../../components/Sidemenu';
+import Sidemenu from "../../../components/Sidemenu";
 
-// sections 
+// sections
 import BusinessEditStepperForm from "../../../sections/business/edit";
 
 // store
-import { useDispatch, useSelector } from '../../../store';
-import { fetchBusiness } from '../../../store/reducers/business';
+import Navbar from "../../../components/Navbar";
+import { useDispatch, useSelector } from "../../../store";
+import { fetchBusiness } from "../../../store/reducers/business";
 
 const Edit = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { business } = useSelector(state => state.business);
-  const { id } = useParams()
+  const { business } = useSelector((state) => state.business);
+  const { id } = useParams();
 
   // API calls
   useEffect(() => {
@@ -27,6 +28,7 @@ const Edit = () => {
 
   return (
     <>
+      <Navbar />
       <div className="company-listing">
         <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Edit Businesses
@@ -50,7 +52,7 @@ const Edit = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Edit
+export default Edit;

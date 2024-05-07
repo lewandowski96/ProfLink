@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Sidemenu from "../components/Sidemenu";
-import { useAuthContext } from "../hooks/useAuthContext";
-import PostCatd from "../components/PostCatd";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
 import AchievementCard from "../components/AchievementCard";
 import CompanyDetails from "../components/CompanyDetails";
-import { useNavigate } from "react-router-dom";
-
+import PostCatd from "../components/PostCatd";
 
 const CompanyProfile = () => {
   const [profile, setProfile] = useState(null);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user);
+
   const navigate = useNavigate();
   const [refreshState, setRefreshState] = useState(false);
 
@@ -44,19 +47,16 @@ const CompanyProfile = () => {
       }
     };
 
-
     if (user) {
       fetchProfile();
       fetchPosts();
-
     }
   }, [user, refreshState]);
 
   const handleRefresh = () => {
-    console.log("Refreshing....")
+    console.log("Refreshing....");
     setRefreshState(!refreshState);
   };
-
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -207,9 +207,6 @@ const CompanyProfile = () => {
     },
   ]);
 
-
-
-
   const handleCitySelect = (city) => {
     if (selectedCity === city) {
       setSelectedCity(null);
@@ -231,7 +228,7 @@ const CompanyProfile = () => {
   };
 
   const postNewJob = () => {
-    console.log("Post new job")
+    console.log("Post new job");
     navigate("postjob");
   };
 
@@ -256,16 +253,16 @@ const CompanyProfile = () => {
 
   const filteredCompanies = cities
     ? cities.filter((city) => {
-      const matchesCity = !selectedCity || city === selectedCity;
+        const matchesCity = !selectedCity || city === selectedCity;
 
-      const matchesQuery =
-        !searchQuery ||
-        city.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesQuery =
+          !searchQuery ||
+          city.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const idle = !searchQuery || searchQuery.length <= 0;
+        const idle = !searchQuery || searchQuery.length <= 0;
 
-      return (matchesCity && matchesQuery) || idle;
-    })
+        return (matchesCity && matchesQuery) || idle;
+      })
     : [];
 
   const handleSubmit = () => {
@@ -286,7 +283,9 @@ const CompanyProfile = () => {
 
   return (
     <div className="view-consultant-profile">
-      <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">Company Profile</h2>
+      <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+        Company Profile
+      </h2>
       <div className="sub gap-10">
         <div className="sidemenu">
           <Sidemenu />

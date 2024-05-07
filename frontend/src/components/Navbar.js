@@ -10,18 +10,80 @@ import {
 } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import user1 from "../assest/user.jpeg";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
 
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputBase,
+  MenuItem,
+  Select,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+
+import {
+  Business,
+  Close,
+  Help,
+  LocalTaxi,
+  Menu,
+  Message,
+  Notifications,
+  Search,
+  Work,
+} from "@mui/icons-material";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setLogin } from "../store/reducers/auth.slice";
+import FlexBetween from "./GeneralFlexBetween";
+
 const Navbar = () => {
+  const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+
+  const user = useSelector((state) => state.user.user);
+
+  const theme = useTheme();
+
+  console.log(theme.palette);
+
+  const neutralLight = theme.palette.neutral.light;
+  const dark = theme.palette.neutral.dark;
+  const background = theme.palette.background.default;
+  const primaryLight = theme.palette.primary.light;
+  const alt = theme.palette.background.alt;
+
   const [open, setOpen] = useState(false);
 
-  const Menu = [];
+  // const Menu = [];
   const { logout } = useLogout();
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const [isProfileCreated, setIsProfileCreated] = useState(false);
   const [profileCreateUrl, setProfileCreateUrl] = useState("");
   const [profileViewUrl, setProfileViewUrl] = useState("");
+
+  let name = "";
+
+  if (user) {
+    if (user.user) {
+      if (user.userType === "GENERAL") {
+        name = `${user.user.firstName}`;
+      } else if (user.userType === "BUSINESS") {
+        name = `${user.user.name}`;
+      } else if (user.userType === "COMPANY") {
+        name = `${user.user.name}`;
+      } else {
+        name = `${user.user.fullName}`;
+      }
+    }
+  }
 
   const handleLogout = () => {
     setIsProfileCreated(false);
@@ -31,6 +93,8 @@ const Navbar = () => {
   useEffect(() => {
     const checkProfiles = async () => {
       let url = "";
+
+      console.log(user);
 
       if (user.userType === "GENERAL") {
         url = "/api/profiles/general";
@@ -58,12 +122,10 @@ const Navbar = () => {
 
       const json = await response.json();
 
-      console.log(json);
+      console.log("profile res", json);
 
       if (response.ok) {
-        if (json.length > 0) {
-          setIsProfileCreated(true);
-        }
+        setIsProfileCreated(true);
       }
     };
 
@@ -73,89 +135,171 @@ const Navbar = () => {
   }, [user]);
 
   return (
-    <header>
-      <div className="container">
+    <FlexBetween padding="1rem 6%" backgroundColor={alt}>
+      <FlexBetween gap="1.75rem">
         <Link to="/">
-          <h1 className="logo">ProfLink</h1>
-          <p className="logo--icon">Your Professional Community</p>
+          <Typography
+            fontWeight="bold"
+            fontSize="clamp(1rem, 2rem, 2.25rem)"
+            color="primary"
+            onClick={() => navigate("/")}
+          >
+            ProfLink
+          </Typography>
         </Link>
-        <div className="content--header">
-          <div className="header--activity">
-            <div className="search-box">
-              <input type="text" placeholder="Search anything here.." />
-              <BiSearchAlt2 className="icon1" />
-            </div>
-            <div className="home">
-              <BiSolidHome className="icon" />
-            </div>
-            <div className="compass">
-              <BiSolidCompass className="icon" />
-            </div>
-            <div className="message">
-              <BiSolidMessageAltDetail className="icon" />
-            </div>
-            <div className="location">
-              <BiSolidLocationPlus className="icon" />
-            </div>
-            <div className="search-jobbox">
-              <BiSolidBox className="icon" />
-            </div>
-            <div className="notify">
-              <BiSolidBell className="icon" />
-            </div>
-          </div>
-        </div>
-        <nav>
-          {user && (
-            <div className="profile-header">
-              <img
-                onClick={() => setOpen(!open)}
-                src={user1}
-                alt="user"
-                className="profile-picture"
+        {isNonMobileScreens && (
+          <FlexBetween
+            backgroundColor={neutralLight}
+            borderRadius="9px"
+            gap="3rem"
+            padding="0.1rem 1.5rem"
+          >
+            <InputBase placeholder="Search ..." />
+            <IconButton>
+              <Search />
+            </IconButton>
+          </FlexBetween>
+        )}
+      </FlexBetween>
+
+      {isNonMobileScreens ? (
+        <FlexBetween gap="2rem">
+          <Business
+            sx={{ fontSize: "25px" }}
+            onClick={() => navigate("/business/list")}
+          />
+          <Work
+            sx={{ fontSize: "25px" }}
+            onClick={() => navigate("/companies")}
+          />
+          {user.userType === "GENERAL" && (
+            <LocalTaxi
+              sx={{ fontSize: "25px" }}
+              onClick={() => navigate("/rideSharing")}
+            />
+          )}
+          <Message sx={{ fontSize: "25px" }} />
+          <Notifications sx={{ fontSize: "25px" }} />
+          <Help sx={{ fontSize: "25px" }} />
+          <FormControl variant="standard" value={name}>
+            <Select
+              value={name}
+              sx={{
+                backgroundColor: neutralLight,
+                width: "150px",
+                borderRadius: "0.25rem",
+                p: "0.25rem 1rem",
+                "& .MuiSvgIcon-root": {
+                  pr: "0.25rem",
+                  width: "3rem",
+                },
+                "& .MuiSelect-select:focus": {
+                  backgroundColor: neutralLight,
+                },
+              }}
+              input={<InputBase />}
+            >
+              <MenuItem
+                value={name}
+                onClick={() =>
+                  isProfileCreated
+                    ? navigate(profileViewUrl)
+                    : navigate(profileCreateUrl)
+                }
+              >
+                <Typography>
+                  {isProfileCreated ? "VIEW PROFILE" : "CREATE PROFILE"}
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+            </Select>
+          </FormControl>
+        </FlexBetween>
+      ) : (
+        <IconButton
+          onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+        >
+          <Menu />
+        </IconButton>
+      )}
+
+      {!isNonMobileScreens && isMobileMenuToggled && (
+        <Box
+          position="fixed"
+          right="0"
+          bottom="0"
+          height="100%"
+          zIndex="10"
+          maxWidth="500px"
+          minWidth="300px"
+          backgroundColor={background}
+        >
+          <Box display="flex" justifyContent="flex-end" p="1rem">
+            <IconButton
+              onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+            >
+              <Close />
+            </IconButton>
+          </Box>
+
+          <FlexBetween
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            gap="3rem"
+          >
+            <Business sx={{ fontSize: "25px" }} />
+            <Work
+              sx={{ fontSize: "25px" }}
+              onClick={() => navigate("/companies")}
+            />
+            {user.userType === "GENERAL" && (
+              <LocalTaxi
+                sx={{ fontSize: "25px" }}
+                onClick={() => navigate("/rideSharing")}
               />
-              {open && (
-                <div className="menu-items">
-                  <span className="user-text">{user.email}</span>
-                  {!isProfileCreated && (
-                    <Link className="user-text" to={profileCreateUrl}>
-                      Create Profile
-                    </Link>
-                  )}
-                  {isProfileCreated && (
-                    <Link className="user-text" to={profileViewUrl}>
-                      My Profile
-                    </Link>
-                  )}
-                  <Link
-                    to={"/consultant/consultantdashboard"}
-                    className="user-text"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link className="user-text" to={"/consultant/createad"}>
-                    Create Ad
-                  </Link>
-                  <Link className="logout-button" onClick={handleLogout}>
-                    Log Out
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
-          {!user && (
-            <div>
-              <Link to="/login" className="login-container">
-                Login
-              </Link>
-              <Link to="/signup" className="signup-container">
-                Singup
-              </Link>
-            </div>
-          )}
-        </nav>
-      </div>
-    </header>
+            )}
+            <Message sx={{ fontSize: "25px" }} />
+            <Notifications sx={{ fontSize: "25px" }} />
+            <Help sx={{ fontSize: "25px" }} />
+            <FormControl variant="standard" value={name}>
+              <Select
+                value={name}
+                sx={{
+                  backgroundColor: neutralLight,
+                  width: "150px",
+                  borderRadius: "0.25rem",
+                  p: "0.25rem 1rem",
+                  "& .MuiSvgIcon-root": {
+                    pr: "0.25rem",
+                    width: "3rem",
+                  },
+                  "& .MuiSelect-select:focus": {
+                    backgroundColor: neutralLight,
+                  },
+                }}
+                input={<InputBase />}
+              >
+                <MenuItem
+                  value={name}
+                  onClick={() =>
+                    isProfileCreated
+                      ? navigate(profileViewUrl)
+                      : navigate(profileCreateUrl)
+                  }
+                >
+                  <Typography>
+                    {isProfileCreated ? "VIEW PROFILE" : "CREATE PROFILE"}
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+              </Select>
+            </FormControl>
+          </FlexBetween>
+        </Box>
+      )}
+    </FlexBetween>
   );
 };
 

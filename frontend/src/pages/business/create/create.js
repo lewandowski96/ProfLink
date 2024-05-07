@@ -1,20 +1,22 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // material-ui
 import { Grid, Paper } from "@mui/material";
 
 // components
-import Sidemenu from '../../../components/Sidemenu';
+import Sidemenu from "../../../components/Sidemenu";
 
-// sections 
+// sections
+import Navbar from "../../../components/Navbar";
 import BusinessCreateStepperForm from "../../../sections/business/create";
 
 const Create = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <>
+      <Navbar />
       <div className="company-listing">
         <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Create Businesses
@@ -38,7 +40,7 @@ const Create = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;
