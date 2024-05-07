@@ -148,14 +148,7 @@ const createConsultantTeamProfile = async (req, res) => {
     degree,
     fieldOfStudy,
     description,
-    workExperience,
-    nameOfPosition,
-    companyName,
-    startDate,
-    endDate,
     industryName,
-    AddSkills,
-    skills,
     achievementsName,
     achievementsDescription,
     projectName,
@@ -178,10 +171,6 @@ const createConsultantTeamProfile = async (req, res) => {
   if (!contactNo) {
     emptyFields.push("contactNo");
   }
-  if (!workExperience) {
-    emptyFields.push("workExperience");
-  }
-
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -201,14 +190,7 @@ const createConsultantTeamProfile = async (req, res) => {
       degree,
       fieldOfStudy,
       description,
-      workExperience,
-      nameOfPosition,
-      companyName,
-      startDate,
-      endDate,
       industryName,
-      AddSkills,
-      skills,
       achievementsName,
       achievementsDescription,
       projectName,

@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
-// import { useAuthContext } from "../hooks/useAuthContext";
-import { Link } from "react-router-dom";
+import React from "react";
 
 const ConsultantDashboard = () => {
-  return <div>hi</div>;
+  return (
+    <div>
+      <h1>Consultant Dashboard</h1>
+      <p>Consultant Dashboard content goes here.</p>
+    </div>
+  );
 };
 
 export default ConsultantDashboard;

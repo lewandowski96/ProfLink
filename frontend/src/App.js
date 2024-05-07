@@ -10,6 +10,7 @@ import CreateAd from "./components/CreateAd";
 import GeneralProfileCreateForm from "./components/GeneralProfileCreateForm";
 import Navbar from "./components/Navbar";
 // import { useAuthContext } from "./hooks/useAuthContext";
+import ConsultantUserPrifileView from "./components/ConsultantUserPrifileView";
 import BusinessListing from "./pages/BusinessListing";
 import BusinessProfile from "./pages/BusinessProfile";
 import CandiShortList from "./pages/CandiShortList";
@@ -253,7 +254,6 @@ function App() {
                 path="/company/profile/mytest/test"
                 element={<MytestPage />}
               />
-
               <Route
                 path="/consultant/create"
                 element={

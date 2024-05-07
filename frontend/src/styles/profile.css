@@ -288,4 +288,29 @@ h1{
   
   /*Consultant dashboard*/
 
+  .card-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .card {
+    width: 30%;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    font-size: 1rem;
+    color: #495057;
+  }
+  
+  /* Add additional styling as needed */
   

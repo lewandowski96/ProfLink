@@ -29,24 +29,6 @@ const consultantTeamProfileSchema = new Schema(
       type: Number,
       required: true,
     },
-    workExperience: {
-      type: [
-        {
-          nameOfPosition: String,
-          companyName: String,
-          startDate: Date,
-          endDate: Date,
-          industryName: String,
-        },
-      ],
-    },
-    skills: {
-      type: [
-        {
-          AddSkills: String,
-        },
-      ],
-    },
     projects: {
       type: [
         {
