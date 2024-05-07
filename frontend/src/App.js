@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BusinessProfileCreateForm from "./components/BusinessProfileCreateForm";
 import CompanyProfileCreateForm from "./components/CompanyProfileCreateForm";
@@ -9,7 +9,8 @@ import ConsultantTeamProfileCreateForm from "./components/ConsultantTeamProfileC
 import CreateAd from "./components/CreateAd";
 import GeneralProfileCreateForm from "./components/GeneralProfileCreateForm";
 import Navbar from "./components/Navbar";
-import { useAuthContext } from "./hooks/useAuthContext";
+// import { useAuthContext } from "./hooks/useAuthContext";
+import BusinessListing from "./pages/BusinessListing";
 import BusinessProfile from "./pages/BusinessProfile";
 import CandiShortList from "./pages/CandiShortList";
 import ComAnalytics from "./pages/ComAnalytics";
@@ -37,12 +38,33 @@ import BusinessOverview from "./pages/business/list/list";
 import BusinessPage from "./pages/business/page/page";
 import BusinessView from "./pages/business/view/view";
 
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+import GeneralProfileForm from "./components/GeneralProfileForm";
+import RideShare from "./pages/RideShare";
+import { setLogin } from "./store/reducers/auth.slice";
+import { themeSettings } from "./theme";
+
 function App() {
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user.user);
+  const theme = useMemo(() => createTheme(themeSettings("light")), []);
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    const checkUserSession = JSON.parse(localStorage.getItem("user"));
+
+    if (checkUserSession) {
+      if (!user) {
+        console.log("here");
+        dispatch(setLogin(checkUserSession));
+      }
+    }
+
     //delay for loading user data
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -50,7 +72,11 @@ function App() {
     return () => clearTimeout(timeout);
   }, [user]);
 
-  console.log({ user });
+  console.log("user", user);
+
+  if (user) {
+    console.log("usernsaea");
+  }
 
   if (isLoading) {
     return (
@@ -86,200 +112,221 @@ function App() {
     );
   }
 
-  console.log({ user });
-
   return (
-    <div className="App">
+    <div className="app">
       <BrowserRouter>
-        <Navbar />
-        <div className="pages">
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/login"
-              element={!user ? <Login /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/signup"
-              element={!user ? <Signup /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/companies"
-              element={user ? <CompanyListing /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/consultants"
-              element={user ? <ConsultantListing /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/list"
-              element={user ? <BusinessOverview /> : <Navigate to="/login" />}
-            />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className="pages">
+            <Routes>
               <Route
-              path="/business/analytics"
-              element={user ? <BusinessAnalytics /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/create"
-              element={user ? <BusinessCreate /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/edit/:id"
-              element={user ? <BusinessEdit /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/view/:id"
-              element={user ? <BusinessView /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/page/:id"
-              element={user ? <BusinessPage /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/customer-testimonials/:id"
-              element={user ? <BusinessCustomerTestimonials /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/business/advertisements/:id"
-              element={user ? <BusinessAdvertisements /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/general/create"
-              element={
-                user && user.userType === "GENERAL" ? (
-                  <GeneralProfileCreateForm />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/general/profile"
-              element={
-                user && user.userType === "GENERAL" ? (
-                  <GeneralProfile />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/business/create"
-              element={
-                user && user.userType === "BUSINESS" ? (
-                  <BusinessProfileCreateForm />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/business/profile"
-              element={
-                user && user.userType === "BUSINESS" ? (
-                  <BusinessProfile />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/company/create"
-              element={
-                user && user.userType === "COMPANY" ? (
-                  <CompanyProfileCreateForm />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/company/profile"
-              element={user ? <CompanyProfile /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/company/profile/postjob"
-              element={user ? <PostJob /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/company/profile/Candidateshortlist"
-              element={user ? <CandiShortList /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/company/profile/ComAnalytics"
-              element={user ? <ComAnalytics /> : <Navigate to="/" />}
-            />
+                path="/"
+                element={user ? <Home /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/login"
+                element={!user ? <Login /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/signup"
+                element={!user ? <Signup /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/companies"
+                element={user ? <CompanyListing /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/consultants"
+                element={
+                  user ? <ConsultantListing /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/business/list"
+                element={user ? <BusinessOverview /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/business/analytics"
+                element={
+                  user ? <BusinessAnalytics /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/business/create"
+                element={user ? <BusinessCreate /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/business/edit/:id"
+                element={user ? <BusinessEdit /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/business/view/:id"
+                element={user ? <BusinessView /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/business/page/:id"
+                element={user ? <BusinessPage /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/business/customer-testimonials/:id"
+                element={
+                  user ? (
+                    <BusinessCustomerTestimonials />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
+              <Route
+                path="/business/advertisements/:id"
+                element={
+                  user ? <BusinessAdvertisements /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/general/create"
+                element={
+                  user && user.userType === "GENERAL" ? (
+                    <GeneralProfileCreateForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/general/profile"
+                element={
+                  user && user.userType === "GENERAL" ? (
+                    <GeneralProfile />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/business/create"
+                element={
+                  user && user.userType === "BUSINESS" ? (
+                    <BusinessProfileCreateForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/business/profile"
+                element={
+                  user && user.userType === "BUSINESS" ? (
+                    <BusinessProfile />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/company/create"
+                element={
+                  user && user.userType === "COMPANY" ? (
+                    <CompanyProfileCreateForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/company/profile"
+                element={user ? <CompanyProfile /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/company/profile/postjob"
+                element={user ? <PostJob /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/company/profile/Candidateshortlist"
+                element={user ? <CandiShortList /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/company/profile/ComAnalytics"
+                element={user ? <ComAnalytics /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/company/profile/mytest/test"
+                element={<MytestPage />}
+              />
 
-            <Route
-              path="/company/profile/mytest/test"
-              element={<MytestPage />}
-            />
-
-            <Route
-              path="/consultant/create"
-              element={
-                user && user.userType === "CONSULTANT" ? (
-                  <ConsultantProfileCreateForm />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/consultant/individual/create"
-              element={
-                user && user.userType === "CONSULTANT" ? (
-                  <ConsultantIndividualProfileCreateForm />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/consultant/profile"
-              element={
-                user && user.userType === "CONSULTANT" ? (
-                  <ConsultantProfile />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/consultant/team/create"
-              element={
-                user && user.userType === "CONSULTANT" ? (
-                  <ConsultantTeamProfileCreateForm />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/consultant/consultantdashboard"
-              element={
-                user && user.userType === "CONSULTANT" ? (
-                  <ConsultantDashboard />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/consultant/createad"
-              element={
-                user && user.userType === "CONSULTANT" ? (
-                  <CreateAd />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-          </Routes>
-        </div>
+              <Route
+                path="/consultant/create"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantProfileCreateForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/individual/create"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantIndividualProfileCreateForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/profile"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantProfile />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/team/create"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantTeamProfileCreateForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/consultantdashboard"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantDashboard />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/createad"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <CreateAd />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/rideSharing"
+                element={
+                  user && user.userType === "GENERAL" ? (
+                    <RideShare />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+            </Routes>
+          </div>
+        </ThemeProvider>
       </BrowserRouter>
     </div>
   );

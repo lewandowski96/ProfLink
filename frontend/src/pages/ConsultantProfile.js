@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import userImage from "../assest/profimage2.jpeg";
 import Sidemenu from "../components/Sidemenu";
 import "../styles/sideMenu.css";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const ConsultantProfile = () => {
   const [profile, setProfile] = useState(null);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -37,8 +39,8 @@ const ConsultantProfile = () => {
         </div>
         <div className="consultant-profile">
           <div className="image-container">
-          {/* <span className="material-symbols-outlined">person</span> */}
-          <img src={userImage} alt="userimage" className="userImage"/>
+            {/* <span className="material-symbols-outlined">person</span> */}
+            <img src={userImage} alt="userimage" className="userImage" />
           </div>
           <div className="profile--cover">
             {profile &&
@@ -60,19 +62,14 @@ const ConsultantProfile = () => {
                       <p>{pf.email}</p>
                       <p>{pf.description}</p>
                     </div>
-                    
                   )}
-                </div> 
-            ))}
-            </div>
-            </div>
-            </div>
-            </div>
-       
-    
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default ConsultantProfile;
-
-

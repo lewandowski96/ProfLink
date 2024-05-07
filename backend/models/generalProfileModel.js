@@ -12,6 +12,30 @@ const generalProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    profileImagePath: {
+      type: String,
+      default: "",
+    },
+    friends: {
+      type: Array,
+      default: [],
+    },
+    followers: {
+      type: Array,
+      default: [],
+    },
+    sentRequests: {
+      type: Array,
+      default: [],
+    },
+    receivedRequests: {
+      type: Array,
+      default: [],
+    },
+    enrolledCourses: {
+      type: Array,
+      default: [],
+    },
     dateOfBirth: {
       type: Date,
       required: true,
@@ -41,57 +65,44 @@ const generalProfileSchema = new Schema(
       required: true,
     },
     schoolsAttended: {
-      type: [
-        {
-          schoolName: String,
-          year: Number,
-        },
-      ],
+      type: Array,
+      required: true,
     },
-    universityAttended: {
-      type: [
-        {
-          universityName: String,
-          year: Number,
-          degree: String,
-        },
-      ],
+    universityAttendedName: {
+      type: String,
     },
-    currentEmployment: {
-      type: [
-        {
-          company: String,
-          position: String,
-          industry: String,
-        },
-      ],
+    universityAttendedYear: {
+      type: Number,
+    },
+    universityAttendedDegree: {
+      type: String,
+    },
+    currentEmploymentCompany: {
+      type: String,
+    },
+    currentEmploymentPosition: {
+      type: String,
+    },
+    currentEmploymentIndustry: {
+      type: String,
     },
     previousExperiences: {
-      type: [
-        {
-          position: String,
-          company: String,
-          year: Number,
-          industry: String,
-        },
-      ],
+      type: Array,
     },
     skills: {
-      type: [
-        {
-          name: String,
-          level: String,
-        },
-      ],
+      type: Array,
     },
     achievements: {
-      type: [
-        {
-          name: String,
-          multimedia: String,
-          media_type: String,
-        },
-      ],
+      type: Array,
+    },
+    twitterHandle: {
+      type: String,
+    },
+    linkedinHandle: {
+      type: String,
+    },
+    rideSharingProfileCreated: {
+      type: Boolean,
     },
     user_id: {
       type: String,

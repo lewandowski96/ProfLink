@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const BusinessProfileCreateForm = () => {
   const [firstName, setFirstName] = useState("");
@@ -37,7 +38,8 @@ const BusinessProfileCreateForm = () => {
   ]);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user);
 
   const handleSchoolsAttended = (e, index) => {
     console.log(index, e.target.name);

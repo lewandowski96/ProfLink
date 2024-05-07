@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const CompanyProfileCreateForm = () => {
   const [CompanyName, setCompanyName] = useState("");
@@ -14,7 +15,9 @@ const CompanyProfileCreateForm = () => {
   const [about, setAbout] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user.user);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -38,7 +41,6 @@ const CompanyProfileCreateForm = () => {
     };
 
     console.log(data);
-
 
     const response = await fetch("/api/profiles/company", {
       method: "POST",
@@ -64,7 +66,7 @@ const CompanyProfileCreateForm = () => {
       setMembers("");
       setIndustry("");
       setAbout("");
-      navigate("/company/profile")
+      navigate("/company/profile");
     }
   };
   const handleAchievementChange = (index, value) => {

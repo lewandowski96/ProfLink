@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import BusinessDetails from "../components/BusinessDetails";
 import Sidemenu from "../components/Sidemenu";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const BusinessListing = () => {
   const [businesses, setBusinesses] = useState(null);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchBusinesses = async () => {

@@ -1,9 +1,9 @@
 // third-party
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-// project imports 
-import axios from 'axios';
-import { dispatch } from '../index';
+// project imports
+import axios from "axios";
+import { dispatch } from "../index";
 
 // ----------------------------------------------------------------------
 
@@ -12,11 +12,11 @@ const initialState = {
   success: null,
   isLoading: false,
   businesses: null,
-  business: null
+  business: null,
 };
 
 const slice = createSlice({
-  name: 'business',
+  name: "business",
   initialState,
   reducers: {
     // TO INITIAL STATE
@@ -39,34 +39,33 @@ const slice = createSlice({
       state.isLoading = false;
     },
 
-    // POST BUSINESS 
+    // POST BUSINESS
     addBusinessSuccess(state, action) {
-      state.success = "Business created successfully."
+      state.success = "Business created successfully.";
     },
 
     // GET BUSINESS_BY_ID
     fetchBusinessSuccess(state, action) {
       state.business = action.payload;
-      state.success = null
+      state.success = null;
     },
 
     // GET ALL BUSINESS
     fetchBusinessesSuccess(state, action) {
       state.businesses = action.payload;
-      state.success = null
+      state.success = null;
     },
 
     // UPDATE BUSINESS
     updateBusinessSuccess(state, action) {
-      state.success = "Business updated successfully."
+      state.success = "Business updated successfully.";
     },
 
     // DELETE BUSINESS
     deleteBusinessSuccess(state, action) {
-      state.success = "Business deleted successfully."
+      state.success = "Business deleted successfully.";
     },
-
-  }
+  },
 });
 
 // Reducer
@@ -76,25 +75,28 @@ export default slice.reducer;
 
 /**
  * TO INITIAL STATE
- * @returns 
+ * @returns
  */
 export function toInitialState() {
   return async () => {
-    dispatch(slice.actions.hasInitialState())
-  }
+    dispatch(slice.actions.hasInitialState());
+  };
 }
 
 /**
  * POST BUSINESS
- * @param newBusiness 
- * @returns 
+ * @param newBusiness
+ * @returns
  */
 export function addBusiness(newBusiness) {
   return async () => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`http://localhost:4000/api/business`, newBusiness);
+      const response = await axios.post(
+        `http://localhost:4000/api/business`,
+        newBusiness
+      );
       dispatch(slice.actions.addBusinessSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -106,15 +108,17 @@ export function addBusiness(newBusiness) {
 
 /**
  * GET BUSINESS
- * @param businessId  
- * @returns 
+ * @param businessId
+ * @returns
  */
 export function fetchBusiness(businessId) {
   return async () => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.get(`http://localhost:4000/api/business/${businessId}`);
+      const response = await axios.get(
+        `http://localhost:4000/api/business/${businessId}`
+      );
       dispatch(slice.actions.fetchBusinessSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -125,15 +129,15 @@ export function fetchBusiness(businessId) {
 }
 
 /**
- * GET ALL BUSINESS 
- * @returns 
+ * GET ALL BUSINESS
+ * @returns
  */
 export function fetchBusinesses() {
   return async () => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.get('http://localhost:4000/api/business');
+      const response = await axios.get("http://localhost:4000/api/business");
       dispatch(slice.actions.fetchBusinessesSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -146,14 +150,17 @@ export function fetchBusinesses() {
 /**
  * UPDATE BUSINESS
  * @param updatedBusiness
- * @returns 
+ * @returns
  */
 export function updateBusiness(updatedBusiness) {
   return async () => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.put(`http://localhost:4000/api/business/${updatedBusiness._id}`, updatedBusiness);
+      const response = await axios.put(
+        `http://localhost:4000/api/business/${updatedBusiness._id}`,
+        updatedBusiness
+      );
       dispatch(slice.actions.updateBusinessSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -165,8 +172,8 @@ export function updateBusiness(updatedBusiness) {
 
 /**
  * DELETE BUSINESS
- * @param businessId 
- * @returns 
+ * @param businessId
+ * @returns
  */
 export function deleteBusiness(businessId) {
   return async () => {

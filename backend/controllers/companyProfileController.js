@@ -3,7 +3,7 @@ const CompanyProfile = require("../models/companyProfileModel");
 const getCompanyProfile = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const profile = await CompanyProfile.find({ user_id });
+    const profile = await CompanyProfile.findOne({ user_id });
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not yet created!" });
@@ -25,15 +25,9 @@ const getAllCompanyProfiles = async (req, res) => {
 };
 
 const createCompanyProfile = async (req, res) => {
-  console.log(req.body)
-  const {
-    CompanyName,
-    locationsName,
-    foundedYear,
-    members,
-    industry,
-    about,
-  } = req.body;
+  console.log(req.body);
+  const { CompanyName, locationsName, foundedYear, members, industry, about } =
+    req.body;
 
   let emptyFields = [];
 
@@ -74,9 +68,8 @@ const createCompanyProfile = async (req, res) => {
       user_id,
     });
 
-    console.log({ "companyProfile": companyProfile });
+    console.log({ companyProfile: companyProfile });
     res.status(200).json(companyProfile);
-
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

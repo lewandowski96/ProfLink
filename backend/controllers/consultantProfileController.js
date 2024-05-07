@@ -4,24 +4,20 @@ const ConsultantTeamProfile = require("../models/consultantTeamProfileModel");
 const getConsultantProfile = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const profile = await ConsultantIndividualProfile.find({ user_id });
-
-    // if (profile) {
-    //   res.status(200).json(profile);
-    // } else {
-    //   const teamProfile = await ConsultantTeamProfile.find({ user_id });
-    //   if (teamProfile) {
-    //     res.status(200).json(teamProfile);
-    //   }
-    // }
+    const profile = await ConsultantIndividualProfile.findOne({ user_id });
 
     if (profile) {
       res.status(200).json(profile);
+    } else {
+      const teamProfile = await ConsultantTeamProfile.findOne({ user_id });
+      if (teamProfile) {
+        res.status(200).json(teamProfile);
+      }
     }
 
-    if (!profile) {
-      return res.status(404).json({ error: "Profile not yet created!" });
-    }
+    // if (!profile) {
+    //   return res.status(404).json({ error: "Profile not yet created!" });
+    // }
 
     // if (!teamProfile) {
     //   return res.status(404).json({ error: "Profile not yet created!" });
@@ -176,7 +172,7 @@ const createConsultantTeamProfile = async (req, res) => {
   if (!email) {
     emptyFields.push("email");
   }
-  if(!Addmember) {
+  if (!Addmember) {
     emptyFields.push("Addmember");
   }
   if (!contactNo) {

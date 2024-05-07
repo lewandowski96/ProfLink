@@ -1,19 +1,21 @@
 import { useContext, useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+// import { useAuthContext } from "./useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "../store/reducers/auth.slice";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { dispatch } = useAuthContext();
+  const dispatch = useDispatch();
 
-  const signup = async (email, password, userType) => {
+  const signup = async (values) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch("/api/user/signup", {
+    const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, userType }),
+      body: JSON.stringify(values),
     });
 
     const json = await response.json();
@@ -27,7 +29,7 @@ export const useSignup = () => {
       // saving user session to local storage
       localStorage.setItem("user", JSON.stringify(json));
 
-      dispatch({ type: "LOGIN", payload: json });
+      dispatch(setLogin(json));
       setIsLoading(false);
     }
   };
