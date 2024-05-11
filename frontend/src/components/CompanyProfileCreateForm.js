@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
+import useStorage from "../hooks/useStorage";
+
 
 const CompanyProfileCreateForm = () => {
   const [CompanyName, setCompanyName] = useState("");
@@ -16,6 +18,10 @@ const CompanyProfileCreateForm = () => {
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
   // const { user } = useAuthContext();
+  const [progress, setProgress] = useState(null);
+  const [url, setUrl] = useState("");
+  const { startUpload } = useStorage(setProgress, setError, setUrl);
+
   const user = useSelector((state) => state.user.user);
 
   const navigate = useNavigate();
@@ -36,7 +42,7 @@ const CompanyProfileCreateForm = () => {
       members,
       industry,
       achievements,
-      file,
+      url,
       about,
     };
 
@@ -98,9 +104,19 @@ const CompanyProfileCreateForm = () => {
 
     navigate("/"); // Redirect to home page
   };
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+
+      startUpload(e.target.files[0]);
+      const selectedImageFile = new FileReader();
+
+      selectedImageFile.readAsDataURL(e.target.files[0]);
+    }
+  };
 
   return (
-    <form className="create" onSubmit={handleSubmit}>
+    <form className="create w-1/2 m-auto max-md:w-96" onSubmit={handleSubmit}>
       <h3 className="text-black text-3xl text-center mb-5">
         Create Your Company Profile!
       </h3>
@@ -169,7 +185,8 @@ const CompanyProfileCreateForm = () => {
       <label>Company Logo:</label>
       <input
         type="file"
-        onChange={(e) => setFile(e.target.files[0])}
+        accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
+        onChange={handleFileChange}
         className={emptyFields?.includes("file") ? "error" : ""}
       />
 

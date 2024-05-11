@@ -57,7 +57,7 @@ const CandiShortList = () => {
 
   return (
     <div className="company-listing">
-      <h2 className="text-3xl relative font-semibold left-24 font-mono">
+      <h2 className="text-3xl relative font-semibold font-mono">
         Candidates Shortlist
       </h2>
       <div className="sub w-full">

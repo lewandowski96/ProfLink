@@ -12,6 +12,10 @@ const companyProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    website: {
+      type: String,
+      required: true,
+    },
     foundedYear: {
       type: Date,
       required: true,
@@ -27,6 +31,14 @@ const companyProfileSchema = new Schema(
     about: {
       type: String,
       required: true,
+    },
+    achievements: {
+      type: Array,
+      default: [],
+    },
+    file: {
+      type: String,
+      default: "",
     },
     user_id: {
       type: String,

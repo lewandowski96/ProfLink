@@ -3,15 +3,18 @@ import Sidemenu from "../components/Sidemenu";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import PostCatd from "../components/PostCatd";
 import AchievementCard from "../components/AchievementCard";
 import CompanyDetails from "../components/CompanyDetails";
-import PostCatd from "../components/PostCatd";
+import { useNavigate } from "react-router-dom";
+
 
 const CompanyProfile = () => {
   const [profile, setProfile] = useState(null);
   // const { user } = useAuthContext();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user)?.user;
+
+  console.log(user)
 
   const navigate = useNavigate();
   const [refreshState, setRefreshState] = useState(false);
@@ -47,16 +50,19 @@ const CompanyProfile = () => {
       }
     };
 
+
     if (user) {
       fetchProfile();
       fetchPosts();
+
     }
   }, [user, refreshState]);
 
   const handleRefresh = () => {
-    console.log("Refreshing....");
+    console.log("Refreshing....")
     setRefreshState(!refreshState);
   };
+
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -207,6 +213,9 @@ const CompanyProfile = () => {
     },
   ]);
 
+
+
+
   const handleCitySelect = (city) => {
     if (selectedCity === city) {
       setSelectedCity(null);
@@ -228,7 +237,7 @@ const CompanyProfile = () => {
   };
 
   const postNewJob = () => {
-    console.log("Post new job");
+    console.log("Post new job")
     navigate("postjob");
   };
 
@@ -253,16 +262,16 @@ const CompanyProfile = () => {
 
   const filteredCompanies = cities
     ? cities.filter((city) => {
-        const matchesCity = !selectedCity || city === selectedCity;
+      const matchesCity = !selectedCity || city === selectedCity;
 
-        const matchesQuery =
-          !searchQuery ||
-          city.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesQuery =
+        !searchQuery ||
+        city.toLowerCase().includes(searchQuery.toLowerCase());
 
-        const idle = !searchQuery || searchQuery.length <= 0;
+      const idle = !searchQuery || searchQuery.length <= 0;
 
-        return (matchesCity && matchesQuery) || idle;
-      })
+      return (matchesCity && matchesQuery) || idle;
+    })
     : [];
 
   const handleSubmit = () => {
@@ -277,16 +286,22 @@ const CompanyProfile = () => {
   };
 
   console.log(profile && profile[0]);
+  console.log(profile && profile[0]?.achievements);
 
-  const date = new Date(profile && profile[0].foundedYear);
+  const date = new Date(profile && profile[0]?.foundedYear);
   const year = date.getFullYear();
+
+  const getCleanUrl = (url) => {
+    if (!url) return;
+    // Remove 'http://', 'https://', 'ftp://' from the URL
+    let cleanUrl = url.replace(/^(https?|ftp):\/\//, '');
+    return cleanUrl;
+  };
 
   return (
     <div className="view-consultant-profile">
-      <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
-        Company Profile
-      </h2>
-      <div className="sub gap-10">
+      <h2 className="relative text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">Company Profile</h2>
+      <div className="sub gap-10 flex">
         <div className="sidemenu">
           <Sidemenu />
         </div>
@@ -295,7 +310,7 @@ const CompanyProfile = () => {
             <div className="flex flex-col gap-10">
               <div className="mb-5 flex flex-row">
                 <h1 className="text-balck absolute left-36 right-36 top-0 mr-4 mt-4 text-center text-2xl font-semibold">
-                  {profile && profile[0].CompanyName}
+                  {profile && profile[0]?.CompanyName}
                 </h1>
                 <div className="absolute right-5 top-5 mr-4 mt-4">
                   <button className="border-black-900 rounded-full border-black bg-blue-200 px-4 py-1 text-sm font-semibold text-blue-800 outline-black hover:border-transparent hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
@@ -309,7 +324,7 @@ const CompanyProfile = () => {
                   <div className="h-60 w-60 border-2 border-black p-1">
                     <img
                       className="h-full w-full object-cover"
-                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      src={profile && profile[0]?.file || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                       alt="Woman's Face"
                     />
                   </div>
@@ -370,31 +385,32 @@ const CompanyProfile = () => {
                       <div className="relativew-30 max-w-md rounded-lg bg-slate-300 p-4 shadow sm:p-8 dark:bg-gray-800">
                         <div className="flex flex-col gap-3">
                           <div className="flex flex-row gap-10">
-                            <span className="text-left font-medium text-gray-900 dark:text-white">
+                            <span className="text-left font-medium text-gray-900 dark:text-white w-24">
                               Website
                             </span>
-                            <span className="text-left font-semibold text-gray-600 dark:text-white">
-                              {profile && profile[0].CompanyName}
-                            </span>
+                            <a className="text-left font-semibold text-gray-600 dark:text-white underline"
+                              href={profile && profile[0]?.website} target="_blank">
+                              {getCleanUrl(profile && profile[0]?.website)}
+                            </a>
                           </div>
                           <div className="flex flex-row gap-10">
-                            <span className="text-left font-medium text-gray-900 dark:text-white">
+                            <span className="text-left font-medium text-gray-900 dark:text-white w-24">
                               Locations
                             </span>
                             <span className="text-left font-semibold text-gray-600 dark:text-white">
-                              {profile && profile[0].locationsName}
+                              {profile && profile[0]?.locationsName}
                             </span>
                           </div>
                           <div className="flex flex-row gap-10">
-                            <span className="text-left font-medium text-gray-900 dark:text-white">
+                            <span className="text-left font-medium text-gray-900 dark:text-white w-24">
                               Members
                             </span>
                             <span className="text-left font-semibold text-gray-600 dark:text-white">
-                              {profile && profile[0].members}
+                              {profile && profile[0]?.members}
                             </span>
                           </div>
                           <div className="flex flex-row gap-10">
-                            <span className="text-left font-medium text-gray-900 dark:text-white">
+                            <span className="text-left font-medium text-gray-900 dark:text-white w-24">
                               Founded
                             </span>
                             <span className="text-left font-semibold text-gray-600 dark:text-white">
@@ -402,11 +418,11 @@ const CompanyProfile = () => {
                             </span>
                           </div>
                           <div className="flex flex-row gap-10">
-                            <span className="text-left font-medium text-gray-900 dark:text-white">
+                            <span className="text-left font-medium text-gray-900 dark:text-white w-24">
                               Industry
                             </span>
                             <span className="text-left font-semibold text-gray-600 dark:text-white">
-                              {profile && profile[0].industry}
+                              {profile && profile[0]?.industry}
                             </span>
                           </div>
                         </div>
@@ -416,15 +432,7 @@ const CompanyProfile = () => {
                 </div>
                 <div className="mt-10 text-center">
                   <p>
-                    Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. through the cites of the word in classical literature,
-                    discovered the undoubtable source. Lorem Ipsum comes from
-                    sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
-                    Malorum" (The Extremes of Good and Evil) by Cicero, written
-                    in 45 BC. This book is a treatise on the theory of ethics,
-                    very popular during the Renaissance. The first line of Lorem
-                    Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-                    section 1.10.32
+                    {profile && profile[0]?.about}
                   </p>
                 </div>
               </div>
@@ -605,7 +613,7 @@ const CompanyProfile = () => {
             </div>
 
             <div className="w-2/6 rounded-xl p-2 flex flex-col gap-10">
-              <AchievementCard />
+              <AchievementCard achievements ={profile && profile[0]?.achievements} />
               <div className="flex flex-col items-center">
                 <button
                   type="button"
