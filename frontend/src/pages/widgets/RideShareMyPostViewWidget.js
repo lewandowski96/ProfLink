@@ -299,7 +299,7 @@ const RideShareMyPostViewWidget = ({
                       color="white"
                       sx={{ alignItems: "right" }}
                     >
-                      CANCEL
+                      CLOSE
                     </Typography>
                   </Button>
                 </DialogActions>

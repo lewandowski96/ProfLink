@@ -34,6 +34,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import RideShareMyAcceptedPostViewWidget from "./widgets/RideShareMyAcceptedPostViewWidget";
 import RideShareMyPostViewWidget from "./widgets/RideShareMyPostViewWidget";
+import RideShareMyTakenPostViewWidget from "./widgets/RideShareMyTakenPostViewWidget";
 import RideSharePostPassengerWidget from "./widgets/RideSharePostPassengerWidget";
 import RideShareUserWidget from "./widgets/RideShareUserWidget";
 // import { useAuthContext } from "../../hooks/useAuthContext";
@@ -64,7 +65,7 @@ const MyCompletedRidesTaken = () => {
   const getPosts = async () => {
     console.log("user token", user.token);
 
-    const allPosts = await fetch(`/api/rideSharing/myAcceptedPosts`, {
+    const allPosts = await fetch(`/api/rideSharing/myTakenRides`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -108,7 +109,7 @@ const MyCompletedRidesTaken = () => {
                 variant="h5"
                 sx={{ mb: "1rem", gridColumn: "span 8" }}
               >
-                My Accepted Requests
+                My Taken Rides
               </Typography>
               <Typography
                 fontWeight="500"
@@ -117,7 +118,7 @@ const MyCompletedRidesTaken = () => {
               ></Typography>
               {posts &&
                 posts.map((post) => (
-                  <RideShareMyAcceptedPostViewWidget
+                  <RideShareMyTakenPostViewWidget
                     key={post._id}
                     postId={post._id}
                     postUserId={post.userId}

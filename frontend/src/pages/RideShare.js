@@ -76,7 +76,7 @@ const RideShare = () => {
               <Box p="1rem 0"></Box>
               <WidgetWrapper>
                 <Button
-                  onClick={() => navigate("/rideSharing/myCompltedRidesGone")}
+                  onClick={() => navigate("/rideSharing/myCompletedRidesGone")}
                 >
                   <Typography
                     fullWidth
@@ -114,7 +114,7 @@ const RideShare = () => {
           <Box p="1rem 0"></Box>
           <WidgetWrapper>
             <Button
-              onClick={() => navigate("/rideSharing/myCompltedRidesTaken")}
+              onClick={() => navigate("/rideSharing/myCompletedRidesTaken")}
             >
               <Typography
                 fullWidth

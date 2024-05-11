@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import React, { useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useDispatch, useSelector } from "react-redux";
 import FlexBetween from "../../components/GeneralFlexBetween";
 import { firestore } from "../../firebase/config";
 import RideShareMessageWidget from "./RideShareMessageWidget";
@@ -28,6 +29,8 @@ const RideShareMessageRoomWidget = ({
 
   const [formValue, setFormValue] = useState("");
 
+  const user = useSelector((state) => state.user.user);
+
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -35,7 +38,7 @@ const RideShareMessageRoomWidget = ({
       text: formValue,
       userName: userName,
       createdAt: serverTimestamp(),
-      userId,
+      userId: user.user.user_id,
       userImage,
     });
 

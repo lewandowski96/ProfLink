@@ -381,7 +381,7 @@ function App() {
                 }
               />
               <Route
-                path="/rideSharing/myCompletedRideTaken"
+                path="/rideSharing/myCompletedRidesTaken"
                 element={
                   user && user.userType === "GENERAL" && user.user ? (
                     <MyCompletedRidesTaken />

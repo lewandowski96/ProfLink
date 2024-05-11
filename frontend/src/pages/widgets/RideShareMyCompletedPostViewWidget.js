@@ -1,5 +1,7 @@
 import {
   ChatBubbleOutlineOutlined,
+  DeleteOutlined,
+  EditOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
   ShareOutlined,
@@ -25,17 +27,18 @@ import { useDispatch, useSelector } from "react-redux";
 import formatISO from "date-fns/formatISO";
 import UserImage from "../../components/UserImage";
 import WidgetWrapper from "../../components/WidgetWrapper";
-import { setRideSharePost } from "../../store/reducers/rideShare.slice";
+import {
+  setCompleteRideSharePost,
+  setRideSharePost,
+} from "../../store/reducers/rideShare.slice";
 import Friend from "./Friend";
 import RideShareMessageRoomWidget from "./RideShareMessageRoomWidget";
 
-const RideShareMyAcceptedPostViewWidget = ({
+const RideShareMyCompletedPostViewWidget = ({
   postId,
   postUserId,
   posterName,
   posterImage,
-  userImage,
-  userName,
   title,
   start,
   destination,
@@ -112,6 +115,19 @@ const RideShareMyAcceptedPostViewWidget = ({
     dispatch(setRideSharePost({ rideSharePost: updatedPost }));
   };
 
+  const handleComplete = async () => {
+    const response = await fetch(`/api/rideSharing/complete`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ postId: postId }),
+    });
+    const updatedPost = await response.json();
+    dispatch(setCompleteRideSharePost({ rideSharePost: updatedPost }));
+  };
+
   return (
     <WidgetWrapper m="2rem 0">
       <Friend
@@ -178,10 +194,13 @@ const RideShareMyAcceptedPostViewWidget = ({
             <>
               <Box m="1rem 0" />
               <FlexBetween gap="0.5rem">
-                <UserImage image={appliedUser.userImage} />
-                <Typography color={main}>
-                  {appliedUser.firstName} {appliedUser.lastName}
-                </Typography>
+                <FlexBetween gap="1rem">
+                  <UserImage image={appliedUser.userImage} />
+                  <Typography color={main}>
+                    {appliedUser.firstName} {appliedUser.lastName}
+                  </Typography>
+                </FlexBetween>
+
                 <FlexBetween gap="0.5rem">
                   <Button
                     onClick={() => handleAccept(postId, appliedUser.userId)}
@@ -222,61 +241,69 @@ const RideShareMyAcceptedPostViewWidget = ({
       <Box m="1rem 0" />
       {accepted && accepted.length > 0 && (
         <>
-          <Typography variant="h5" color={main} sx={{ mt: "1rem" }}>
-            You have been accepted by the poster. Click on the message button to
-            start a conversation.
+          <Typography variant="h4" color={main} sx={{ mt: "1rem" }}>
+            Accepted Sharers
           </Typography>
           <Box m="1rem 0" />
           <Divider />
-          <Box m="1rem 0" />
-          <FlexBetween gap="0.5rem">
-            <Button
-              onClick={functionopenpopup}
-              sx={{
-                // margin: "auto",
-                backgroundColor: "blue",
-                color: palette.background.alt,
-                "&:hover": {
-                  backgroundColor: palette.primary.main,
-                },
-              }}
-            >
-              MESSAGE
-            </Button>
-          </FlexBetween>
-          <Dialog open={open} fullWidth>
-            <DialogTitle textAlign="center">Group Chat - {title}</DialogTitle>
+          {accepted.map((acceptedUser) => (
+            <>
+              <Box m="1rem 0" />
+              <FlexBetween gap="0.5rem">
+                <FlexBetween gap="1rem">
+                  <UserImage image={acceptedUser.userImage} />
+                  <Typography color={main}>
+                    {acceptedUser.firstName} {acceptedUser.lastName}
+                  </Typography>
+                </FlexBetween>
 
-            <RideShareMessageRoomWidget
-              postId={postId}
-              userId={postUserId}
-              userName={userName}
-              userImage={userImage}
-            />
-            <DialogActions>
-              <Button
-                // disabled={!post}
-                onClick={functionclosepopup}
-                sx={{
-                  color: palette.background.alt,
-                  backgroundColor: palette.primary.main,
-                  borderRadius: "3rem",
-                }}
-              >
-                <Typography
-                  // fontSize="clamp(1rem, 2rem, 2.25rem)"
-                  color="white"
-                  sx={{ alignItems: "right" }}
-                >
-                  CLOSE
-                </Typography>
-              </Button>
-            </DialogActions>
-          </Dialog>
+                <FlexBetween gap="0.5rem">
+                  <Button
+                    onClick={functionopenpopup}
+                    sx={{
+                      // margin: "auto",
+                      backgroundColor: "blue",
+                      color: palette.background.alt,
+                      "&:hover": {
+                        backgroundColor: palette.primary.main,
+                      },
+                    }}
+                  >
+                    RATE
+                  </Button>
+                </FlexBetween>
+              </FlexBetween>
+              <Dialog open={open} fullWidth>
+                <DialogTitle textAlign="center">Give Your Rating</DialogTitle>
+                <DialogActions>
+                  <Button
+                    // disabled={!post}
+                    onClick={functionclosepopup}
+                    sx={{
+                      color: palette.background.alt,
+                      backgroundColor: palette.primary.main,
+                      borderRadius: "3rem",
+                    }}
+                  >
+                    <Typography
+                      // fontSize="clamp(1rem, 2rem, 2.25rem)"
+                      color="white"
+                      sx={{ alignItems: "right" }}
+                    >
+                      CLOSE
+                    </Typography>
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </>
+          ))}
+          <Box m="1rem 0" />
+          <Divider />
+          <Box m="1rem 0" />
         </>
       )}
     </WidgetWrapper>
   );
 };
 
-export default RideShareMyAcceptedPostViewWidget;
+export default RideShareMyCompletedPostViewWidget;

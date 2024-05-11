@@ -33,6 +33,7 @@ import {
 import React from "react";
 import Navbar from "../components/Navbar";
 import RideShareMyAcceptedPostViewWidget from "./widgets/RideShareMyAcceptedPostViewWidget";
+import RideShareMyCompletedPostViewWidget from "./widgets/RideShareMyCompletedPostViewWidget";
 import RideShareMyPostViewWidget from "./widgets/RideShareMyPostViewWidget";
 import RideSharePostPassengerWidget from "./widgets/RideSharePostPassengerWidget";
 import RideShareUserWidget from "./widgets/RideShareUserWidget";
@@ -64,7 +65,7 @@ const MyCompletedRidesGone = () => {
   const getPosts = async () => {
     console.log("user token", user.token);
 
-    const allPosts = await fetch(`/api/rideSharing/myAcceptedPosts`, {
+    const allPosts = await fetch(`/api/rideSharing/myCompletedRides`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -108,7 +109,7 @@ const MyCompletedRidesGone = () => {
                 variant="h5"
                 sx={{ mb: "1rem", gridColumn: "span 8" }}
               >
-                My Accepted Requests
+                My Rides
               </Typography>
               <Typography
                 fontWeight="500"
@@ -117,7 +118,7 @@ const MyCompletedRidesGone = () => {
               ></Typography>
               {posts &&
                 posts.map((post) => (
-                  <RideShareMyAcceptedPostViewWidget
+                  <RideShareMyCompletedPostViewWidget
                     key={post._id}
                     postId={post._id}
                     postUserId={post.userId}

@@ -12,6 +12,8 @@ const {
   acceptUserFromRideSharePost,
   declineUserFromRideSharePost,
   completeRideSharePost,
+  getUserCompletedRideSharePosts,
+  getUserTakenRideSharePosts,
 } = require("../controllers/rideShareController");
 
 const checkAuth = require("../middleware/checkAuth");
@@ -23,6 +25,10 @@ router.get("/", checkAuth, getRideSharePosts);
 router.get("/myPosts", checkAuth, getUserRideSharePosts);
 
 router.get("/myAcceptedPosts", checkAuth, getUserAcceptedRideSharePosts);
+
+router.get("/myCompletedRides", checkAuth, getUserCompletedRideSharePosts);
+
+router.get("/myTakenRides", checkAuth, getUserTakenRideSharePosts);
 
 router.post("/", checkAuth, createRideSharePost);
 

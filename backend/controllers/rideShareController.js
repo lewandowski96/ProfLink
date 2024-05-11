@@ -32,6 +32,21 @@ const getUserRideSharePosts = async (req, res) => {
   }
 };
 
+const getUserCompletedRideSharePosts = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    const posts = await RideSharePost.find({
+      userId: user_id,
+      status: "COMPLETED",
+    });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getUserAcceptedRideSharePosts = async (req, res) => {
   try {
     const user_id = req.user._id;
@@ -41,6 +56,25 @@ const getUserAcceptedRideSharePosts = async (req, res) => {
     const posts = await RideSharePost.find({
       acceptedUsersList: { $in: user_id.toString() },
       status: "CREATED",
+    });
+
+    // console.log("res posrs", posts);
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getUserTakenRideSharePosts = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    console.log("user id", user_id);
+
+    const posts = await RideSharePost.find({
+      acceptedUsersList: { $in: user_id.toString() },
+      status: "COMPLETED",
     });
 
     // console.log("res posrs", posts);
@@ -343,4 +377,6 @@ module.exports = {
   acceptUserFromRideSharePost,
   declineUserFromRideSharePost,
   completeRideSharePost,
+  getUserCompletedRideSharePosts,
+  getUserTakenRideSharePosts,
 };
