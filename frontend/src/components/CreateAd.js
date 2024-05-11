@@ -1,6 +1,7 @@
+import { Box } from "@mui/material";
 import React, { useState } from "react";
 // import { useAuthContext } from "../hooks/useAuthContext";
-
+import Navbar from "./Navbar";
 const CreateAd = () => {
   const [Project, setProject] = useState("");
 
@@ -12,7 +13,10 @@ const CreateAd = () => {
 
   return (
     <div>
-      <h3>Create Your Ad</h3>
+      <Navbar/>
+    <div className="create-ad-form">
+      
+      <h1><b>Create Your Advertisements</b></h1>
       <form>
         <label>Ad Titel</label>
         <input placeholder="Enter your Ad title" />
@@ -47,9 +51,9 @@ const CreateAd = () => {
         </select>
         <label>Images/Videos:</label>
         <input type="file" />
-
         <button type="button">Submit</button>
       </form>
+    </div>
     </div>
   );
 };

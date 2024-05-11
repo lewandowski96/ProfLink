@@ -11,6 +11,7 @@ import GeneralProfileCreateForm from "./components/GeneralProfileCreateForm";
 import Navbar from "./components/Navbar";
 // import { useAuthContext } from "./hooks/useAuthContext";
 import ConsultantUserPrifileView from "./components/ConsultantUserPrifileView";
+import ConsultantProfileEditForm from "./components/ConsultantProfileEditForm";
 import BusinessListing from "./pages/BusinessListing";
 import BusinessProfile from "./pages/BusinessProfile";
 import CandiShortList from "./pages/CandiShortList";
@@ -331,6 +332,16 @@ function App() {
                 element={
                   user && user.userType === "CONSULTANT" ? (
                     <GeneralConsultantProfileView />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/edit"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantProfileEditForm />
                   ) : (
                     <Navigate to="/" />
                   )
