@@ -52,6 +52,10 @@ import { themeSettings } from "./theme";
 import ConsultantFeedback from "./components/ConsultantFeedback";
 import ConsultantAppointmet from "./components/ConsultantAppointmet";
 import ConsultantViewAd from "./components/ConsultantViewAd";
+import ConsultViewFeedback from "./components/ConsultViewFeedback";
+import viewApoinmentConsult from "./components/ConsultViewAppoinment.js";
+import ConsultViewAppoinment from "./components/ConsultViewAppoinment.js";
+import ConsultAnalytic from "./components/ConsultAnalytic.js";
 
 function App() {
   // const { user } = useAuthContext();
@@ -375,6 +379,36 @@ function App() {
                 element={
                   user && user.userType === "CONSULTANT" ? (
                     <ConsultantViewAd />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewfeddback"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultViewFeedback />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewappoinment"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultViewAppoinment/>
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewanalytics"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultAnalytic/>
                   ) : (
                     <Navigate to="/" />
                   )

@@ -693,7 +693,7 @@ const ConsultantProfileEditForm = () => {
               </button>
               <br></br>
               <br></br>
-              <button type="submit">CREATE PROFILE</button>
+              <button type="submit">Update Profile</button>
               {error && <div className="error">{error}</div>}
             </div>
           )}
