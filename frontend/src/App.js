@@ -46,6 +46,10 @@ import { useDispatch, useSelector } from "react-redux";
 import GeneralProfileEditForm from "./components/GeneralProfileEditForm";
 import GeneralProfileForm from "./components/GeneralProfileForm";
 import GeneralConsultantProfileView from "./pages/GeneralConsultantProfileView";
+import MyAcceptedRideShares from "./pages/MyAcceptedRideShares";
+import MyCompletedRidesTaken from "./pages/MyCompletedRideTaken";
+import MyCompletedRidesGone from "./pages/MyCompletedRidesGone";
+import MyRideSharePosts from "./pages/MyRideSharePosts";
 import RideShare from "./pages/RideShare";
 import { setLogin } from "./store/reducers/auth.slice";
 import { themeSettings } from "./theme";
@@ -352,6 +356,46 @@ function App() {
                 element={
                   user && user.userType === "GENERAL" && user.user ? (
                     <RideShare />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/rideSharing/myPosts"
+                element={
+                  user && user.userType === "GENERAL" && user.user ? (
+                    <MyRideSharePosts />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/rideSharing/myAcceptedPosts"
+                element={
+                  user && user.userType === "GENERAL" && user.user ? (
+                    <MyAcceptedRideShares />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/rideSharing/myCompletedRidesGone"
+                element={
+                  user && user.userType === "GENERAL" && user.user ? (
+                    <MyCompletedRidesGone />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/rideSharing/myCompletedRidesTaken"
+                element={
+                  user && user.userType === "GENERAL" && user.user ? (
+                    <MyCompletedRidesTaken />
                   ) : (
                     <Navigate to="/" />
                   )

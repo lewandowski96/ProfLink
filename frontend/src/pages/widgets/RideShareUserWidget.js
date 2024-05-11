@@ -72,7 +72,7 @@ const RideShareUserWidget = () => {
       <FlexBetween
         gap="0.5rem"
         pb="1.1rem"
-        onClick={() => navigate("/general/profile")}
+        // onClick={() => navigate("/general/profile")}
       >
         <FlexBetween gap="1rem">
           <UserImage image={userImage} />

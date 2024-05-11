@@ -27,6 +27,7 @@ import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { setRideShareProfileData } from "../store/reducers/rideShare.slice";
 import WidgetWrapper from "./WidgetWrapper";
 
 const RideShareRegisterForm = () => {
@@ -115,7 +116,8 @@ const RideShareRegisterForm = () => {
     }
 
     if (response.ok) {
-      dispatch(setUser(json));
+      dispatch(setUser(json.profile));
+      dispatch(setRideShareProfileData({ profileData: json.rideShareProfile }));
       navigate("/rideSharing");
       console.log("success", json);
     }

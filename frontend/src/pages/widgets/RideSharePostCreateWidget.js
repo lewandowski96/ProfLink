@@ -60,7 +60,7 @@ const RideSharePostCreateWidget = () => {
   const getPosts = async () => {
     console.log("user token", user.token);
 
-    const allPosts = await fetch(`http://localhost:4000/api/rideSharing/`, {
+    const allPosts = await fetch(`/api/rideSharing/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -109,7 +109,7 @@ const RideSharePostCreateWidget = () => {
 
     console.log("ride share post save", post);
 
-    dispatch(setRideSharePost(post));
+    dispatch(setRideSharePost({ rideSharePost: post }));
     setTitle("");
     setStart("");
     setDestination("");
@@ -214,24 +214,30 @@ const RideSharePostCreateWidget = () => {
           sx={{ mb: "1rem", mt: "1rem", gridColumn: "span 8" }}
         ></Typography>
         {posts &&
-          posts.map((post) => (
-            <RideSharePostPassengerWidget
-              key={post._id}
-              postId={post._id}
-              postUserId={post.userId}
-              posterName={post.posterName}
-              posterImage={post.posterImage}
-              title={post.title}
-              start={post.start}
-              destination={post.destination}
-              rideDate={post.rideDate}
-              vehicle={post.vehicle}
-              vehicleType={post.vehicleType}
-              peopleCount={post.peopleCount}
-              applied={post.applied}
-              appliedUsersList={post.appliedUsersList}
-            />
-          ))}
+          posts.map(
+            (post) =>
+              !(
+                post.acceptedUsersList.length > 0 &&
+                post.acceptedUsersList.includes(user.user.user_id)
+              ) && (
+                <RideSharePostPassengerWidget
+                  key={post._id}
+                  postId={post._id}
+                  postUserId={post.userId}
+                  posterName={post.posterName}
+                  posterImage={post.posterImage}
+                  title={post.title}
+                  start={post.start}
+                  destination={post.destination}
+                  rideDate={post.rideDate}
+                  vehicle={post.vehicle}
+                  vehicleType={post.vehicleType}
+                  peopleCount={post.peopleCount}
+                  applied={post.applied}
+                  appliedUsersList={post.appliedUsersList}
+                />
+              )
+          )}
       </>
     </div>
   );

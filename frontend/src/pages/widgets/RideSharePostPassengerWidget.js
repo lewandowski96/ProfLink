@@ -17,6 +17,8 @@ import FlexBetween from "../../components/GeneralFlexBetween";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { setPost } from "state";
+// import datefns from "date-fns";
+import formatISO from "date-fns/formatISO";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { setRideSharePost } from "../../store/reducers/rideShare.slice";
 import Friend from "./Friend";
@@ -46,6 +48,8 @@ const RideSharePostPassengerWidget = ({
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+
+  const datefns = require("date-fns");
 
   const handleApply = async () => {
     const response = await fetch(
@@ -100,7 +104,7 @@ const RideSharePostPassengerWidget = ({
         To - {destination}
       </Typography>
       <Typography color={main} sx={{ mt: "1rem" }}>
-        Scheduled Date - {rideDate}
+        Scheduled Date - {datefns.format(new Date(rideDate), "yyyy-MM-dd pp")}
       </Typography>
       <Typography color={main} sx={{ mt: "1rem" }}>
         Vehicle Information
@@ -173,7 +177,7 @@ const RideSharePostPassengerWidget = ({
               color="black"
               sx={{ alignItems: "left" }}
             >
-              Applied
+              Applied. Pending acceptance ...
             </Typography>
             {/* <Button/> */}
             <Button
