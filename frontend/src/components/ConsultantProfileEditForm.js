@@ -1,11 +1,55 @@
-import React, { useState } from "react";
-// import { useAuthContext } from "../hooks/useAuthContext";
-import { Box, useMediaQuery } from "@mui/material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import {
+  Box,
+  Button,
+  Divider,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useFirebaseStorage from "../hooks/useFirebaseStorage";
 import Navbar from "./Navbar";
+const ConsultantProfileEditForm = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const dispatch = useDispatch();
+  const [consultant, setConsultant] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [profile, setProfile] = useState("");
 
-const ConsultantTeamProfileCreateForm = () => {
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user.user);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const response = await fetch("/api/profiles/consultant", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        console.log("Profile", json);
+        setProfile(json);
+        setFullName(json.fullName);
+        setEmail(json.email);
+        setContactNo(json.contactNo);
+        setAddmember(json.teamMembers);
+        setAchievements(json.achievements);
+        setExpertise(json.expertise);
+        setProjects(json.projects);
+      }
+    };
+
+    if (user) {
+      fetchProfile();
+    }
+  }, [user]);
+
   const [activeTab, setActiveTab] = useState("personal");
   const [formData, setFormData] = useState({
     fullName: "",
@@ -17,9 +61,6 @@ const ConsultantTeamProfileCreateForm = () => {
     expertise: [{ expertiseField: "", describeExpertise: "" }],
   });
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
   const [fullName, setFullName] = useState("");
   const [fullNameError, setFullNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -40,24 +81,9 @@ const ConsultantTeamProfileCreateForm = () => {
   ]);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  // const { user } = useAuthContext();
-  const user = useSelector((state) => state.user.user);
 
-  const [profileImageUrl, setProfileImageUrl] = useState("");
-
-  const [selectedFile, setSelectedFile] = useState("");
-
-  const { startUpload } = useFirebaseStorage(setError, setProfileImageUrl);
-
-  const handleImageFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-
-      startUpload(e.target.files[0], setProfileImageUrl);
-      const selectedImageFile = new FileReader();
-
-      selectedImageFile.readAsDataURL(e.target.files[0]);
-    }
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
   };
 
   const handleAchievements = (e, index) => {
@@ -153,9 +179,9 @@ const ConsultantTeamProfileCreateForm = () => {
 
     if (isFullNameValid && isEmailValid && isContactNoValid) {
       const data = {
+        id: profile._id,
         fullName,
         email,
-        teamImage: profileImageUrl,
         Addmember,
         contactNo,
         projects,
@@ -163,10 +189,10 @@ const ConsultantTeamProfileCreateForm = () => {
         expertise,
       };
 
-      console.log(data);
+      console.log("update data", data);
 
       const response = await fetch("/api/profiles/consultant/team", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +237,7 @@ const ConsultantTeamProfileCreateForm = () => {
         setError("Please enter your email");
         return;
       }
-      if (!contactNo.trim()) {
+      if (!contactNo) {
         setError("Please enter your contact number");
         return;
       }
@@ -262,12 +288,12 @@ const ConsultantTeamProfileCreateForm = () => {
   }
 
   /* setFormData is used to update the form data state object. */
-  const setFormValues = (key, value) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
-  };
+  // const setFormValues = (key, value) => {
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     [key]: value,
+  //   }));
+  // };
 
   /*validation for the form fields*/
   const validateFullName = () => {
@@ -293,7 +319,7 @@ const ConsultantTeamProfileCreateForm = () => {
   };
 
   const validateContactNo = () => {
-    if (!contactNo.trim()) {
+    if (!contactNo) {
       setContactNoError("Contact number is required");
       return false;
     }
@@ -349,15 +375,6 @@ const ConsultantTeamProfileCreateForm = () => {
                 value={contactNo}
                 className={emptyFields.includes("contactNo") ? "error" : ""}
               />
-              <label>Profile Image:</label>
-              <div className="form-image">
-                <input
-                  placeholder="Enter profile image"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageFileChange}
-                />
-              </div>
             </div>
           )}
           {activeTab === "personal" && (
@@ -435,106 +452,106 @@ const ConsultantTeamProfileCreateForm = () => {
           )}
 
           {/* {activeTab === "work" && (
-            <div> */}
+                  <div> */}
           {/* <label>Work Experience</label> */}
           {/* {workExperience.map((work, index) => {
-                return (
-                  <div key={index}>
-                    <label>Name of Position:</label>
-                    <input placeholder="Enter your position ex: Software Engineer"
-                      name="nameOfPosition"
-                      type="text"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.nameOfPosition}
-                    />
-                    <label>Company Name:</label>
-                    <input placeholder="Enter your company name"
-                      name="companyName"
-                      type="text"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.companyName}
-                    />
-                    <label>Start Date:</label>
-                    <input  placeholder="Enter your start date"
-                      name="startDate"
-                      type="date"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.startDate}
-                    />
-                    <label>End Date:</label>
-                    <input  placeholder="Enter your resign date"
-                      name="endDate"
-                      type="date"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.endDate}
-                    />
-                    <label>Industry Name:</label>
-                    <input placeholder="Enter your industry name ex: IT"
-                      name="industryName"
-                      type="text"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.industryName}
-                    /> */}
+                      return (
+                        <div key={index}>
+                          <label>Name of Position:</label>
+                          <input placeholder="Enter your position ex: Software Engineer"
+                            name="nameOfPosition"
+                            type="text"
+                            onChange={(e) => handleWorkExperience(e, index)}
+                            value={work.nameOfPosition}
+                          />
+                          <label>Company Name:</label>
+                          <input placeholder="Enter your company name"
+                            name="companyName"
+                            type="text"
+                            onChange={(e) => handleWorkExperience(e, index)}
+                            value={work.companyName}
+                          />
+                          <label>Start Date:</label>
+                          <input  placeholder="Enter your start date"
+                            name="startDate"
+                            type="date"
+                            onChange={(e) => handleWorkExperience(e, index)}
+                            value={work.startDate}
+                          />
+                          <label>End Date:</label>
+                          <input  placeholder="Enter your resign date"
+                            name="endDate"
+                            type="date"
+                            onChange={(e) => handleWorkExperience(e, index)}
+                            value={work.endDate}
+                          />
+                          <label>Industry Name:</label>
+                          <input placeholder="Enter your industry name ex: IT"
+                            name="industryName"
+                            type="text"
+                            onChange={(e) => handleWorkExperience(e, index)}
+                            value={work.industryName}
+                          /> */}
 
           {/* <label>
-                          <input type="checkbox" name="agree" value="yes"/>
-                          I'm currently working here
-                        </label>
-                        <br></br> */}
+                                <input type="checkbox" name="agree" value="yes"/>
+                                I'm currently working here
+                              </label>
+                              <br></br> */}
 
           {/* <button type="button" onClick={handleSave}> Save </button>
-                    {error && <div className="error">{error}</div>}
-                    <br></br>
-                    <br></br>
-                    <button type="button" onClick={() => removeWorkExperience(index)}>
-                      REMOVE
-                    </button>
-                  </div>
-                );
-              })} */}
+                          {error && <div className="error">{error}</div>}
+                          <br></br>
+                          <br></br>
+                          <button type="button" onClick={() => removeWorkExperience(index)}>
+                            REMOVE
+                          </button>
+                        </div>
+                      );
+                    })} */}
           {/* <br></br>
-            <button type="button" onClick={addWorkExperience}>
-              Add Work Experience
-            </button>
-          </div>
-        )} */}
-          {/* {activeTab === "skills" && (
-          <div> */}
-          {/* <label>Skills</label> */}
-          {/* <label>Select your Programming Skills</label>
-              <div className="form-check">
-                <input type="checkbox" name="skills" value="Python" /> Python
-                <input type="checkbox" name="skills" value="Java" /> Java
-                <input type="checkbox" name="skills" value="JavaScript" /> JavaScript
-                <input type="checkbox" name="skills" value="other" /> other
-              </div>
-            {skills.map((skill, index) => {
-              return (
-                <div key={index}>
-                  <label>Skill:</label>
-                  <input placeholder="Enter your skill ex: Python"
-                    name="AddSkills"
-                    type="text"
-                    onChange={(e) => handleSkills(e, index)}
-                    value={skill.AddSkills}
-                  />
-                  
-                  <button type="button" onClick={handleSave}> Save </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button type="button" onClick={() => removeSkills(index)}>
-                    REMOVE
+                  <button type="button" onClick={addWorkExperience}>
+                    Add Work Experience
                   </button>
                 </div>
-              ); 
-            })}
-          <br></br>
-          <button type="button" onClick={addSkills}>
-            Add Skills
-          </button>
-        </div>
-      )} */}
+              )} */}
+          {/* {activeTab === "skills" && (
+                <div> */}
+          {/* <label>Skills</label> */}
+          {/* <label>Select your Programming Skills</label>
+                    <div className="form-check">
+                      <input type="checkbox" name="skills" value="Python" /> Python
+                      <input type="checkbox" name="skills" value="Java" /> Java
+                      <input type="checkbox" name="skills" value="JavaScript" /> JavaScript
+                      <input type="checkbox" name="skills" value="other" /> other
+                    </div>
+                  {skills.map((skill, index) => {
+                    return (
+                      <div key={index}>
+                        <label>Skill:</label>
+                        <input placeholder="Enter your skill ex: Python"
+                          name="AddSkills"
+                          type="text"
+                          onChange={(e) => handleSkills(e, index)}
+                          value={skill.AddSkills}
+                        />
+                        
+                        <button type="button" onClick={handleSave}> Save </button>
+                        {error && <div className="error">{error}</div>}
+                        <br></br>
+                        <br></br>
+                        <button type="button" onClick={() => removeSkills(index)}>
+                          REMOVE
+                        </button>
+                      </div>
+                    ); 
+                  })}
+                <br></br>
+                <button type="button" onClick={addSkills}>
+                  Add Skills
+                </button>
+              </div>
+            )} */}
           {activeTab === "achievements" && (
             <div>
               {achievements.map((achievement, index) => {
@@ -686,4 +703,4 @@ const ConsultantTeamProfileCreateForm = () => {
   );
 };
 
-export default ConsultantTeamProfileCreateForm;
+export default ConsultantProfileEditForm;

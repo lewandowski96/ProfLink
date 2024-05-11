@@ -4,6 +4,7 @@ import Sidemenu from "../components/Sidemenu";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import {
   Box,
+  Button,
   Divider,
   Typography,
   useMediaQuery,
@@ -27,15 +28,20 @@ import {
 const ConsultantProfile = () => {
   const [profile, setProfile] = useState(null);
   const user = useSelector((state) => state.user.user);
+  const [editMode, setEditMode] = useState(false);
 
   const { palette } = useTheme();
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
 
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
+
+  const handleEdit = () => {
+    setEditMode(true);
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,6 +63,23 @@ const ConsultantProfile = () => {
     }
   }, [user]);
 
+  const handleDelete = async () => {
+    const response = await fetch(
+      `/api/profiles/consultant/team/${profile._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -65,9 +88,6 @@ const ConsultantProfile = () => {
           Your Consultant Profile
         </Typography>
         <div className="sub">
-          {/* <div className="sidemenu">
-            <Sidemenu />
-          </div> */}
           <div className="consultant-profile">
             <div className="profile--cover">
               {profile && (
@@ -334,6 +354,57 @@ const ConsultantProfile = () => {
                               </Box>
                             </WidgetWrapper>
                           </Box>
+                        </Box>
+                        <Box p="1rem 0">
+                          <FlexBetween>
+                            <Button
+                              onClick={() => navigate("/consultant/edit")}
+                              sx={{
+                                display: "flex",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": {
+                                  backgroundColor: palette.primary.main,
+                                },
+                              }}
+                            >
+                              UPDATE
+                            </Button>
+                          </FlexBetween>
+                        </Box>
+                        <Box p="1rem 0">
+                          <FlexBetween>
+                            <Button
+                              onClick={handleDelete}
+                              sx={{
+                                display: "flex",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": {
+                                  backgroundColor: palette.primary.main,
+                                },
+                              }}
+                            >
+                              DELETE
+                            </Button>
+                          </FlexBetween>
+                        </Box>
+                        <Box p="1rem 0">
+                          <FlexBetween>
+                            <Button
+                              onClick={() => navigate("/consultant/createad")}
+                              sx={{
+                                display: "flex",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": {
+                                  backgroundColor: palette.primary.main,
+                                },
+                              }}
+                            >
+                              Advertisements
+                            </Button>
+                          </FlexBetween>
                         </Box>
                       </Box>
                     </>
