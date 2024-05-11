@@ -8,13 +8,6 @@ const bodyParser = require("body-parser");
 // import routes
 const businessRoutes = require("./routes/business.routes");
 
-const {
-  createCourse,
-  updateCourse,
-} = require("./controllers/courseController.js");
-const {
-  createGeneralProfile,
-} = require("./controllers/generalProfileController.js");
 const checkAuth = require("./middleware/checkAuth.js");
 
 const helmet = require("helmet");
@@ -78,21 +71,8 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/profiles", profileRoutes);
 
-app.post(
-  "/api/profiles/general",
-  upload.single("profileImage"),
-  createGeneralProfile
-);
-
 app.use("/api/users/general", generalUserRoutes);
 app.use("/api/courses", courseRoutes);
-app.post("/api/courses", checkAuth, upload.single("image"), createCourse);
-app.patch(
-  "/api/courses/:courseId",
-  checkAuth,
-  upload.single("image"),
-  updateCourse
-);
 
 app.use("/api/rideSharing", rideShareRoutes);
 app.use("/api/business", businessRoutes);

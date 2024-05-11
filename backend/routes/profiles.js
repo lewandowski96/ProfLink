@@ -49,7 +49,7 @@ router.use(checkAuth);
 
 router.get("/general", getGeneralProfile);
 router.get("/general/all", getAllGeneralProfiles);
-router.patch("/general", updateGeneralProfile);
+router.put("/general", updateGeneralProfile);
 router.delete("/general", deleteGeneralProfile);
 
 router.get("/consultant", getConsultantProfile);

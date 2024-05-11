@@ -1,5 +1,7 @@
 const express = require("express");
 const {
+  createCourse,
+  updateCourse,
   deleteCourse,
   enrollCourse,
   getAllCourses,
@@ -13,6 +15,10 @@ const checkAuth = require("../middleware/checkAuth");
 const router = express.Router();
 
 router.get("/", checkAuth, getAllCourses);
+
+router.post("/", checkAuth, createCourse);
+
+router.put("/:id", checkAuth, updateCourse);
 
 router.get("/myCourses", checkAuth, getUserEnrolledCourses);
 

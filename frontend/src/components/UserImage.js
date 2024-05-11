@@ -13,8 +13,7 @@ const UserImage = ({ image, size = "60px" }) => {
         //   `${process.env.REACT_APP_BACKEND_UR}/assets/prof_pic_placeholder.png`
         // }
         src={
-          `http://localhost:4000/assets/${image}` ||
-          `http://localhost:4000/assets/prof_pic_placeholder.png`
+          `${image}` || `http://localhost:4000/assets/prof_pic_placeholder.png`
         }
       />
     </Box>

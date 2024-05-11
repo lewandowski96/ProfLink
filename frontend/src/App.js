@@ -42,6 +42,7 @@ import BusinessView from "./pages/business/view/view";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
+import GeneralProfileEditForm from "./components/GeneralProfileEditForm";
 import GeneralProfileForm from "./components/GeneralProfileForm";
 import GeneralConsultantProfileView from "./pages/GeneralConsultantProfileView";
 import RideShare from "./pages/RideShare";
@@ -189,7 +190,7 @@ function App() {
                 path="/general/create"
                 element={
                   user && user.userType === "GENERAL" ? (
-                    <GeneralProfileCreateForm />
+                    <GeneralProfileForm />
                   ) : (
                     <Navigate to="/" />
                   )
@@ -200,6 +201,16 @@ function App() {
                 element={
                   user && user.userType === "GENERAL" ? (
                     <GeneralProfile />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/general/edit"
+                element={
+                  user && user.userType === "GENERAL" ? (
+                    <GeneralProfileEditForm />
                   ) : (
                     <Navigate to="/" />
                   )
@@ -328,7 +339,7 @@ function App() {
               <Route
                 path="/rideSharing"
                 element={
-                  user && user.userType === "GENERAL" ? (
+                  user && user.userType === "GENERAL" && user.user ? (
                     <RideShare />
                   ) : (
                     <Navigate to="/" />

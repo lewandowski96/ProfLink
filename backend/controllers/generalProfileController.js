@@ -296,15 +296,17 @@ const createGeneralProfile = async (req, res) => {
     linkedinHandle,
   } = req.body;
 
-  console.log("gen body", req.body);
+  console.log("gen body", firstName);
 
   try {
     const user_id = req.user._id;
 
-    const achievementsFormatted = JSON.parse(achievements);
-    const schoolsAttendedFormatted = JSON.parse(schoolsAttended);
-    const skillsFormatted = JSON.parse(skills);
-    const previousExperiencesFormatted = JSON.parse(previousExperiences);
+    // const achievementsFormatted = JSON.parse(achievements);
+    // const schoolsAttendedFormatted = JSON.parse(schoolsAttended);
+    // const skillsFormatted = JSON.parse(skills);
+    // const previousExperiencesFormatted = JSON.parse(previousExperiences);
+
+    console.log("comes here");
 
     const generalProfile = await GeneralProfile.create({
       firstName,
@@ -322,16 +324,16 @@ const createGeneralProfile = async (req, res) => {
       city,
       country,
       bio,
-      schoolsAttended: schoolsAttendedFormatted,
+      schoolsAttended,
       universityAttendedName,
       universityAttendedYear,
       universityAttendedDegree,
       currentEmploymentCompany,
       currentEmploymentPosition,
       currentEmploymentIndustry,
-      previousExperiences: previousExperiencesFormatted,
-      skills: skillsFormatted,
-      achievements: achievementsFormatted,
+      previousExperiences,
+      skills,
+      achievements,
       twitterHandle,
       linkedinHandle,
       user_id,
@@ -343,7 +345,75 @@ const createGeneralProfile = async (req, res) => {
 };
 
 const updateGeneralProfile = async (req, res) => {
-  // TODO
+  const {
+    id,
+    firstName,
+    lastName,
+    dateOfBirth,
+    profileImagePath,
+    contactNo,
+    email,
+    sex,
+    city,
+    country,
+    bio,
+    schoolsAttended,
+    universityAttendedName,
+    universityAttendedYear,
+    universityAttendedDegree,
+    currentEmploymentCompany,
+    currentEmploymentPosition,
+    currentEmploymentIndustry,
+    previousExperiences,
+    skills,
+    twitterHandle,
+    linkedinHandle,
+  } = req.body;
+
+  console.log("gen body", firstName);
+
+  try {
+    const user_id = req.user._id;
+
+    // const achievementsFormatted = JSON.parse(achievements);
+    // const schoolsAttendedFormatted = JSON.parse(schoolsAttended);
+    // const skillsFormatted = JSON.parse(skills);
+    // const previousExperiencesFormatted = JSON.parse(previousExperiences);
+
+    console.log("comes here");
+
+    const generalProfile = await GeneralProfile.findByIdAndUpdate(
+      id,
+      {
+        firstName,
+        lastName,
+        dateOfBirth,
+        profileImagePath,
+        contactNo,
+        email,
+        sex,
+        city,
+        country,
+        bio,
+        schoolsAttended,
+        universityAttendedName,
+        universityAttendedYear,
+        universityAttendedDegree,
+        currentEmploymentCompany,
+        currentEmploymentPosition,
+        currentEmploymentIndustry,
+        previousExperiences,
+        skills,
+        twitterHandle,
+        linkedinHandle,
+        user_id,
+      },
+      { new: true }
+    );
+    res.status(200).json(generalProfile);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 const deleteGeneralProfile = async (req, res) => {

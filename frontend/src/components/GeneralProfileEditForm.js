@@ -1,5 +1,5 @@
 import { Field, FieldArray, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,7 +26,7 @@ import * as yup from "yup";
 import useFirebaseStorage from "../hooks/useFirebaseStorage";
 import { setUser } from "../store/reducers/auth.slice";
 
-const GeneralProfileForm = () => {
+const GeneralProfileEditForm = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -61,45 +61,54 @@ const GeneralProfileForm = () => {
 
   const dispatch = useDispatch();
 
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const response = await fetch("/api/profiles/general/", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        console.log("Profile", json);
+        setProfile(json);
+      }
+    };
+
+    if (user) {
+      fetchProfile();
+    }
+  }, []);
+
   const initialValuesLogin = {
-    firstName: "",
-    lastName: "",
+    firstName: profile?.firstName,
+    lastName: profile?.lastName,
     profileImagePath: profileImageUrl,
-    dateOfBirth: "",
-    contactNo: "",
-    email: "",
-    sex: "",
-    city: "",
-    country: "",
-    bio: "",
-    schoolsAttended: [{ schoolName: "", year: "" }],
-    universityAttendedName: "",
-    universityAttendedYear: "",
-    universityAttendedDegree: "",
-    currentEmploymentCompany: "",
-    currentEmploymentPosition: "",
-    currentEmploymentIndustry: "",
-    previousExperiences: [
-      {
-        company: "",
-        position: "",
-        year: "",
-        industry: "",
-      },
-    ],
-    skills: [
-      {
-        name: "",
-        level: "",
-      },
-    ],
-    achievementOne: "",
+    dateOfBirth: profile?.dateOfBirth,
+    contactNo: profile?.contactNo,
+    email: profile?.email,
+    sex: profile?.sex,
+    city: profile?.city,
+    country: "SRI LANKA",
+    bio: profile?.bio,
+    schoolsAttended: profile?.schoolsAttended,
+    universityAttendedName: profile?.universityAttendedName,
+    universityAttendedYear: profile?.universityAttendedYear,
+    universityAttendedDegree: profile?.universityAttendedDegree,
+    currentEmploymentCompany: profile?.currentEmploymentCompany,
+    currentEmploymentPosition: profile?.currentEmploymentPosition,
+    currentEmploymentIndustry: profile?.currentEmploymentIndustry,
+    previousExperiences: profile?.previousExperiences,
+    skills: profile?.skills,
+    achievementOne: profile?.achievementOne,
     achievementOneMedia: achievementOneMediaUrl,
-    achievementTwo: "",
+    achievementTwo: profile?.achievementTwo,
     achievementTwoMedia: achievementTwoMediaUrl,
-    twitterHandle: "",
-    linkedInHandle: "",
-    rideSharingProfileCreated: false,
+    twitterHandle: profile?.twitterHandle,
+    linkedInHandle: profile?.linkedInHandle,
   };
 
   const validationSchema = yup.object().shape({
@@ -168,6 +177,7 @@ const GeneralProfileForm = () => {
 
   const arrangeFormData = async (values, onSubmitProps) => {
     const formData = {
+      id: profile?._id,
       firstName: values["firstName"],
       lastName: values["lastName"],
       profileImagePath: profileImageUrl,
@@ -187,21 +197,16 @@ const GeneralProfileForm = () => {
       currentEmploymentIndustry: values["currentEmploymentIndustry"],
       previousExperiences: values["previousExperiences"],
       skills: values["skills"],
-      achievements: {
-        achievementOne: values["achievementOne"],
-        achievementOneMedia: achievementOneMediaUrl,
-        achievementTwo: values["achievementTwo"],
-        achievementTwoMedia: achievementTwoMediaUrl,
-      },
+      achievements: profile?.achievements,
       twitterHandle: values["twitterHandle"],
       linkedinHandle: values["linkedinHandle"],
-      rideSharingProfileCreated: false,
+      rideSharingProfileCreated: profile?.rideSharingProfileCreated,
     };
 
     console.log("post data ", formData);
 
     const response = await fetch("/api/profiles/general", {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(formData),
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -275,6 +280,7 @@ const GeneralProfileForm = () => {
           backgroundColor={theme.palette.background.alt}
         >
           <Formik
+            enableReinitialize={true}
             onSubmit={handleFormSubmit}
             initialValues={initialValuesLogin}
             validationSchema={validationSchema}
@@ -448,7 +454,7 @@ const GeneralProfileForm = () => {
                     <MenuItem value={"MATARA"}>Matara</MenuItem>
                   </TextField>
 
-                  <FieldArray name="schoolsAttended">
+                  {/* <FieldArray name="schoolsAttended">
                     {({ push, remove }) => (
                       <>
                         <Typography sx={{ gridColumn: "span 8" }}>
@@ -505,7 +511,7 @@ const GeneralProfileForm = () => {
                         </Button>
                       </>
                     )}
-                  </FieldArray>
+                  </FieldArray> */}
 
                   <TextField
                     label="Bio"
@@ -636,7 +642,7 @@ const GeneralProfileForm = () => {
                     <MenuItem value={"CONSTRUCTION"}>Construction</MenuItem>
                   </TextField>
 
-                  <FieldArray name="previousExperiences">
+                  {/* <FieldArray name="previousExperiences">
                     {({ push, remove }) => (
                       <>
                         <Typography sx={{ gridColumn: "span 8" }}>
@@ -714,9 +720,9 @@ const GeneralProfileForm = () => {
                         </Button>
                       </>
                     )}
-                  </FieldArray>
+                  </FieldArray> */}
 
-                  <FieldArray name="skills">
+                  {/* <FieldArray name="skills">
                     {({ push, remove }) => (
                       <>
                         <Typography sx={{ gridColumn: "span 8" }}>
@@ -783,105 +789,7 @@ const GeneralProfileForm = () => {
                         </Button>
                       </>
                     )}
-                  </FieldArray>
-
-                  <Typography sx={{ gridColumn: "span 8" }}>
-                    Add Your Achievements
-                  </Typography>
-
-                  <TextField
-                    label="Achievement Name"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.achievementOne}
-                    name="achievementOne"
-                    error={
-                      Boolean(touched.achievementOne) &&
-                      Boolean(errors.achievementOne)
-                    }
-                    helperText={touched.achievementOne && errors.achievementOne}
-                    sx={{ gridColumn: "span 8" }}
-                  />
-
-                  <Box gridColumn="span 8">
-                    <Dropzone
-                      accept=".jpg,.jpeg,.png"
-                      multiple={false}
-                      onDrop={
-                        (acceptedFiles) =>
-                          handleAchievementOneFileChange(acceptedFiles[0])
-                        // setFieldValue("profileImage", acceptedFiles[0])
-                      }
-                    >
-                      {({ getRootProps, getInputProps }) => (
-                        <Box
-                          {...getRootProps()}
-                          border={`2px dashed ${palette.primary.main}`}
-                          p="1rem"
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        >
-                          <input {...getInputProps()} />
-                          {!selectedAchievementOneFile.name ? (
-                            <p>Add Profile Picture Here</p>
-                          ) : (
-                            <FlexBetween>
-                              <Typography>
-                                {selectedAchievementOneFile.name}
-                              </Typography>
-                              <EditOutlinedIcon />
-                            </FlexBetween>
-                          )}
-                        </Box>
-                      )}
-                    </Dropzone>
-                  </Box>
-
-                  <TextField
-                    label="Achievement Name"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.achievementTwo}
-                    name="achievementTwo"
-                    error={
-                      Boolean(touched.achievementTwo) &&
-                      Boolean(errors.achievementTwo)
-                    }
-                    helperText={touched.achievementTwo && errors.achievementTwo}
-                    sx={{ gridColumn: "span 8" }}
-                  />
-
-                  <Box gridColumn="span 8">
-                    <Dropzone
-                      accept=".jpg,.jpeg,.png"
-                      multiple={false}
-                      onDrop={
-                        (acceptedFiles) =>
-                          handleAchievementTwoFileChange(acceptedFiles[0])
-                        // setFieldValue("profileImage", acceptedFiles[0])
-                      }
-                    >
-                      {({ getRootProps, getInputProps }) => (
-                        <Box
-                          {...getRootProps()}
-                          border={`2px dashed ${palette.primary.main}`}
-                          p="1rem"
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        >
-                          <input {...getInputProps()} />
-                          {!selectedAchievementTwoFile.name ? (
-                            <p>Add Profile Picture Here</p>
-                          ) : (
-                            <FlexBetween>
-                              <Typography>
-                                {selectedAchievementTwoFile.name}
-                              </Typography>
-                              <EditOutlinedIcon />
-                            </FlexBetween>
-                          )}
-                        </Box>
-                      )}
-                    </Dropzone>
-                  </Box>
+                  </FieldArray> */}
 
                   <Typography sx={{ gridColumn: "span 8" }}>
                     Add Your Socials
@@ -927,7 +835,7 @@ const GeneralProfileForm = () => {
                       "&:hover": { backgroundColor: palette.primary.main },
                     }}
                   >
-                    {isSubmitting ? "CREATING YOUR PROFILE" : "CREATE"}
+                    {isSubmitting ? "UPDATING YOUR PROFILE" : "UPDATE"}
                   </Button>
                 </Box>
               </form>
@@ -939,4 +847,4 @@ const GeneralProfileForm = () => {
   );
 };
 
-export default GeneralProfileForm;
+export default GeneralProfileEditForm;
