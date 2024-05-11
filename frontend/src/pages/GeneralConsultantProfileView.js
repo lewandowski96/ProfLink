@@ -4,13 +4,14 @@ import Sidemenu from "../components/Sidemenu";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import {
   Box,
+  Button,
   Divider,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FlexBetween from "../components/GeneralFlexBetween";
 import Navbar from "../components/Navbar";
 import UserImage from "../components/UserImage";
@@ -67,6 +68,12 @@ const GeneralConsultantProfileView = () => {
         <Typography textAlign="center" fontSize="2rem">
           {profile && profile.fullName}
         </Typography>
+        <Link to="/consultant/customerAppoinment"><Button variant="contained" style={{ marginLeft: "77%", marginRight: "0"}}
+          >Appoinment</Button></Link>
+          <Link to="/consultant/customerfeedback"><Button variant="contained" style={{ marginLeft: "5px", marginRight: "0" }}
+          >Feedback</Button></Link>
+          <Link to="/consultant/viewadvertisement"><Button variant="contained" style={{ marginLeft: "5px", marginRight: "0" }}>Advertisement</Button></Link>
+        <Divider />
         <div className="sub">
           {/* <div className="sidemenu">
             <Sidemenu />
