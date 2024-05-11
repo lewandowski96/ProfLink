@@ -143,9 +143,7 @@ const UserWidget = () => {
                 Linkedin
               </Typography>
               <Typography color={medium}>
-                {generalUser.linkedinHandle === undefined
-                  ? generalUser.linkedinHandle
-                  : "Network Platform"}
+                {generalUser.linkedinHandle || "Network Platform"}
               </Typography>
             </Box>
           </FlexBetween>

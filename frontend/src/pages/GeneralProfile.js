@@ -1,15 +1,39 @@
+import {
+  Box,
+  Button,
+  Divider,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
-
-import Sidemenu from "../components/Sidemenu";
-// import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import FlexBetween from "../components/GeneralFlexBetween";
+import Navbar from "../components/Navbar";
+import UserImage from "../components/UserImage";
+import WidgetWrapper from "../components/WidgetWrapper";
+// import "../styles/sideMenu.css";
 
-import formatISO from "date-fns/formatISO";
+import {
+  EditOutlined,
+  LocationOnOutlined,
+  ManageAccountsOutlined,
+  WorkOutlineOutlined,
+} from "@mui/icons-material";
 
 const GeneralProfile = () => {
   const [profile, setProfile] = useState(null);
-  // const { user } = useAuthContext();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
+
+  const { palette } = useTheme();
+  const navigate = useNavigate();
+
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+
+  const dark = palette.neutral.dark;
+  const medium = palette.neutral.medium;
+  const main = palette.neutral.main;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -21,7 +45,7 @@ const GeneralProfile = () => {
       const json = await response.json();
 
       if (response.ok) {
-        console.log(json);
+        console.log("Profile", json);
         setProfile(json);
       }
     };
@@ -32,138 +56,486 @@ const GeneralProfile = () => {
   }, [user]);
 
   return (
-    <div className="view-general-profile">
-      <h2>Your Profile</h2>
-      <div className="sub">
-        <div className="sidemenu">
-          <Sidemenu />
-        </div>
-        <div className="general-profile">
-          <div className="bio">
-            {/* <span className="material-symbols-outlined">person</span> */}
-            <img src="/prof_pic_placeholder.png" width={"200px"} alt="dsd" />
-            <div className="bio-details">
-              {profile &&
-                profile.map((pf) => (
-                  <>
-                    <h4>
-                      {pf.firstName} {pf.lastName}
-                    </h4>
-                    <p>{pf.currentEmployment[0].position}</p>
-                    <p>{pf.bio}</p>
-                  </>
-                ))}
-            </div>
-          </div>
-          {/* <div>
-            <br></br>
+    <>
+      <Navbar />
+      <div className="view-consultant-profile">
+        <div className="sub">
+          {/* <div className="sidemenu">
+            <Sidemenu />
           </div> */}
-          <div className="row-1">
-            <div className="personal-section">
-              <h4>PERSONAL</h4>
-              <div className="personal-section-details">
-                {profile &&
-                  profile.map((pf) => (
-                    <>
-                      <p>
-                        Date Of Birth -{" "}
-                        {formatISO(new Date(pf.dateOfBirth), {
-                          representation: "date",
-                        })}
-                      </p>
-                      <p>Contact - {pf.contactNo}</p>
-                      <p>Email - {pf.email}</p>
-                      <p>City - {pf.city}</p>
-                      <p>Country - {pf.country}</p>
-                    </>
-                  ))}
-              </div>
-            </div>
-            <div className="skills-section">
-              <h4>SKILLS</h4>
-              <div className="skills-section-details">
-                {profile &&
-                  profile.map((pf) => (
-                    <>
-                      {pf.skills.length > 1 &&
-                        pf.skills.map((skill) => <p>{skill.name}</p>)}
-                    </>
-                  ))}
-              </div>
-            </div>
-          </div>
-          <div className="row-2">
-            <div className="education-section">
-              <h4>EDUCATION</h4>
-              <div className="education-section-details">
-                <h4>Schools</h4>
-                {profile &&
-                  profile.map((pf) => (
-                    <>
-                      {pf.schoolsAttended.map((school) => (
-                        <div className="school-details">
-                          <p>{school.schoolName}</p>
-                          <p>{school.year}</p>
-                        </div>
-                      ))}
-                    </>
-                  ))}
-                <h4>University</h4>
-                {profile &&
-                  profile.map((pf) => (
-                    <>
-                      {pf.universityAttended.map((university) => (
-                        <div className="school-details">
-                          <p>{university.universityName}</p>
-                          <p>{university.year}</p>
-                          <p>{university.degree}</p>
-                        </div>
-                      ))}
-                    </>
-                  ))}
-              </div>
-            </div>
-            <div className="achievements-section">
-              <h4>ACHIEVEMENTS</h4>
-              <div className="achievements-section-details">
-                {profile &&
-                  profile.map((pf) => (
-                    <>
-                      {pf.achievements.map((achievement) => (
-                        <div className="school-details">
-                          <p>{achievement.name}</p>
-                        </div>
-                      ))}
-                    </>
-                  ))}
-              </div>
-            </div>
-          </div>
-          <div className="row-2">
-            <div className="work-section">
-              <h4>WORK EXPERIENCE</h4>
-              <div className="work-section-details">
-                {profile &&
-                  profile.map((pf) => (
-                    <>
-                      {pf.previousExperiences.length > 1 &&
-                        pf.previousExperiences.map((experience) => (
-                          <div className="school-details">
-                            <h4>{experience.company}</h4>
-                            <p>
-                              Worked as a {experience.position} at{" "}
-                              {experience.year}
-                            </p>
-                          </div>
-                        ))}
-                    </>
-                  ))}
-              </div>
+          <div className="consultant-profile">
+            <Typography textAlign="center" fontSize="2rem">
+              My Profile
+            </Typography>
+            <Box p="1rem 0"></Box>
+            <FlexBetween>
+              <Button
+                onClick={() => navigate("/general/edit")}
+                sx={{
+                  margin: "auto",
+                  backgroundColor: palette.primary.main,
+                  color: palette.background.alt,
+                  "&:hover": {
+                    backgroundColor: palette.primary.main,
+                  },
+                }}
+              >
+                UPDATE
+              </Button>
+            </FlexBetween>
+
+            <div className="profile--cover">
+              {profile && (
+                <>
+                  <Box>
+                    <Box
+                      width="100%"
+                      padding="2rem 6%"
+                      display={isNonMobileScreens ? "flex" : "block"}
+                      gap="0.5rem"
+                      justifyContent="space-between"
+                    >
+                      <Box flexBasis={isNonMobileScreens ? "25%" : undefined}>
+                        <WidgetWrapper>
+                          <FlexBetween gap="0.5rem" pb="1.1rem">
+                            <FlexBetween gap="1rem">
+                              <UserImage image={profile.profileImagePath} />
+                              <Box>
+                                <Typography
+                                  variant="h4"
+                                  color={dark}
+                                  fontWeight="500"
+                                  sx={{
+                                    "&:hover": {
+                                      color: palette.primary.light,
+                                      cursor: "pointer",
+                                    },
+                                  }}
+                                >
+                                  {profile.firstName} {profile.lastName}
+                                </Typography>
+                              </Box>
+                            </FlexBetween>
+                          </FlexBetween>
+
+                          <Divider />
+
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              Personal Details
+                            </Typography>
+
+                            <FlexBetween gap="1rem" mb="0.5rem">
+                              <FlexBetween gap="1rem">
+                                <Box>
+                                  <Typography color={main} fontWeight="500">
+                                    Email
+                                  </Typography>
+                                  <Typography color={medium}>
+                                    {profile.email}
+                                  </Typography>
+                                </Box>
+                              </FlexBetween>
+                            </FlexBetween>
+
+                            <FlexBetween gap="1rem" mb="0.5rem">
+                              <FlexBetween gap="1rem">
+                                <Box>
+                                  <Typography color={main} fontWeight="500">
+                                    Contact No
+                                  </Typography>
+                                  <Typography color={medium}>
+                                    {profile.contactNo}
+                                  </Typography>
+                                </Box>
+                              </FlexBetween>
+                            </FlexBetween>
+
+                            <FlexBetween gap="1rem" mb="0.5rem">
+                              <FlexBetween gap="1rem">
+                                <Box>
+                                  <Typography color={main} fontWeight="500">
+                                    Location
+                                  </Typography>
+                                  <Typography color={medium}>
+                                    {profile.city}
+                                  </Typography>
+                                </Box>
+                              </FlexBetween>
+                            </FlexBetween>
+
+                            <FlexBetween gap="1rem" mb="0.5rem">
+                              <FlexBetween gap="1rem">
+                                <Box>
+                                  <Typography color={main} fontWeight="500">
+                                    Bio
+                                  </Typography>
+                                  <Typography color={medium}>
+                                    {profile.bio}
+                                  </Typography>
+                                </Box>
+                              </FlexBetween>
+                            </FlexBetween>
+                          </Box>
+                        </WidgetWrapper>
+                        <Box p="1rem 0"></Box>
+                        <WidgetWrapper>
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              Skills
+                            </Typography>
+
+                            {profile.skills &&
+                              profile.skills.map((skill) => (
+                                <>
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          {skill.name}
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {skill.level}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+                                  <Box p="0.5rem 0"></Box>
+                                  <Divider />
+                                  <Box p="0.5rem 0"></Box>
+                                </>
+                              ))}
+                          </Box>
+                        </WidgetWrapper>
+                      </Box>
+                      <Box
+                        flexBasis={isNonMobileScreens ? "70%" : undefined}
+                        mt={isNonMobileScreens ? undefined : "2rem"}
+                      >
+                        <WidgetWrapper>
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              Schools Attended
+                            </Typography>
+
+                            {profile.schoolsAttended &&
+                              profile.schoolsAttended.map((school) => (
+                                <>
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          School Name
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {school.schoolName}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          Year
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {school.year}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+                                  <Box p="0.5rem 0"></Box>
+                                  <Divider />
+                                  <Box p="0.5rem 0"></Box>
+                                </>
+                              ))}
+                          </Box>
+                        </WidgetWrapper>
+                        <Box p="1rem 0"></Box>
+                        <WidgetWrapper>
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              University Attended
+                            </Typography>
+
+                            {profile.universityAttendedName && (
+                              <>
+                                <FlexBetween gap="1rem" mb="0.5rem">
+                                  <FlexBetween gap="1rem">
+                                    <Box>
+                                      <Typography color={main} fontWeight="500">
+                                        Univerisity Name
+                                      </Typography>
+                                      <Typography color={medium}>
+                                        {profile.universityAttendedName}
+                                      </Typography>
+                                    </Box>
+                                  </FlexBetween>
+                                </FlexBetween>
+                                <FlexBetween gap="1rem" mb="0.5rem">
+                                  <FlexBetween gap="1rem">
+                                    <Box>
+                                      <Typography color={main} fontWeight="500">
+                                        Year
+                                      </Typography>
+                                      <Typography color={medium}>
+                                        {profile.universityAttendedYear}
+                                      </Typography>
+                                    </Box>
+                                  </FlexBetween>
+                                </FlexBetween>
+                                <FlexBetween gap="1rem" mb="0.5rem">
+                                  <FlexBetween gap="1rem">
+                                    <Box>
+                                      <Typography color={main} fontWeight="500">
+                                        Degree
+                                      </Typography>
+                                      <Typography color={medium}>
+                                        {profile.universityAttendedDegree}
+                                      </Typography>
+                                    </Box>
+                                  </FlexBetween>
+                                </FlexBetween>
+                              </>
+                            )}
+                          </Box>
+                        </WidgetWrapper>
+                        <Box p="1rem 0"></Box>
+                        <WidgetWrapper>
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              Current Employment
+                            </Typography>
+
+                            {profile.currentEmploymentCompany && (
+                              <>
+                                <FlexBetween gap="1rem" mb="0.5rem">
+                                  <FlexBetween gap="1rem">
+                                    <Box>
+                                      <Typography color={main} fontWeight="500">
+                                        Company Name
+                                      </Typography>
+                                      <Typography color={medium}>
+                                        {profile.currentEmploymentCompany}
+                                      </Typography>
+                                    </Box>
+                                  </FlexBetween>
+                                </FlexBetween>
+                                <FlexBetween gap="1rem" mb="0.5rem">
+                                  <FlexBetween gap="1rem">
+                                    <Box>
+                                      <Typography color={main} fontWeight="500">
+                                        Position
+                                      </Typography>
+                                      <Typography color={medium}>
+                                        {profile.currentEmploymentPosition}
+                                      </Typography>
+                                    </Box>
+                                  </FlexBetween>
+                                </FlexBetween>
+                                <FlexBetween gap="1rem" mb="0.5rem">
+                                  <FlexBetween gap="1rem">
+                                    <Box>
+                                      <Typography color={main} fontWeight="500">
+                                        Industry
+                                      </Typography>
+                                      <Typography color={medium}>
+                                        {profile.currentEmploymentIndustry}
+                                      </Typography>
+                                    </Box>
+                                  </FlexBetween>
+                                </FlexBetween>
+                              </>
+                            )}
+                          </Box>
+                        </WidgetWrapper>
+                        <Box p="1rem 0"></Box>
+                        <WidgetWrapper>
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              Work Experience
+                            </Typography>
+
+                            {profile.previousExperiences &&
+                              profile.previousExperiences.map((work) => (
+                                <>
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          Position
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {work.position}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          Company
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {work.company}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          Year
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {work.year}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          Industry
+                                        </Typography>
+                                        <Typography color={medium}>
+                                          {work.industry}
+                                        </Typography>
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+
+                                  <Box p="0.5rem 0"></Box>
+                                  <Divider />
+                                  <Box p="0.5rem 0"></Box>
+                                </>
+                              ))}
+                          </Box>
+                        </WidgetWrapper>
+                        <Box p="1rem 0"></Box>
+                        <WidgetWrapper>
+                          <Box p="1rem 0">
+                            <Typography
+                              fontSize="1rem"
+                              color={main}
+                              fontWeight="500"
+                              mb="1rem"
+                            >
+                              Achievements
+                            </Typography>
+
+                            {profile.achievements &&
+                              profile.achievements.map((achievement) => (
+                                <>
+                                  <FlexBetween gap="1rem" mb="0.5rem">
+                                    <FlexBetween gap="1rem">
+                                      <Box>
+                                        <Typography
+                                          color={main}
+                                          fontWeight="500"
+                                        >
+                                          {achievement.achievementOne}
+                                        </Typography>
+                                        {/* <Typography color={medium}>
+                                          {achievement.achievementsDescription}
+                                        </Typography> */}
+                                      </Box>
+                                    </FlexBetween>
+                                  </FlexBetween>
+                                  {achievement.achievementTwo && (
+                                    <FlexBetween gap="1rem" mb="0.5rem">
+                                      <FlexBetween gap="1rem">
+                                        <Box>
+                                          <Typography
+                                            color={main}
+                                            fontWeight="500"
+                                          >
+                                            {achievement.achievementTwo}
+                                          </Typography>
+                                          {/* <Typography color={medium}>
+                                          {achievement.achievementsDescription}
+                                        </Typography> */}
+                                        </Box>
+                                      </FlexBetween>
+                                    </FlexBetween>
+                                  )}
+
+                                  <Box p="0.5rem 0"></Box>
+                                  <Divider />
+                                  <Box p="0.5rem 0"></Box>
+                                </>
+                              ))}
+                          </Box>
+                        </WidgetWrapper>
+                      </Box>
+                    </Box>
+                  </Box>
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

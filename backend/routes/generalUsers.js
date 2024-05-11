@@ -1,6 +1,8 @@
 const express = require("express");
 
 const {
+  createGeneralProfile,
+  updateGeneralProfile,
   getGeneralProfile,
   getUserFriends,
   getUserFollowers,
@@ -18,6 +20,10 @@ const checkAuth = require("../middleware/checkAuth");
 const router = express.Router();
 
 router.get("/", checkAuth, getGeneralProfile);
+
+router.post("/", checkAuth, createGeneralProfile);
+
+router.put("/", checkAuth, updateGeneralProfile);
 
 router.get("/friends", checkAuth, getUserFriends);
 
