@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import { Box, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import useFirebaseStorage from "../hooks/useFirebaseStorage";
 import Navbar from "./Navbar";
 
 const ConsultantTeamProfileCreateForm = () => {
@@ -41,6 +42,23 @@ const ConsultantTeamProfileCreateForm = () => {
   const [emptyFields, setEmptyFields] = useState([]);
   // const { user } = useAuthContext();
   const user = useSelector((state) => state.user.user);
+
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState("");
+
+  const { startUpload } = useFirebaseStorage(setError, setProfileImageUrl);
+
+  const handleImageFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+
+      startUpload(e.target.files[0], setProfileImageUrl);
+      const selectedImageFile = new FileReader();
+
+      selectedImageFile.readAsDataURL(e.target.files[0]);
+    }
+  };
 
   const handleAchievements = (e, index) => {
     console.log(index, e.target.name);
@@ -137,6 +155,7 @@ const ConsultantTeamProfileCreateForm = () => {
       const data = {
         fullName,
         email,
+        teamImage: profileImageUrl,
         Addmember,
         contactNo,
         projects,
@@ -330,6 +349,15 @@ const ConsultantTeamProfileCreateForm = () => {
                 value={contactNo}
                 className={emptyFields.includes("contactNo") ? "error" : ""}
               />
+              <label>Profile Image:</label>
+              <div className="form-image">
+                <input
+                  placeholder="Enter profile image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageFileChange}
+                />
+              </div>
             </div>
           )}
           {activeTab === "personal" && (

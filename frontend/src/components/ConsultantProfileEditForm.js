@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
-import { useDispatch, useSelector } from "react-redux";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   Box,
   Button,
@@ -9,14 +7,21 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import useFirebaseStorage from "../hooks/useFirebaseStorage";
+import Navbar from "./Navbar";
 const ConsultantProfileEditForm = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
-  const [consultant, setConsultant] = useState({});
+  const [consultant, setConsultant] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState("");
+
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -30,34 +35,38 @@ const ConsultantProfileEditForm = () => {
       if (response.ok) {
         console.log("Profile", json);
         setProfile(json);
+        setFullName(json.fullName);
+        setEmail(json.email);
+        setContactNo(json.contactNo);
+        setAddmember(json.teamMembers);
+        setAchievements(json.achievements);
+        setExpertise(json.expertise);
+        setProjects(json.projects);
       }
     };
 
     if (user) {
       fetchProfile();
     }
-  }, []);
+  }, [user]);
 
   const [activeTab, setActiveTab] = useState("personal");
-  // const [formData, setFormData] = useState({
-  //   fullName: "",
-  //   email: "",
-  //   Addmember: "",
-  //   contactNo: "",
-  //   achievements: [{ achievementsName: "", achievementsDescription: "" }],
-  //   projects: [{ projectName: "", projectDescription: "" }],
-  //   expertise: [{ expertiseField: "", describeExpertise: "" }],
-  // });
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    Addmember: "",
+    contactNo: "",
+    achievements: [{ achievementsName: "", achievementsDescription: "" }],
+    projects: [{ projectName: "", projectDescription: "" }],
+    expertise: [{ expertiseField: "", describeExpertise: "" }],
+  });
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
-  const [fullName, setFullName] = useState(profile.fullName);
+  const [fullName, setFullName] = useState("");
   const [fullNameError, setFullNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [contactNoError, setContactNoError] = useState("");
-  const [contactNo, setContactNo] = useState(profile.contactNo);
-  const [email, setEmail] = useState(profile.email);
+  const [contactNo, setContactNo] = useState("");
+  const [email, setEmail] = useState("");
   const [Addmember, setAddmember] = useState([
     { memberName: "", memberEmail: "", memberContactNo: "" },
   ]);
@@ -72,8 +81,10 @@ const ConsultantProfileEditForm = () => {
   ]);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  // const { user } = useAuthContext();
-  const user = useSelector((state) => state.user.user);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
 
   const handleAchievements = (e, index) => {
     console.log(index, e.target.name);
@@ -168,6 +179,7 @@ const ConsultantProfileEditForm = () => {
 
     if (isFullNameValid && isEmailValid && isContactNoValid) {
       const data = {
+        id: profile._id,
         fullName,
         email,
         Addmember,
@@ -177,10 +189,10 @@ const ConsultantProfileEditForm = () => {
         expertise,
       };
 
-      console.log(data);
+      console.log("update data", data);
 
       const response = await fetch("/api/profiles/consultant/team", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
@@ -225,7 +237,7 @@ const ConsultantProfileEditForm = () => {
         setError("Please enter your email");
         return;
       }
-      if (!contactNo.trim()) {
+      if (!contactNo) {
         setError("Please enter your contact number");
         return;
       }
@@ -307,7 +319,7 @@ const ConsultantProfileEditForm = () => {
   };
 
   const validateContactNo = () => {
-    if (!contactNo.trim()) {
+    if (!contactNo) {
       setContactNoError("Contact number is required");
       return false;
     }

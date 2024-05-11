@@ -31,7 +31,7 @@ const ConsultantProfile = () => {
   const [editMode, setEditMode] = useState(false);
 
   const { palette } = useTheme();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
@@ -41,7 +41,7 @@ const ConsultantProfile = () => {
 
   const handleEdit = () => {
     setEditMode(true);
-}
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -62,6 +62,23 @@ const ConsultantProfile = () => {
       fetchProfile();
     }
   }, [user]);
+
+  const handleDelete = async () => {
+    const response = await fetch(
+      `/api/profiles/consultant/team/${profile._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      navigate("/");
+    }
+  };
 
   return (
     <>
@@ -339,57 +356,56 @@ const ConsultantProfile = () => {
                           </Box>
                         </Box>
                         <Box p="1rem 0">
-                        <FlexBetween>
-                      <Button
-                        onClick={() => navigate("/consultant/edit")}
-                        sx={{
-                          display: "flex",
-                          backgroundColor: palette.primary.main,
-                          color: palette.background.alt,
-                          "&:hover": {
-                            backgroundColor: palette.primary.main,
-                          },
-                        }}
-                      >
-                        UPDATE
-                      </Button>
-                      </FlexBetween>
-                      </Box>
-                      <Box p="1rem 0">
-                        <FlexBetween>
-                      <Button
-                        onClick={() => navigate("/consultant/edit")}
-                        sx={{
-                          display: "flex",
-                          backgroundColor: palette.primary.main,
-                          color: palette.background.alt,
-                          "&:hover": {
-                            backgroundColor: palette.primary.main,
-                          },
-                        }}
-                      >
-                        DELETE
-                      </Button>
-                      </FlexBetween>
-                      </Box>
-                      <Box p="1rem 0">
-                        <FlexBetween>
-                      <Button
-                        onClick={() => navigate("/consultant/createad")}
-
-                        sx={{
-                          display: "flex",
-                          backgroundColor: palette.primary.main,
-                          color: palette.background.alt,
-                          "&:hover": {
-                            backgroundColor: palette.primary.main,
-                          },
-                        }}
-                      >
-                        Advertisements
-                      </Button>
-                      </FlexBetween>
-                      </Box>
+                          <FlexBetween>
+                            <Button
+                              onClick={() => navigate("/consultant/edit")}
+                              sx={{
+                                display: "flex",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": {
+                                  backgroundColor: palette.primary.main,
+                                },
+                              }}
+                            >
+                              UPDATE
+                            </Button>
+                          </FlexBetween>
+                        </Box>
+                        <Box p="1rem 0">
+                          <FlexBetween>
+                            <Button
+                              onClick={handleDelete}
+                              sx={{
+                                display: "flex",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": {
+                                  backgroundColor: palette.primary.main,
+                                },
+                              }}
+                            >
+                              DELETE
+                            </Button>
+                          </FlexBetween>
+                        </Box>
+                        <Box p="1rem 0">
+                          <FlexBetween>
+                            <Button
+                              onClick={() => navigate("/consultant/createad")}
+                              sx={{
+                                display: "flex",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": {
+                                  backgroundColor: palette.primary.main,
+                                },
+                              }}
+                            >
+                              Advertisements
+                            </Button>
+                          </FlexBetween>
+                        </Box>
                       </Box>
                     </>
                   )}

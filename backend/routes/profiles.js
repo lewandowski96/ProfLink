@@ -62,9 +62,9 @@ router.get("/consultant/team/all", getAllConsultantTeamProfiles);
 router.post("/consultant/individual", createConsultantIndividualProfile);
 router.post("/consultant/team", createConsultantTeamProfile);
 router.patch("/consultant/individual", updateConsultantIndividualProfile);
-router.patch("/consultant/team", updateConsultantTeamProfile);
+router.put("/consultant/team", updateConsultantTeamProfile);
 router.delete("/consultant/individual", deleteConsultantIndividualProfile);
-router.delete("/consultant/team", deleteConsultantTeamProfile);
+router.delete("/consultant/team/:id", deleteConsultantTeamProfile);
 
 router.get("/company", getCompanyProfile);
 router.get("/company/all", getAllCompanyProfiles);

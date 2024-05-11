@@ -266,7 +266,67 @@ const updateConsultantIndividualProfile = async (req, res) => {
 };
 
 const updateConsultantTeamProfile = async (req, res) => {
-  // TODO
+  const {
+    id,
+    consultantType,
+    fullName,
+    teamImage,
+    email,
+    Addmember,
+    contactNo,
+    industryName,
+    achievements,
+    projects,
+    expertise,
+  } = req.body;
+
+  let emptyFields = [];
+
+  if (!fullName) {
+    emptyFields.push("fullName");
+  }
+  if (!email) {
+    emptyFields.push("email");
+  }
+  if (!Addmember) {
+    emptyFields.push("Addmember");
+  }
+  if (!contactNo) {
+    emptyFields.push("contactNo");
+  }
+  if (emptyFields.length > 0) {
+    return res
+      .status(400)
+      .json({ error: "Please fill in all the required fields.", emptyFields });
+  }
+
+  try {
+    console.log("comes to update");
+
+    const user_id = req.user._id;
+    const consultantType = "TEAM";
+
+    const consultantTeamProfile = await ConsultantTeamProfile.findByIdAndUpdate(
+      id,
+      {
+        consultantType,
+        fullName,
+        teamImage,
+        email,
+        teamMembers: Addmember,
+        contactNo,
+        industryName,
+        achievements,
+        projects,
+        expertise,
+        user_id,
+      },
+      { new: true }
+    );
+    res.status(200).json(consultantTeamProfile);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 const deleteConsultantIndividualProfile = async (req, res) => {
@@ -274,7 +334,21 @@ const deleteConsultantIndividualProfile = async (req, res) => {
 };
 
 const deleteConsultantTeamProfile = async (req, res) => {
-  // TODO
+  try {
+    const user_id = req.user._id;
+
+    console.log("udsdasd", user_id);
+
+    const id = req.params.id;
+
+    console.log("iddddd", id);
+
+    await ConsultantTeamProfile.findByIdAndDelete(id);
+
+    res.status(200).json("");
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 // export the methods to be used from other places
