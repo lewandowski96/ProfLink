@@ -7,6 +7,8 @@ import Sidemenu from "../components/Sidemenu";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { Button } from "@mui/material";
+import FeedbackIcon from '@mui/icons-material/Feedback';
 
 const ConsultantListing = () => {
   // const { user } = useAuthContext();
@@ -195,9 +197,9 @@ const ConsultantListing = () => {
     <>
       <Navbar />
       <div className="consultant-listing">
-        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+        {/* <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Consultants
-        </h2>
+        </h2> */}
         <div className="sub mx-auto flex justify-center">
           <div className="consultants">
             <h4 className="text-balck mx-auto mt-4 mb-6 text-left pl-10 text-2xl font-semibold font-mono">
@@ -369,6 +371,7 @@ const ConsultantListing = () => {
                           {consultant.location}
                         </p>
                       </div>
+                      
                     </div>
                   ))}
               </div>
@@ -548,6 +551,7 @@ const ConsultantListing = () => {
                       </div>
                     </div>
                   ))}
+                  
               </div>
             </div>
 

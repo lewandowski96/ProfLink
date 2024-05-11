@@ -49,6 +49,9 @@ import GeneralConsultantProfileView from "./pages/GeneralConsultantProfileView";
 import RideShare from "./pages/RideShare";
 import { setLogin } from "./store/reducers/auth.slice";
 import { themeSettings } from "./theme";
+import ConsultantFeedback from "./components/ConsultantFeedback";
+import ConsultantAppointmet from "./components/ConsultantAppointmet";
+import ConsultantViewAd from "./components/ConsultantViewAd";
 
 function App() {
   // const { user } = useAuthContext();
@@ -342,6 +345,36 @@ function App() {
                 element={
                   user && user.userType === "CONSULTANT" ? (
                     <ConsultantProfileEditForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/customerfeedback"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantFeedback/>
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/customerAppoinment"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantAppointmet/>
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewadvertisement"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantViewAd />
                   ) : (
                     <Navigate to="/" />
                   )

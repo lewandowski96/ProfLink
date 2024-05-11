@@ -315,3 +315,87 @@ h1{
 
 
 
+.consultant-appoinmnt{
+  max-width: 600px;
+  margin: 10px auto;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  box-shadow: #02152a;
+  background-color: #dde6ec;
+}
+.consultant-appoinmnt h1{
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 25px;
+  margin-top: 20px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.form-group {
+  width: calc(50% - 10px);
+}
+
+.full-width {
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resizing */
+}
+
+/* .button-group {
+  display: flex;
+  justify-content: space-between;
+} */
+
+.consultant-appoinmnt .submit{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0055b0;
+  color: #fff;
+  cursor: pointer;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+.consultant-appoinmnt .submit:hover{
+  background-color: #02152a;
+}
+
+.consultant-appoinmnt .cancel{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #df0e0e;
+  color: #fff;
+  cursor: pointer;
+}
+
+.consultant-appoinmnt .cancel:hover{
+  background-color: #c8052c;
+}
+
+
+
+
