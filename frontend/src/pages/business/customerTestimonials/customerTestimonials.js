@@ -80,9 +80,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
-      width: "12ch",
+      width: "120ch",
       "&:focus": {
-        width: "20ch",
+        width: "120ch",
       },
     },
   },
@@ -97,6 +97,19 @@ const CustomerTestimonials = () => {
   );
 
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Function to handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  }; 
+
+  // Function to filter data based on search term
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.rating.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // API calls
   useEffect(() => {
@@ -168,26 +181,28 @@ const CustomerTestimonials = () => {
     <>
       <Navbar />
       <div className="company-listing">
-        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+        <h2 className="relative left-10 top-0 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Customer Testimonials Businesses
         </h2>
 
         <div className="sub w-full">
-          <div className="sidemenu">
+          {/* <div className="sidemenu">
             <Sidemenu />
-          </div>
+          </div> */}
           <div className="w-full ">
             <div className="">
               <div className="flex flex-row px-20 place-content-center gap-3">
                 <Grid container spacing={2}>
                   <Grid item md={9}>
-                    <Search>
+                    <Search sx={{ border: "1px solid black" }}>
                       <SearchIconWrapper>
                         <SearchIcon />
                       </SearchIconWrapper>
                       <StyledInputBase
-                        placeholder="Search…"
+                        placeholder="Search Testimonials by Name, Email..."
                         inputProps={{ "aria-label": "search" }}
+                        value={searchTerm}
+                        onChange={handleSearchChange}
                       />
                     </Search>
                   </Grid>
@@ -223,8 +238,8 @@ const CustomerTestimonials = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {data && data.length > 0 ? (
-                          data.map((testimonial, index) => {
+                        {filteredData && filteredData.length > 0 ? (
+                          filteredData.map((testimonial, index) => {
                             return (
                               <>
                                 <TableRow
@@ -305,7 +320,7 @@ const CustomerTestimonials = () => {
                                         placement="right-start"
                                       >
                                         <IconButton
-                                          onClick={() => {}}
+                                          onClick={() => { }}
                                           size="large"
                                           color="primary"
                                         >
