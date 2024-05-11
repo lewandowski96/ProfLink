@@ -606,7 +606,7 @@ const CompanyProfile = () => {
             </div>
 
             <div className="w-2/6 rounded-xl p-2 flex flex-col gap-10">
-              <AchievementCard />
+              <AchievementCard achievements ={profile && profile[0].achievements} />
               <div className="flex flex-col items-center">
                 <button
                   type="button"

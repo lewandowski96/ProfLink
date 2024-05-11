@@ -32,6 +32,14 @@ const companyProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    achievements: {
+      type: Array,
+      default: [],
+    },
+    file: {
+      type: String,
+      default: "",
+    },
     user_id: {
       type: String,
       required: true,

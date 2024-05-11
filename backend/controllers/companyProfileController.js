@@ -28,11 +28,13 @@ const createCompanyProfile = async (req, res) => {
   console.log(req.body)
   const {
     CompanyName,
+    website,
     locationsName,
     foundedYear,
     members,
     industry,
-    website,
+    achievements,
+    file,
     about,
   } = req.body;
 
@@ -65,6 +67,7 @@ const createCompanyProfile = async (req, res) => {
       .status(400)
       .json({ error: "Please fill in all the required fields.", emptyFields });
   }
+  console.log({ "achievements": achievements });
 
   try {
     const user_id = req.user._id;
@@ -76,11 +79,13 @@ const createCompanyProfile = async (req, res) => {
       industry,
       website,
       about,
+      achievements,
+      file,
       user_id,
     });
 
     console.log({ "companyProfile": companyProfile });
-    res.status(200).json(companyProfile);
+    res.status(200).json("companyProfile");
 
   } catch (error) {
     res.status(400).json({ error: error.message });
