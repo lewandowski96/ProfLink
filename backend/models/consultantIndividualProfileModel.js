@@ -16,6 +16,9 @@ const consultantIndividualProfile = new Schema(
       type: String,
       required: true,
     },
+    userImage: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
@@ -33,13 +36,14 @@ const consultantIndividualProfile = new Schema(
       required: true,
     },
     schoolsUniversityAttended: {
-      type: [{
-        universityName: String,
-        year: Number,
-        degree: String,
-        fieldOfStudy: String,
-        description: String,
-      }  
+      type: [
+        {
+          universityName: String,
+          year: Number,
+          degree: String,
+          fieldOfStudy: String,
+          description: String,
+        },
       ],
     },
     workExperience: {

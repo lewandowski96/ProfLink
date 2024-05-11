@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import Sidemenu from "../components/Sidemenu";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const BusinessProfile = () => {
   const [profile, setProfile] = useState(null);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchProfile = async () => {

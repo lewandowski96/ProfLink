@@ -1,22 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import App from "./App";
-import { AuthContextProvider } from "./context/AuthContext";
 import "./index.css";
 
-// third-party
-import { Provider as ReduxProvider } from 'react-redux';
+import { store } from "./store";
 
-// project import
-import { store } from './store';
- 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthContextProvider>
-    <ReduxProvider store={store}>
+    <Provider store={store}>
       <App />
-      </ReduxProvider>
-    </AuthContextProvider>
+    </Provider>
   </React.StrictMode>
 );

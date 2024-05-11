@@ -1,23 +1,35 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // material-ui
-import { Button, Stack, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import {
+  Button,
+  Stack,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 
-// project imports 
-import AchievementDetailsForm from './AchievementDetailsForm';
-import BasicDetailsForm from './BasicDetailsForm';
-import ProductDetailsForm from './ProductDetailsForm';
-import Review from './Review';
+// project imports
+import AchievementDetailsForm from "./AchievementDetailsForm";
+import BasicDetailsForm from "./BasicDetailsForm";
+import ProductDetailsForm from "./ProductDetailsForm";
+import Review from "./Review";
 
 // third party
 
 // store
-import { dispatch } from '../../../store';
-import { addBusiness } from '../../../store/reducers/business';
+import { dispatch } from "../../../store";
+import { addBusiness } from "../../../store/reducers/business";
 
 // step options
-const steps = ['Basic Details', 'Product Details', 'Achievement Details', 'Review'];
+const steps = [
+  "Basic Details",
+  "Product Details",
+  "Achievement Details",
+  "Review",
+];
 
 const getStepContent = (
   step,
@@ -29,7 +41,7 @@ const getStepContent = (
   productDetailsData,
   setProductDetailsData,
   achievementDetailsData,
-  setAchievementDetailsData,
+  setAchievementDetailsData
 ) => {
   switch (step) {
     case 0:
@@ -76,14 +88,14 @@ const getStepContent = (
         />
       );
     default:
-      throw new Error('Unknown step');
+      throw new Error("Unknown step");
   }
 };
 
 // ==============================|| FORMS WIZARD - VALIDATION ||============================== //
 
 const ValidationWizard = () => {
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   const [activeStep, setActiveStep] = useState(0);
   const [basicDetailsData, setBasicDetailsData] = useState({
@@ -94,13 +106,13 @@ const ValidationWizard = () => {
     organizationSize: "",
     tagline: [],
     description: "",
-    legalBackgroundVerification: false
+    legalBackgroundVerification: false,
   });
   const [productDetailsData, setProductDetailsData] = useState({
-    products: []
+    products: [],
   });
   const [achievementDetailsData, setAchievementDetailsData] = useState({
-    achievements: []
+    achievements: [],
   });
   const [errorIndex, setErrorIndex] = useState(null);
 
@@ -118,17 +130,20 @@ const ValidationWizard = () => {
       userId: basicDetailsData.userId,
       basicDetails: {
         ...basicDetailsData,
-        tagline: basicDetailsData.tagline && basicDetailsData.tagline != "" ? basicDetailsData.tagline.split(',').map(tag => tag.trim()) : [],
+        tagline:
+          basicDetailsData.tagline && basicDetailsData.tagline != ""
+            ? basicDetailsData.tagline.split(",").map((tag) => tag.trim())
+            : [],
       },
       productDetails: productDetailsData.products,
-      achievementDetails: achievementDetailsData.achievements
-    }
+      achievementDetails: achievementDetailsData.achievements,
+    };
 
-    dispatch(addBusiness(req))
+    dispatch(addBusiness(req));
 
     setActiveStep(activeStep + 1);
     setErrorIndex(null);
-  }
+  };
 
   return (
     <>
@@ -160,7 +175,8 @@ const ValidationWizard = () => {
               Your business page has been created successfully.
             </Typography>
             <Typography variant="subtitle1">
-              Your page details have been saved. You can now view your business page with the provided details.
+              Your page details have been saved. You can now view your business
+              page with the provided details.
             </Typography>
             <Stack direction="row" justifyContent="flex-end">
               <Button
@@ -175,16 +191,16 @@ const ValidationWizard = () => {
                     organizationSize: "",
                     tagline: [],
                     description: " ",
-                    legalBackgroundVerification: false
+                    legalBackgroundVerification: false,
                   });
                   setProductDetailsData({
-                    products: []
+                    products: [],
                   });
                   setAchievementDetailsData({
-                    achievements: []
+                    achievements: [],
                   });
                   setActiveStep(0);
-                  navigation(`/business/list`)
+                  navigation(`/business/list`);
                 }}
                 sx={{ my: 3, ml: 1 }}
               >
@@ -194,16 +210,36 @@ const ValidationWizard = () => {
           </>
         ) : (
           <>
-            {getStepContent(activeStep, handleNext, handleBack, setErrorIndex, basicDetailsData, setBasicDetailsData, productDetailsData, setProductDetailsData, achievementDetailsData, setAchievementDetailsData)}
+            {getStepContent(
+              activeStep,
+              handleNext,
+              handleBack,
+              setErrorIndex,
+              basicDetailsData,
+              setBasicDetailsData,
+              productDetailsData,
+              setProductDetailsData,
+              achievementDetailsData,
+              setAchievementDetailsData
+            )}
             {activeStep === steps.length - 1 && (
-              <Stack direction="row" justifyContent={activeStep !== 0 ? 'space-between' : 'flex-end'}>
+              <Stack
+                direction="row"
+                justifyContent={activeStep !== 0 ? "space-between" : "flex-end"}
+              >
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ my: 3, ml: 1 }}>
                     Back
                   </Button>
                 )}
-                <Button variant="contained" onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext} sx={{ my: 3, ml: 1 }}>
-                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                <Button
+                  variant="contained"
+                  onClick={
+                    activeStep === steps.length - 1 ? handleSubmit : handleNext
+                  }
+                  sx={{ my: 3, ml: 1 }}
+                >
+                  {activeStep === steps.length - 1 ? "Submit" : "Next"}
                 </Button>
               </Stack>
             )}

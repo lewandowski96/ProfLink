@@ -12,11 +12,14 @@ const consultantTeamProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    teamImage: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
     },
-    Addmember: {
+    teamMembers: {
       type: [
         {
           memberName: String,
@@ -28,24 +31,6 @@ const consultantTeamProfileSchema = new Schema(
     contactNo: {
       type: Number,
       required: true,
-    },
-    workExperience: {
-      type: [
-        {
-          nameOfPosition: String,
-          companyName: String,
-          startDate: Date,
-          endDate: Date,
-          industryName: String,
-        },
-      ],
-    },
-    skills: {
-      type: [
-        {
-          AddSkills: String,
-        },
-      ],
     },
     projects: {
       type: [

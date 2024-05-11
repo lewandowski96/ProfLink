@@ -1,19 +1,24 @@
 import { useContext, useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "../store/reducers/auth.slice";
+// import { useAuthContext } from "./useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { dispatch } = useAuthContext();
+  // const { dispatch } = useAuthContext();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const login = async (email, password, userType) => {
+  const login = async (values) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch("/api/user/login", {
+    const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, userType }),
+      body: JSON.stringify(values),
     });
 
     const json = await response.json();
@@ -27,8 +32,9 @@ export const useLogin = () => {
       // saving user session to local storage
       localStorage.setItem("user", JSON.stringify(json));
 
-      dispatch({ type: "LOGIN", payload: json });
+      dispatch(setLogin(json));
       setIsLoading(false);
+      navigate("/");
     }
   };
 

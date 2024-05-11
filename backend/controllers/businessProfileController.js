@@ -3,7 +3,7 @@ const BusinessProfile = require("../models/businessProfileModel");
 const getBusinessProfile = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const profile = await BusinessProfile.find({ user_id });
+    const profile = await BusinessProfile.findOne({ user_id });
 
     console.log(profile);
 

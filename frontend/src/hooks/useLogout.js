@@ -1,12 +1,14 @@
-import { useAuthContext } from "./useAuthContext";
+import { useDispatch } from "react-redux";
+import { setLogout } from "../store/reducers/auth.slice";
+// import { useAuthContext } from "./useAuthContext";
 
 export const useLogout = () => {
-  const { dispatch } = useAuthContext();
+  const dispatch = useDispatch();
 
   const logout = () => {
     localStorage.removeItem("user");
 
-    dispatch({ type: "LOGOUT" });
+    dispatch(setLogout());
   };
 
   return { logout };

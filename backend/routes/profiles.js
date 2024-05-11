@@ -19,6 +19,9 @@ const {
   updateConsultantTeamProfile,
   deleteConsultantIndividualProfile,
   deleteConsultantTeamProfile,
+  getConsultantTeamProfile,
+  getConsultantIndividualProfile,
+  getConsultantProfileById,
 } = require("../controllers/consultantProfileController");
 
 const {
@@ -46,21 +49,22 @@ router.use(checkAuth);
 
 router.get("/general", getGeneralProfile);
 router.get("/general/all", getAllGeneralProfiles);
-router.post("/general", createGeneralProfile);
-router.patch("/general", updateGeneralProfile);
+router.put("/general", updateGeneralProfile);
 router.delete("/general", deleteGeneralProfile);
 
 router.get("/consultant", getConsultantProfile);
+router.get("/consultant/:consultantId", getConsultantProfileById);
+router.get("/consultant/team", getConsultantTeamProfile);
+router.get("/consultant/individual", getConsultantIndividualProfile);
 // router.get("/consultant/ConsultantDashboard", getConsultantDashboard);
 router.get("/consultant/individual/all", getAllConsultantIndividualProfiles);
 router.get("/consultant/team/all", getAllConsultantTeamProfiles);
 router.post("/consultant/individual", createConsultantIndividualProfile);
 router.post("/consultant/team", createConsultantTeamProfile);
 router.patch("/consultant/individual", updateConsultantIndividualProfile);
-router.patch("/consultant/team", updateConsultantTeamProfile);
+router.put("/consultant/team", updateConsultantTeamProfile);
 router.delete("/consultant/individual", deleteConsultantIndividualProfile);
-router.delete("/consultant/team", deleteConsultantTeamProfile);
-
+router.delete("/consultant/team/:id", deleteConsultantTeamProfile);
 
 router.get("/company", getCompanyProfile);
 router.get("/company/all", getAllCompanyProfiles);

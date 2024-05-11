@@ -4,12 +4,14 @@
   gap: 2.3rem;
   background: #9bb0c1;
 }
-.logo {
+.logo-proflink {
   text-align: center;
   color: #27374d;
   align-items: center;
   display: flex;
   gap: 5px;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .logo--icon {
   font-size: 8.9px;
@@ -206,3 +208,110 @@
   background: #27374d;
   color: #dde6ed;
 }
+h1{
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+/* Style for the container */
+.create-ad-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.create-ad-form{
+  display: flex;
+  flex-direction: column;
+  background-color: #cfe1ee;
+}
+/* Style for the form */
+.create-ad-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for labels */
+.create-ad-form label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.create-ad-form h1{
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 25px;
+
+}
+
+/* Style for inputs */
+.create-ad-form input[type="text"],
+.create-ad-form input[type="file"],
+.create-ad-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the container */
+.create-ad-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Style for the form */
+.create-ad-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for labels */
+.create-ad-form label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Style for inputs */
+.create-ad-form input[type="text"],
+.create-ad-form input[type="file"],
+.create-ad-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the submit button */
+.create-ad-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style for the submit button on hover */
+.create-ad-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the select dropdown */
+.create-ad-form select {
+  height: 40px;
+}
+
+/* Style for the file input */
+.create-ad-form input[type="file"] {
+  line-height: 40px;
+}
+
+
+
