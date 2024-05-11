@@ -23,10 +23,20 @@ export const rideShareSlice = createSlice({
     setRideShareProfileData: (state, action) => {
       state.profileData = action.payload.profileData;
     },
+    setCompleteRideSharePost: (state, action) => {
+      const afterCompltePosts = state.rideSharePosts.filter(
+        (post) => action.payload.rideSharePost._id !== post._id
+      );
+      state.rideSharePosts = afterCompltePosts;
+    },
   },
 });
 
-export const { setRideSharePosts, setRideSharePost, setRideShareProfileData } =
-  rideShareSlice.actions;
+export const {
+  setRideSharePosts,
+  setRideSharePost,
+  setRideShareProfileData,
+  setCompleteRideSharePost,
+} = rideShareSlice.actions;
 
 export default rideShareSlice.reducer;

@@ -48,6 +48,15 @@ const rideSharePostSchema = mongoose.Schema(
     applied: {
       type: Array,
     },
+    accepted: {
+      type: Array,
+    },
+    acceptedUsersList: {
+      type: Array,
+    },
+    status: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

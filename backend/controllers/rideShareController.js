@@ -6,7 +6,10 @@ const getRideSharePosts = async (req, res) => {
   try {
     const user_id = req.user._id;
 
-    const posts = await RideSharePost.find({ userId: { $ne: user_id } });
+    const posts = await RideSharePost.find({
+      userId: { $ne: user_id },
+      status: "CREATED",
+    });
 
     res.status(200).json(posts);
   } catch (error) {
@@ -18,7 +21,29 @@ const getUserRideSharePosts = async (req, res) => {
   try {
     const user_id = req.user._id;
 
-    const posts = await RideSharePost.find({ userId: user_id });
+    const posts = await RideSharePost.find({
+      userId: user_id,
+      status: "CREATED",
+    });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getUserAcceptedRideSharePosts = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    console.log("user id", user_id);
+
+    const posts = await RideSharePost.find({
+      acceptedUsersList: { $in: user_id.toString() },
+      status: "CREATED",
+    });
+
+    // console.log("res posrs", posts);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -31,8 +56,6 @@ const getUserRideShareProfile = async (req, res) => {
     const user_id = req.user._id;
 
     const profile = await RideShareProfile.findOne({ userId: user_id });
-
-    console.log(profile);
 
     res.status(200).json(profile);
   } catch (error) {
@@ -61,6 +84,11 @@ const createRideSharePost = async (req, res) => {
       vehicle: rideShareProfile.vehicleModel,
       vehicleType: rideShareProfile.vehicleType,
       peopleCount: rideShareProfile.noOfPassengers,
+      applied: [],
+      appliedUsersList: [],
+      accepted: [],
+      acceptedUsersList: [],
+      status: "CREATED",
     });
 
     res.status(200).json(post);
@@ -115,7 +143,9 @@ const createRideShareProfile = async (req, res) => {
 
     await profile.save();
 
-    res.status(200).json(profile);
+    res
+      .status(200)
+      .json({ profile: profile, rideShareProfile: rideShareProfile });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -187,12 +217,130 @@ const withdrawFromRideSharePost = async (req, res) => {
   }
 };
 
+const declineUserFromRideSharePost = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    const { postId, userId } = req.body;
+
+    const post = await RideSharePost.findOne({ _id: postId });
+
+    if (post.applied) {
+      post.applied = post.applied.filter(
+        (u) => String(u.userId) !== String(userId)
+      );
+    }
+
+    if (post.appliedUsersList) {
+      post.appliedUsersList = post.appliedUsersList.filter(
+        (id) => String(id) !== String(userId)
+      );
+    }
+
+    await post.save();
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const acceptUserFromRideSharePost = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    const { postId, userId } = req.body;
+
+    const post = await RideSharePost.findOne({ _id: postId });
+
+    const rideShareprofile = await RideShareProfile.findOne({
+      userId: userId,
+    });
+
+    if (post.applied) {
+      post.applied = post.applied.filter(
+        (u) => String(u.userId) !== String(userId)
+      );
+    }
+
+    if (post.appliedUsersList) {
+      post.appliedUsersList = post.appliedUsersList.filter(
+        (id) => String(id) !== String(userId)
+      );
+    }
+
+    if (post.accepted) {
+      post.accepted.push(rideShareprofile);
+    } else {
+      post.accepted = [rideShareprofile];
+    }
+
+    if (post.acceptedUsersList) {
+      post.acceptedUsersList.push(userId);
+    } else {
+      post.acceptedUsersList = [userId];
+    }
+
+    await post.save();
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const completeRideSharePost = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+
+    const { postId } = req.body;
+
+    const post = await RideSharePost.findOne({ _id: postId });
+
+    post.status = "COMPLETED";
+
+    await post.save();
+
+    // update poster's ride count
+
+    const posterRideShareprofile = await RideShareProfile.findOne({
+      userId: user_id,
+    });
+
+    posterRideShareprofile.ridesGone = posterRideShareprofile.ridesGone + 1;
+
+    console.log("pasta", posterRideShareprofile);
+
+    await posterRideShareprofile.save();
+
+    // update passengers ride count
+
+    post.acceptedUsersList.map(async (userId) => {
+      const rideShareProfile = await RideShareProfile.findOne({
+        userId: userId,
+      });
+
+      rideShareProfile.ridesGone = rideShareProfile.ridesGone + 1;
+
+      await rideShareProfile.save();
+    });
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getRideSharePosts,
   getUserRideSharePosts,
+  getUserAcceptedRideSharePosts,
   createRideSharePost,
   createRideShareProfile,
   getUserRideShareProfile,
   applyToRideSharePost,
   withdrawFromRideSharePost,
+  acceptUserFromRideSharePost,
+  declineUserFromRideSharePost,
+  completeRideSharePost,
 };

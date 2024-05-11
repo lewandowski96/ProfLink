@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 const UserWidget = () => {
   const [generalUser, setGeneralUser] = useState();
   const { palette } = useTheme();
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
 
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
