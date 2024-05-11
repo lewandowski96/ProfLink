@@ -18,14 +18,14 @@ const Create = () => {
     <>
       <Navbar />
       <div className="company-listing">
-        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+        <h2 className="relative left-10 top-0 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Create Businesses
         </h2>
 
         <div className="sub w-full">
-          <div className="sidemenu">
+          {/* <div className="sidemenu">
             <Sidemenu />
-          </div>
+          </div> */}
           <div className="w-full ">
             <div className="w-full px-20 h-[500px] overflow-auto py-5">
               <Paper sx={{ p: 5 }}>

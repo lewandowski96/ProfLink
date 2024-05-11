@@ -143,14 +143,14 @@ const List = () => {
     <>
       <Navbar />
       <div className="company-listing">
-        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+        <h2 className="relative left-10 top-0 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Businesses
         </h2>
 
         <div className="sub w-full">
-          <div className="sidemenu">
+          {/* <div className="sidemenu">
             <Sidemenu />
-          </div>
+          </div> */}
           <div className="w-full ">
             <div className="">
               <div className="flex flex-row px-20 place-content-center gap-3">
