@@ -66,9 +66,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
-      width: "12ch",
+      width: "120ch",
       "&:focus": {
-        width: "20ch",
+        width: "120ch",
       },
     },
   },
@@ -82,6 +82,20 @@ const List = () => {
   );
 
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Function to handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Function to filter data based on search term
+  const filteredData = data.filter((item) =>
+    item.basicDetails.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.basicDetails.industry.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.basicDetails.organizationType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.basicDetails.organizationSize.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // API calls
   useEffect(() => {
@@ -156,13 +170,15 @@ const List = () => {
               <div className="flex flex-row px-20 place-content-center gap-3">
                 <Grid container spacing={2}>
                   <Grid item md={8}>
-                    <Search>
+                    <Search sx={{ border: "1px solid black" }}>
                       <SearchIconWrapper>
                         <SearchIcon />
                       </SearchIconWrapper>
                       <StyledInputBase
-                        placeholder="Search…"
+                        placeholder="Search Business by Name, Industry, Organization Type, Organization Size …"
                         inputProps={{ "aria-label": "search" }}
+                        value={searchTerm}
+                        onChange={handleSearchChange}
                       />
                     </Search>
                   </Grid>
@@ -203,8 +219,8 @@ const List = () => {
                   </Grid>
                 ) : (
                   <>
-                    {data && data.length > 0 ? (
-                      data.map((business, index) => {
+                    {filteredData && filteredData.length > 0 ? (
+                      filteredData.map((business, index) => {
                         return (
                           <Grid item key={index} xs={12} md={12}>
                             <BusinessCard
