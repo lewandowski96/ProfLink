@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
+import PostCardNotEdit from "../components/PostCardNotEdit";
 
 export default function ViewProfilesModal({ company, onClose }) {
   const [profile, setProfile] = useState(null);
@@ -167,7 +168,7 @@ export default function ViewProfilesModal({ company, onClose }) {
   const date = new Date(company?.foundedYear);
   const year = date.getFullYear();
 
-  console.log("debug"+company.achievements.length)
+  console.log("debug" + company.achievements.length);
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 w-full h-full p-8">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -478,59 +479,18 @@ export default function ViewProfilesModal({ company, onClose }) {
                   </button>
                 </div>
 
-                <div className="w-full px-5 py-5 h-[50vh] grid grid-cols-1 md:grid-cols-2 overflow-auto scrollbar-style">
+                <div className="w-full px-5 py-5 h-[50vh] grid grid-cols-1 md:grid-cols-2 min-[1130px]:grid-cols-3 overflow-auto scrollbar-style">
                   {post.map((item) => {
-                    return <PostCatd details={item} callback={handleRefresh} />;
+                    return (
+                      <PostCardNotEdit
+                        details={item}
+                        callback={handleRefresh}
+                      />
+                    );
                   })}
                 </div>
               </div>
             </div>
-            {/* <div className="px-6 py-4 overflow-auto h-[79vh]">
-              <h2 className="text-2xl font-bold mb-4">{company.CompanyName}</h2>
-              <div className="mb-4">
-                <img
-                  src={company.file}
-                  alt={company.CompanyName}
-                  className="w-full h-auto rounded-lg"
-                />
-              </div>
-              <p className="text-lg mb-2">
-                <strong>About:</strong>{" "}
-                {company.about || "No details provided."}
-              </p>
-              <p className="text-lg mb-2">
-                <strong>Founded Year:</strong>{" "}
-                {new Date(company.foundedYear).getFullYear()}
-              </p>
-              <p className="text-lg mb-2">
-                <strong>Industry:</strong> {company.industry}
-              </p>
-              <p className="text-lg mb-2">
-                <strong>Location:</strong> {company.locationsName}
-              </p>
-              <p className="text-lg mb-2">
-                <strong>Website:</strong>{" "}
-                <a
-                  href={company.website}
-                  className="text-blue-500 hover:underline"
-                >
-                  {company.website}
-                </a>
-              </p>
-              <p className="text-lg mb-2">
-                <strong>Members:</strong> {company.members}
-              </p>
-              <div className="text-lg mb-2">
-                <strong>Achievements:</strong>
-
-                <AchievementCard achievements={company.achievements} />
-                <ul className="list-disc ml-5">
-                  {company.achievements.map((ach, index) => (
-                    <li key={index}>{ach}</li>
-                  ))}
-                </ul>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
