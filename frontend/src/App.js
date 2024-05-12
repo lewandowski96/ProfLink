@@ -53,7 +53,6 @@ import ConsultantFeedback from "./components/ConsultantFeedback";
 import ConsultantAppointmet from "./components/ConsultantAppointmet";
 import ConsultantViewAd from "./components/ConsultantViewAd";
 import ConsultViewFeedback from "./components/ConsultViewFeedback";
-import viewApoinmentConsult from "./components/ConsultViewAppoinment.js";
 import ConsultViewAppoinment from "./components/ConsultViewAppoinment.js";
 import ConsultAnalytic from "./components/ConsultAnalytic.js";
 

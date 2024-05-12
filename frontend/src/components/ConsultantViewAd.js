@@ -50,5 +50,3 @@ const ConsultantViewAd = () => {
 };
 
 export default ConsultantViewAd;
-
-
