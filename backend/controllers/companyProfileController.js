@@ -3,11 +3,13 @@ const CompanyProfile = require("../models/companyProfileModel");
 const getCompanyProfile = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const profile = await CompanyProfile.findOne({ user_id });
+    const profile = await CompanyProfile.find({ user_id });
 
-    if (!profile) {
+
+    if (!profile || profile.length === 0) {
       return res.status(404).json({ error: "Profile not yet created!" });
     }
+
 
     res.status(200).json(profile);
   } catch (error) {
@@ -17,17 +19,28 @@ const getCompanyProfile = async (req, res) => {
 
 const getAllCompanyProfiles = async (req, res) => {
   try {
-    const profiles = await CompanyProfile.find({});
+    // Retrieve profiles and sort them in descending order by the `createdAt` field
+    const profiles = await CompanyProfile.find().sort({ createdAt: -1 });
     res.status(200).json(profiles);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+
 const createCompanyProfile = async (req, res) => {
-  console.log(req.body);
-  const { CompanyName, locationsName, foundedYear, members, industry, about } =
-    req.body;
+  console.log(req.body)
+  const {
+    CompanyName,
+    website,
+    locationsName,
+    foundedYear,
+    members,
+    industry,
+    achievements,
+    url,
+    about,
+  } = req.body;
 
   let emptyFields = [];
 
@@ -49,12 +62,16 @@ const createCompanyProfile = async (req, res) => {
   if (!about) {
     emptyFields.push("about");
   }
+  if (!website) {
+    emptyFields.push("website");
+  }
 
   if (emptyFields.length > 0) {
     return res
       .status(400)
       .json({ error: "Please fill in all the required fields.", emptyFields });
   }
+  console.log({ "achievements": achievements });
 
   try {
     const user_id = req.user._id;
@@ -64,12 +81,16 @@ const createCompanyProfile = async (req, res) => {
       foundedYear,
       members,
       industry,
+      website,
       about,
+      achievements,
+      file:url,
       user_id,
     });
 
-    console.log({ companyProfile: companyProfile });
-    res.status(200).json(companyProfile);
+    console.log({ "companyProfile": companyProfile });
+    res.status(200).json("companyProfile");
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

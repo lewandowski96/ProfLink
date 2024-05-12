@@ -96,7 +96,7 @@ const Navbar = () => {
     const checkProfiles = async () => {
       let url = "";
 
-      console.log(user);
+      console.log({"THis is em":user});
 
       if (user.userType === "GENERAL") {
         url = "/api/profiles/general";
@@ -128,6 +128,7 @@ const Navbar = () => {
 
       if (response.ok) {
         setIsProfileCreated(true);
+        console.log(response)
       }
     };
 

@@ -2,16 +2,19 @@ import React, { useState } from "react";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
 
+
+
 export default function PostCatd(props) {
   const { details, callback } = props;
-  // const { user } = useAuthContext();\
-  const user = useSelector((state) => state.user);
+  // const { user } = useAuthContext();
+  const user = useSelector((state) => state.user.user);
+
 
   const formatDateFromTimestamp = (timestampString) => {
     const dateObject = new Date(timestampString);
 
-    const year = dateObject.getFullYear(); // Get the year
-    const month = dateObject.getMonth() + 1; // Get the month
+    const year = dateObject.getFullYear(); // Get the year 
+    const month = dateObject.getMonth() + 1; // Get the month 
     const date = dateObject.getDate(); // Get the date of the month
 
     // Pad the month and date with leading zeros if needed
@@ -22,7 +25,8 @@ export default function PostCatd(props) {
     const formattedDate = `${year}-${paddedDate}-${paddedMonth}`;
 
     return formattedDate;
-  };
+  }
+
 
   function calculateTimeDifference(timestampString) {
     const currentDate = new Date();
@@ -53,59 +57,57 @@ export default function PostCatd(props) {
   }
   const showModel = () => {
     console.log("show model");
-  };
+  }
 
   const onUpdate = async (updatedPost) => {
     console.log(updatedPost);
     try {
       const postId = updatedPost._id;
 
-      const response = await fetch(
-        `http://localhost:4000/api/post/edit/${postId}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(updatedPost),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:4000/api/post/edit/${postId}`, {
+        method: "PUT",
+        body: JSON.stringify(updatedPost),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (response.ok) {
         console.log("Post Updated successfully");
         callback();
         handleCloseModel();
+
       }
     } catch (error) {
       console.error("Failed to delete post", error);
       handleCloseModel();
     }
-  };
+  }
   const onDelete = async (postId) => {
     console.log(postId);
     try {
-      const response = await fetch(
-        `http://localhost:4000/api/post/remove/${postId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+
+      const response = await fetch(`http://localhost:4000/api/post/remove/${postId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (response.ok) {
         console.log("Post deleted successfully");
         callback();
         handleCloseModel();
+
       }
     } catch (error) {
       console.error("Failed to delete post", error);
       handleCloseModel();
     }
-  };
+
+  }
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -120,10 +122,10 @@ export default function PostCatd(props) {
 
   const toggleMenue = () => {
     setShowMenue(!showMenue);
-  };
+  }
   const toggleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
-  };
+  }
 
   const handleUpdate = () => {
     const updatedPost = {
@@ -147,7 +149,7 @@ export default function PostCatd(props) {
         <div className="flex h-fit w-full flex-row place-content-between">
           <img
             className="h-12 w-12 rounded-full object-cover shadow"
-            src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+            src={details?.userPhoto || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"}
             alt="avatar"
           />
           <div className="flex flex-row place-content-center">
@@ -177,55 +179,29 @@ export default function PostCatd(props) {
                 />
               </svg>
 
-              {showMenue && (
-                <div className="absolute right-5 bg-gray-200 w-fit h-fit p-5 rounded-lg shadow-2xl">
+              {
+                showMenue && (<div className="absolute right-5 bg-gray-200 w-fit h-fit p-5 rounded-lg shadow-2xl">
+
                   <div class="w-[95%] cursor-pointer rounded-lg bg-white p-2 text-xs hover:bg-slate-300 mb-2">
-                    <div
-                      class="flex flex-row place-content-center items-center gap-2 text-blue-600 hover:text-blue-500"
-                      onClick={toggleModal}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="h-5 w-5 text-blue-600"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                        />
+                    <div class="flex flex-row place-content-center items-center gap-2 text-blue-600 hover:text-blue-500" onClick={toggleModal}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                       </svg>
                       edit
                     </div>
                   </div>
 
                   <div class="w-[95%] cursor-pointer rounded-lg bg-white p-2 text-xs hover:bg-slate-300">
-                    <div
-                      class="flex flex-row place-content-center items-center gap-2 text-red-600 hover:text-red-500"
-                      onClick={toggleDeleteModal}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="h-5 w-5 text-red-600"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                        />
+                    <div class="flex flex-row place-content-center items-center gap-2 text-red-600 hover:text-red-500" onClick={toggleDeleteModal}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-red-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                       </svg>
                       Remove
                     </div>
                   </div>
-                </div>
-              )}
+                </div>)
+              }
+
             </div>
           </div>
         </div>
@@ -241,7 +217,7 @@ export default function PostCatd(props) {
               <span className="text-xs font-semibold text-gray-700">
                 Salary:
               </span>
-              <span className="text-xs">{details.salary}</span>
+              <span className="text-xs">{'Rs. ' + details.salary}</span>
             </div>
             <div className="flex flex-row gap-3 pb-1">
               <span className="text-xs font-semibold text-gray-700">From:</span>
@@ -249,10 +225,7 @@ export default function PostCatd(props) {
                 {formatDateFromTimestamp(details.startTime)}{" "}
               </span>
               <span className="text-xs font-semibold">to</span>
-              <span className="text-xs">
-                {" "}
-                {formatDateFromTimestamp(details.endTime)}
-              </span>
+              <span className="text-xs"> {formatDateFromTimestamp(details.endTime)}</span>
             </div>
             <div className="flex flex-row gap-3 pb-1">
               <span className="text-xs font-semibold text-gray-700">
@@ -304,7 +277,12 @@ export default function PostCatd(props) {
             <input
               type="text"
               value={updatedSalary}
-              onChange={(e) => setUpdatedSalary(e.target.value)}
+              onChange={(e) => {
+                const inputSalary = e.target.value;
+                if (/^\d{0,10}(\.\d{0,2})?$/.test(inputSalary)) {
+                  setUpdatedSalary(inputSalary);
+                }
+              }}
               placeholder="Salary"
               className="border border-gray-300 px-3 py-2 rounded-md mb-4 w-full"
             />
@@ -322,6 +300,7 @@ export default function PostCatd(props) {
                 Cancel
               </button>
             </div>
+
           </div>
         </div>
       )}
@@ -347,6 +326,7 @@ export default function PostCatd(props) {
                 Cancel
               </button>
             </div>
+
           </div>
         </div>
       )}
