@@ -243,6 +243,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 import Sidemenu from '../components/Sidemenu';
+import Navbar from "../components/Navbar";
+
 import { ChartPieIcon, ChartLineIcon, ChartBarIcon, ChartDonutIcon } from '@heroicons/react/outline';
 
 const ComAnalytics = () => {
@@ -420,6 +422,8 @@ const ComAnalytics = () => {
     };
 
     return (
+        <>
+        <Navbar />
         <div className="view-consultant-profile">
             <h2 className="text-3xl relative font-mono">Company Analytics</h2>
             <div className="sub gap-10 w-full flex">
@@ -526,6 +530,7 @@ const ComAnalytics = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

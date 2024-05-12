@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 // import { useAuthContext } from '../hooks/useAuthContext';
 import { useDispatch, useSelector } from "react-redux";
 import Sidemenu from '../components/Sidemenu';
+import Navbar from "../components/Navbar";
+
 
 const PostJob = () => {
   const [jobTitle, setJobTitle] = useState("");
@@ -115,6 +117,8 @@ const PostJob = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="view-consultant-profile">
       <h2 className='text-3xl relative font-mono'>Post Job Vacancy</h2>
       <div className="sub flex">
@@ -239,6 +243,8 @@ const PostJob = () => {
         </div>
       </div>
     </div>
+    </>
+
   );
 };
 

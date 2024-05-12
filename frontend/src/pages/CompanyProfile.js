@@ -7,6 +7,8 @@ import PostCatd from "../components/PostCatd";
 import AchievementCard from "../components/AchievementCard";
 import CompanyDetails from "../components/CompanyDetails";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
 
 
 const CompanyProfile = () => {
@@ -299,6 +301,8 @@ const CompanyProfile = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="view-consultant-profile">
       <h2 className="relative text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">Company Profile</h2>
       <div className="sub gap-10 flex">
@@ -635,6 +639,7 @@ const CompanyProfile = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Sidemenu from "../components/Sidemenu";
 // import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../components/Navbar";
+
 
 import CompanySList from "../components/CompanySList";
 
@@ -56,6 +58,8 @@ const CandiShortList = () => {
   });
 
   return (
+    <>
+    <Navbar />
     <div className="company-listing">
       <h2 className="text-3xl relative font-semibold font-mono">
         Candidates Shortlist
@@ -174,6 +178,7 @@ const CandiShortList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -199,19 +199,19 @@ const CompanyListing = () => {
 
   const filteredCompanies = cities
     ? cities.filter((city) => {
-        const matchesCity = !selectedCity || city === selectedCity;
+      const matchesCity = !selectedCity || city === selectedCity;
 
-        const matchesQuery =
-          !searchQuery ||
-          city.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesQuery =
+        !searchQuery ||
+        city.toLowerCase().includes(searchQuery.toLowerCase());
 
-        const idle = !searchQuery || searchQuery.length <= 0;
+      const idle = !searchQuery || searchQuery.length <= 0;
 
-        console.log(matchesQuery);
-        console.log(matchesCity);
+      console.log(matchesQuery);
+      console.log(matchesCity);
 
-        return (matchesCity && matchesQuery) || idle;
-      })
+      return (matchesCity && matchesQuery) || idle;
+    })
     : [];
 
   const handleSubmit = () => {
@@ -229,7 +229,7 @@ const CompanyListing = () => {
     <>
       <Navbar />
       <div className="company-listing">
-        <h2 className="relative left-10 -top-3 text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
+        <h2 className="relative text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Companies
         </h2>
 
