@@ -54,7 +54,7 @@ const RideShare = () => {
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <RideShareUserWidget />
 
-          {profile.userType === "DRIVER" && (
+          {profile?.userType === "DRIVER" && (
             <>
               <Box p="1rem 0"></Box>
               <WidgetWrapper>
@@ -95,7 +95,7 @@ const RideShare = () => {
             </>
           )}
           <Box p="1rem 0"></Box>
-          <WidgetWrapper>
+          {profile?.userType === "DRIVER" && (<><WidgetWrapper>
             <Button onClick={() => navigate("/rideSharing/myAcceptedPosts")}>
               <Typography
                 fullWidth
@@ -129,7 +129,8 @@ const RideShare = () => {
                 My Rides Taken
               </Typography>
             </Button>
-          </WidgetWrapper>
+          </WidgetWrapper></>)}
+          
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}

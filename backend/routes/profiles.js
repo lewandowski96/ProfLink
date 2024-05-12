@@ -47,6 +47,7 @@ const router = express.Router();
 // run this before all the other routes to authenticate the API calls
 router.use(checkAuth);
 
+router.post("/general", createGeneralProfile);
 router.get("/general", getGeneralProfile);
 router.get("/general/all", getAllGeneralProfiles);
 router.put("/general", updateGeneralProfile);
