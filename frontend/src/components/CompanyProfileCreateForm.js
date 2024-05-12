@@ -116,6 +116,7 @@ const CompanyProfileCreateForm = () => {
   };
 
   return (
+    <>
     <form className="create w-1/2 m-auto max-md:w-96" onSubmit={handleSubmit}>
       <h3 className="text-black text-3xl text-center mb-5">
         Create Your Company Profile!
@@ -254,6 +255,8 @@ const CompanyProfileCreateForm = () => {
         {error && <div className="error">{error}</div>}
       </div>
     </form>
+    </>
+
   );
 };
 

@@ -149,7 +149,7 @@ export default function PostCatd(props) {
         <div className="flex h-fit w-full flex-row place-content-between">
           <img
             className="h-12 w-12 rounded-full object-cover shadow"
-            src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+            src={details?.userPhoto || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"}
             alt="avatar"
           />
           <div className="flex flex-row place-content-center">

@@ -1,159 +1,143 @@
+const CompanyProfile = require("../models/companyProfileModel");
 const JobPost = require("../models/jobPostModel");
-
-
 
 // get all job posts
 
 const getAllJobPosts = async (req, res) => {
-    try {
-        const jobPosts = await JobPost.find({});
-        if (!jobPosts) {
-            return res.status(404).json({ error: "No job posts found!" });
-        }
-        res.status(200).json(jobPosts);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+  try {
+    const jobPosts = await JobPost.find({});
+    if (!jobPosts) {
+      return res.status(404).json({ error: "No job posts found!" });
     }
-}
+    res.status(200).json(jobPosts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // get job post by id
 const getJobPostsById = async (req, res) => {
-
-    try {
-        const user_id = req.user._id;
-        console.log({ userID: user_id })
-        if (!user_id) {
-            return res.status(404).json({ error: "User id not found!" });
-        }
-
-        const jobPost = await JobPost.find({ user_id: user_id });
-        if (!jobPost) {
-            return res.status(404).json({ error: "Job post not found!" });
-        }
-        res.status(200).json(jobPost);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+  try {
+    const user_id = req.user._id;
+    console.log({ userID: user_id });
+    if (!user_id) {
+      return res.status(404).json({ error: "User id not found!" });
     }
-}
 
+    const jobPost = await JobPost.find({ user_id: user_id });
+    if (!jobPost) {
+      return res.status(404).json({ error: "Job post not found!" });
+    }
+    res.status(200).json(jobPost);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // create job post
 
 const createJobPost = async (req, res) => {
+  console.log({ Thisisbody: req.body });
 
-    console.log({ "Thisisbody": req.body })
+  const { jobTitle, locations, salary, startTime, endTime, selectedOption } =
+    req.body;
 
-    const {
-        jobTitle,
-        locations,
-        salary,
-        startTime,
-        endTime,
-        selectedOption
-    } = req.body;
+  let emptyFields = [];
 
-    let emptyFields = [];
+  if (!jobTitle) {
+    emptyFields.push("jobTitle");
+  }
+  if (!locations) {
+    emptyFields.push("locations");
+  }
+  if (!salary) {
+    emptyFields.push("salary");
+  }
+  if (!startTime) {
+    emptyFields.push("startTime");
+  }
+  if (!endTime) {
+    emptyFields.push("endTime");
+  }
+  if (!selectedOption) {
+    emptyFields.push("selectedOption");
+  }
 
-    if (!jobTitle) {
-        emptyFields.push("jobTitle");
-    }
-    if (!locations) {
-        emptyFields.push("locations");
-    }
-    if (!salary) {
-        emptyFields.push("salary");
-    }
-    if (!startTime) {
-        emptyFields.push("startTime");
-    }
-    if (!endTime) {
-        emptyFields.push("endTime");
-    }
-    if (!selectedOption) {
-        emptyFields.push("selectedOption");
-    }
+  if (emptyFields.length > 0) {
+    return res
+      .status(400)
+      .json({ error: "Please fill in all the required fields.", emptyFields });
+  }
 
-    if (emptyFields.length > 0) {
-        return res
-            .status(400)
-            .json({ error: "Please fill in all the required fields.", emptyFields });
-    }
+  try {
+    const user_id = req.user._id;
 
-    try {
-        const user_id = req.user._id;
-        const jobPost = await JobPost.create({
-            jobTitle,
-            locations,
-            salary,
-            startTime,
-            endTime,
-            selectedOption,
-            user_id,
-        })
+    const companyRes = await CompanyProfile.find({ user_id: user_id });
 
-        res.status(200).json(jobPost);
+    console.log(companyRes[0]?.file);
 
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-}
+    const userPhoto = companyRes[0]?.file;
+
+    console.log(req.user);
+    const jobPost = await JobPost.create({
+      jobTitle,
+      locations,
+      salary,
+      startTime,
+      endTime,
+      selectedOption,
+      user_id,
+      userPhoto,
+    });
+
+    res.status(200).json("jobPost");
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // update job post
 
 const updateJobPost = async (req, res) => {
-    try {
-        const jobPost = await JobPost.findByIdAndUpdate
+  try {
+    const jobPost = await JobPost.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
-            (req.params.id, req.body, {
-                new: true,
-                runValidators: true,
-            });
-
-        if (!jobPost) {
-            return res.status(404).json({ error: "Job post not found!" });
-        }
-
-        res.status(200).json(jobPost);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+    if (!jobPost) {
+      return res.status(404).json({ error: "Job post not found!" });
     }
-}
+
+    res.status(200).json(jobPost);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // delete job post
 
 const deleteJobPost = async (req, res) => {
-    try {
-        const jobPost = await JobPost.findByIdAndDelete(req.params.id);
+  try {
+    const jobPost = await JobPost.findByIdAndDelete(req.params.id);
 
-        if (!jobPost) {
-            return res.status(404).json({ error: "Job post not found!" });
-        }
-
-        res.status(200).json(jobPost);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+    if (!jobPost) {
+      return res.status(404).json({ error: "Job post not found!" });
     }
-}
 
-module.exports = {
-    getAllJobPosts,
-    getJobPostsById,
-    createJobPost,
-    updateJobPost,
-    deleteJobPost,
+    res.status(200).json(jobPost);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
-
-
-
-
-
-
-
-
-
-
-
+module.exports = {
+  getAllJobPosts,
+  getJobPostsById,
+  createJobPost,
+  updateJobPost,
+  deleteJobPost,
+};
 
 // const getCompanyProfile = async (req, res) => {
 //   try {

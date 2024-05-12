@@ -59,6 +59,7 @@ const CompanyProfile = () => {
     setRefreshState(!refreshState);
   };
 
+  console.log(post)
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
