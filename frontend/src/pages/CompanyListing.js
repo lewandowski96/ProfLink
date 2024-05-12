@@ -7,12 +7,13 @@ import Navbar from "../components/Navbar";
 
 const CompanyListing = () => {
   // const { user } = useAuthContext();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [nameSearch, setNameSearch] = useState("");
+  const [originalCompanies, setOriginalCompanies] = useState([]); // Store the original list of companies
   const cities = [
     "Ampara",
     "Anuradhapura",
@@ -42,121 +43,28 @@ const CompanyListing = () => {
   ];
 
   const [companies, setCompanies] = useState([
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company A",
-      location: "Hambantota",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company B",
-      location: "Jaffna",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Ampara",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Anuradhapura",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Badulla",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Batticaloa",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Colombo",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Galle",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Gampaha",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Hambantota",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Kalutara",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Kegalle",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Kilinochchi",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Location C",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Location C",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Location C",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Location C",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Hambantota",
-    },
-    {
-      imageUrl:
-        "https://plus.unsplash.com/premium_photo-1676637656198-e2bbf752103a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: "Company C",
-      location: "Location C",
-    },
+    // Your initial list of companies goes here
   ]);
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      const response = await fetch("/api/profiles/company/all", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        setCompanies(json);
+        setOriginalCompanies(json); // Save the original list of companies
+      }
+    };
+
+    if (user) {
+      fetchCompanies();
+    }
+  }, [user]);
 
   const handleCitySelect = (city) => {
     if (selectedCity === city) {
@@ -172,54 +80,34 @@ const CompanyListing = () => {
   };
 
   const handleSearchQueryChange = (event) => {
-    console.log(searchQuery);
-    console.log(filteredCompanies);
     setSearchQuery(event.target.value);
     setSelectedCity(null); // Reset selected city when searching
-  };
-
-  useEffect(() => {
-    const fetchCompanies = async () => {
-      const response = await fetch("/api/profiles/company/all", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        // setCompanies(json);
-      }
-    };
-
-    if (user) {
-      fetchCompanies();
+    if (event.target.value === "") {
+      // If search query is empty, reset the companies list to the original list
+      setCompanies(originalCompanies);
     }
-  }, [user]);
+  };
 
   const filteredCompanies = cities
     ? cities.filter((city) => {
-      const matchesCity = !selectedCity || city === selectedCity;
+        const matchesCity = !selectedCity || city === selectedCity;
 
-      const matchesQuery =
-        !searchQuery ||
-        city.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesQuery =
+          !searchQuery ||
+          city.toLowerCase().includes(searchQuery?.toLowerCase());
 
-      const idle = !searchQuery || searchQuery.length <= 0;
+        const idle = !searchQuery || searchQuery.length <= 0;
 
-      console.log(matchesQuery);
-      console.log(matchesCity);
-
-      return (matchesCity && matchesQuery) || idle;
-    })
+        return (matchesCity && matchesQuery) || idle;
+      })
     : [];
 
   const handleSubmit = () => {
-    const filteredResult = companies.filter((company) => {
+    const filteredResult = originalCompanies.filter((company) => {
       return (
-        (selectedCity === null || company.location === selectedCity) &&
+        (selectedCity === null || company?.locationsName === selectedCity) && // Check 'location' instead of 'CompanyName' and 'locationsName'
         (nameSearch === "" ||
-          company.name.toLowerCase().includes(nameSearch.toLowerCase()))
+          company?.CompanyName?.toLowerCase().includes(nameSearch?.toLowerCase())) // Check 'name' instead of 'CompanyName' and 'locationsName'
       );
     });
     setCompanies(filteredResult); // Update state with filtered result
@@ -380,18 +268,18 @@ const CompanyListing = () => {
                     <div class="h-32 w-36">
                       <img
                         class="h-full w-full rounded-lg object-cover"
-                        src={item.imageUrl}
+                        src={item.file} // Change 'file' to 'imageUrl'
                         alt=""
                       />
                     </div>
                     <div class="p-5">
                       <span>
                         <h5 class="mb-2 text-center text-lg font-bold tracking-tight text-gray-700">
-                          {item.name}
+                          {item.CompanyName} {/* Change 'CompanyName' to 'name' */}
                         </h5>
                       </span>
                       <p class="mb-3 text-center font-semibold text-sm text-gray-700">
-                        {item.location}
+                        {item.locationsName} {/* Change 'locationsName' to 'location' */}
                       </p>
                     </div>
                   </div>
