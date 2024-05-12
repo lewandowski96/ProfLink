@@ -8,11 +8,11 @@ export default function AchievementCard(props) {
 
   return (
     <div>
-      <div className="mx-3 my-3 flex flex-col place-content-start max-w-full rounded-lg bg-white p-5 shadow-lg">
+      <div className="mx-3 my-3 flex flex-col place-content-start max-w-full rounded-lg bg-slate-300 p-5 shadow-lg">
         <h2 className="mb-2 text-lg font-semibold text-gray-900">
           Achievements...
         </h2>
-        <div className="px-3">
+        <div className="px-3 w-fit">
           <h2 className="text-md float-left mb-2 font-semibold text-gray-900">
             Awards:
           </h2>

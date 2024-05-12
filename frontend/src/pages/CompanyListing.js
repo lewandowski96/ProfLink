@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import CompanyDetails from "../components/CompanyDetails";
-import Sidemenu from "../components/Sidemenu";
-// import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
+import ViewProfilesModal from "./ViewProfilesModal";
+
+
 
 const CompanyListing = () => {
-  // const { user } = useAuthContext();
   const user = useSelector((state) => state.user.user);
-
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [nameSearch, setNameSearch] = useState("");
   const [originalCompanies, setOriginalCompanies] = useState([]); // Store the original list of companies
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+
   const cities = [
     "Ampara",
     "Anuradhapura",
@@ -42,9 +43,17 @@ const CompanyListing = () => {
     "Vavuniya",
   ];
 
-  const [companies, setCompanies] = useState([
-    // Your initial list of companies goes here
-  ]);
+  const [companies, setCompanies] = useState([]);
+
+  const openModal = (company) => {
+    setSelectedCompany(company);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setSelectedCompany(null);
+    setShowModal(false);
+  };
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -58,6 +67,7 @@ const CompanyListing = () => {
       if (response.ok) {
         setCompanies(json);
         setOriginalCompanies(json); // Save the original list of companies
+        console.log(json);
       }
     };
 
@@ -105,12 +115,14 @@ const CompanyListing = () => {
   const handleSubmit = () => {
     const filteredResult = originalCompanies.filter((company) => {
       return (
-        (selectedCity === null || company?.locationsName === selectedCity) && // Check 'location' instead of 'CompanyName' and 'locationsName'
+        (selectedCity === null || company?.locationsName === selectedCity) &&
         (nameSearch === "" ||
-          company?.CompanyName?.toLowerCase().includes(nameSearch?.toLowerCase())) // Check 'name' instead of 'CompanyName' and 'locationsName'
+          company?.CompanyName?.toLowerCase().includes(
+            nameSearch?.toLowerCase()
+          ))
       );
     });
-    setCompanies(filteredResult); // Update state with filtered result
+    setCompanies(filteredResult);
   };
 
   return (
@@ -120,7 +132,12 @@ const CompanyListing = () => {
         <h2 className="relative text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Companies
         </h2>
-
+        
+        {showModal&& <ViewProfilesModal
+          company={selectedCompany}
+         onClose={closeModal}
+        />}
+        
         <div className="sub w-full flex ml-6 mr-6">
           <div className="w-full ">
             <div className="">
@@ -263,23 +280,24 @@ const CompanyListing = () => {
                 companies.map((item, index) => (
                   <div
                     key={index}
-                    class="w-56 h-72 rounded-lg border flex flex-col items-center border-gray-200 bg-white shadow pt-10 px-4"
+                    className="w-56 h-72 rounded-lg border flex flex-col items-center border-gray-200 bg-white shadow pt-10 px-4 cursor-pointer"
+                    onClick={() => openModal(item)}
                   >
                     <div class="h-32 w-36">
                       <img
                         class="h-full w-full rounded-lg object-cover"
-                        src={item.file} // Change 'file' to 'imageUrl'
+                        src={item.file}
                         alt=""
                       />
                     </div>
                     <div class="p-5">
                       <span>
                         <h5 class="mb-2 text-center text-lg font-bold tracking-tight text-gray-700">
-                          {item.CompanyName} {/* Change 'CompanyName' to 'name' */}
+                          {item.CompanyName}{" "}
                         </h5>
                       </span>
                       <p class="mb-3 text-center font-semibold text-sm text-gray-700">
-                        {item.locationsName} {/* Change 'locationsName' to 'location' */}
+                        {item.locationsName}{" "}
                       </p>
                     </div>
                   </div>

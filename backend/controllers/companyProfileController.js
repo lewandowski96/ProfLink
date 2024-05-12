@@ -19,12 +19,14 @@ const getCompanyProfile = async (req, res) => {
 
 const getAllCompanyProfiles = async (req, res) => {
   try {
-    const profiles = await CompanyProfile.find({});
+    // Retrieve profiles and sort them in descending order by the `createdAt` field
+    const profiles = await CompanyProfile.find().sort({ createdAt: -1 });
     res.status(200).json(profiles);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const createCompanyProfile = async (req, res) => {
   console.log(req.body)
