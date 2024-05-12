@@ -1,7 +1,7 @@
-import AchievementCard from "../components/AchievementCard";
-import PostCatd from "../components/PostCatd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import AchievementCard from "../components/AchievementCard";
+import PostCatd from "../components/PostCatd";
 
 import { useNavigate } from "react-router-dom";
 import PostCardNotEdit from "../components/PostCardNotEdit";
@@ -284,6 +284,7 @@ export default function ViewProfilesModal({ company, onClose }) {
                                 className="text-left font-semibold text-gray-600 dark:text-white underline"
                                 href={company?.website}
                                 target="_blank"
+                                rel="noreferrer"
                               >
                                 {getCleanUrl(company?.website)}
                               </a>
@@ -484,6 +485,7 @@ export default function ViewProfilesModal({ company, onClose }) {
                     return (
                       <PostCardNotEdit
                         details={item}
+                        image={company?.file}
                         callback={handleRefresh}
                       />
                     );
