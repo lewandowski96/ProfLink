@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FlexBetween from "../components/GeneralFlexBetween";
 import Navbar from "../components/Navbar";
 import UserImage from "../components/UserImage";
@@ -85,8 +85,19 @@ const ConsultantProfile = () => {
       <Navbar />
       <div className="view-consultant-profile">
         <Typography textAlign="center" fontSize="2rem">
-          Your Consultant Profile
+          <b>Your Consultant Profile</b>
+          <Divider />
         </Typography>
+        <br></br>
+        <Button variant="contained" style={{ marginLeft: "30%", marginRight: "0", backgroundColor:"orange"}} onClick={() => navigate("/consultant/viewanalytics")}> Analytics </Button>
+        <Button variant="contained" style={{ marginLeft: "10px", marginRight: "0"}} onClick={() => navigate("/consultant/edit")}>Update</Button>
+        <Button variant="contained" style={{ marginLeft: "10px", marginRight: "0" }} onClick={() => navigate("/consultant/createad")}>Advertisement</Button>
+        <Button variant="contained" style={{ marginLeft: "10px", marginRight: "0" }} onClick={() => navigate("/consultant/viewappoinment")}>Appoinment</Button>
+        <Button variant="contained" style={{ marginLeft: "10px", marginRight: "0" }} onClick={() => navigate("/consultant/viewfeddback")}>Feedback</Button>
+        <Button variant="contained" style={{ marginLeft: "10px", marginRight: "0" , backgroundColor: "red"}} onClick={handleDelete}>Delete</Button>
+        <br></br>
+        <br></br>
+        <Divider />
         <div className="sub">
           <div className="consultant-profile">
             <div className="profile--cover">
@@ -356,57 +367,9 @@ const ConsultantProfile = () => {
                           </Box>
                         </Box>
                         <Box p="1rem 0">
-                          <FlexBetween>
-                            <Button
-                              onClick={() => navigate("/consultant/edit")}
-                              sx={{
-                                display: "flex",
-                                backgroundColor: palette.primary.main,
-                                color: palette.background.alt,
-                                "&:hover": {
-                                  backgroundColor: palette.primary.main,
-                                },
-                              }}
-                            >
-                              UPDATE
-                            </Button>
-                          </FlexBetween>
+                          
                         </Box>
-                        <Box p="1rem 0">
-                          <FlexBetween>
-                            <Button
-                              onClick={handleDelete}
-                              sx={{
-                                display: "flex",
-                                backgroundColor: palette.primary.main,
-                                color: palette.background.alt,
-                                "&:hover": {
-                                  backgroundColor: palette.primary.main,
-                                },
-                              }}
-                            >
-                              DELETE
-                            </Button>
-                          </FlexBetween>
                         </Box>
-                        <Box p="1rem 0">
-                          <FlexBetween>
-                            <Button
-                              onClick={() => navigate("/consultant/createad")}
-                              sx={{
-                                display: "flex",
-                                backgroundColor: palette.primary.main,
-                                color: palette.background.alt,
-                                "&:hover": {
-                                  backgroundColor: palette.primary.main,
-                                },
-                              }}
-                            >
-                              Advertisements
-                            </Button>
-                          </FlexBetween>
-                        </Box>
-                      </Box>
                     </>
                   )}
                   {profile.consultantType === "INDIVIDUAL" && (

@@ -53,6 +53,12 @@ import MyRideSharePosts from "./pages/MyRideSharePosts";
 import RideShare from "./pages/RideShare";
 import { setLogin } from "./store/reducers/auth.slice";
 import { themeSettings } from "./theme";
+import ConsultantFeedback from "./components/ConsultantFeedback";
+import ConsultantAppointmet from "./components/ConsultantAppointmet";
+import ConsultantViewAd from "./components/ConsultantViewAd";
+import ConsultViewFeedback from "./components/ConsultViewFeedback";
+import ConsultViewAppoinment from "./components/ConsultViewAppoinment.js";
+import ConsultAnalytic from "./components/ConsultAnalytic.js";
 
 function App() {
   // const { user } = useAuthContext();
@@ -346,6 +352,66 @@ function App() {
                 element={
                   user && user.userType === "CONSULTANT" ? (
                     <ConsultantProfileEditForm />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/customerfeedback"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantFeedback/>
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/customerAppoinment"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantAppointmet/>
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewadvertisement"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultantViewAd />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewfeddback"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultViewFeedback />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewappoinment"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultViewAppoinment/>
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/consultant/viewanalytics"
+                element={
+                  user && user.userType === "CONSULTANT" ? (
+                    <ConsultAnalytic/>
                   ) : (
                     <Navigate to="/" />
                   )

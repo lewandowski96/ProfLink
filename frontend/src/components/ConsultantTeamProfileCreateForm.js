@@ -311,8 +311,7 @@ const ConsultantTeamProfileCreateForm = () => {
           <button onClick={() => handleTabChange("personal")}>
             Team Members
           </button>
-          {/* <button onClick={() => handleTabChange("work")}>Work Experience</button> */}
-          {/* <button onClick={() => handleTabChange("skills")}>Skills</button> */}
+
           <button onClick={() => handleTabChange("achievements")}>
             Achievements
           </button>
@@ -339,8 +338,9 @@ const ConsultantTeamProfileCreateForm = () => {
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                className={emptyFields.includes("email") ? "error" : ""}
+                className={`email-input ${emptyFields.includes("email") ? "error" : ""}`}
               />
+              {emptyFields.includes("email") && <div className="error-message">Email is required</div>}
               <label>Contact No:</label>
               <input
                 placeholder="Enter your contact number"
@@ -433,108 +433,6 @@ const ConsultantTeamProfileCreateForm = () => {
               </button>
             </div>
           )}
-
-          {/* {activeTab === "work" && (
-            <div> */}
-          {/* <label>Work Experience</label> */}
-          {/* {workExperience.map((work, index) => {
-                return (
-                  <div key={index}>
-                    <label>Name of Position:</label>
-                    <input placeholder="Enter your position ex: Software Engineer"
-                      name="nameOfPosition"
-                      type="text"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.nameOfPosition}
-                    />
-                    <label>Company Name:</label>
-                    <input placeholder="Enter your company name"
-                      name="companyName"
-                      type="text"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.companyName}
-                    />
-                    <label>Start Date:</label>
-                    <input  placeholder="Enter your start date"
-                      name="startDate"
-                      type="date"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.startDate}
-                    />
-                    <label>End Date:</label>
-                    <input  placeholder="Enter your resign date"
-                      name="endDate"
-                      type="date"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.endDate}
-                    />
-                    <label>Industry Name:</label>
-                    <input placeholder="Enter your industry name ex: IT"
-                      name="industryName"
-                      type="text"
-                      onChange={(e) => handleWorkExperience(e, index)}
-                      value={work.industryName}
-                    /> */}
-
-          {/* <label>
-                          <input type="checkbox" name="agree" value="yes"/>
-                          I'm currently working here
-                        </label>
-                        <br></br> */}
-
-          {/* <button type="button" onClick={handleSave}> Save </button>
-                    {error && <div className="error">{error}</div>}
-                    <br></br>
-                    <br></br>
-                    <button type="button" onClick={() => removeWorkExperience(index)}>
-                      REMOVE
-                    </button>
-                  </div>
-                );
-              })} */}
-          {/* <br></br>
-            <button type="button" onClick={addWorkExperience}>
-              Add Work Experience
-            </button>
-          </div>
-        )} */}
-          {/* {activeTab === "skills" && (
-          <div> */}
-          {/* <label>Skills</label> */}
-          {/* <label>Select your Programming Skills</label>
-              <div className="form-check">
-                <input type="checkbox" name="skills" value="Python" /> Python
-                <input type="checkbox" name="skills" value="Java" /> Java
-                <input type="checkbox" name="skills" value="JavaScript" /> JavaScript
-                <input type="checkbox" name="skills" value="other" /> other
-              </div>
-            {skills.map((skill, index) => {
-              return (
-                <div key={index}>
-                  <label>Skill:</label>
-                  <input placeholder="Enter your skill ex: Python"
-                    name="AddSkills"
-                    type="text"
-                    onChange={(e) => handleSkills(e, index)}
-                    value={skill.AddSkills}
-                  />
-                  
-                  <button type="button" onClick={handleSave}> Save </button>
-                  {error && <div className="error">{error}</div>}
-                  <br></br>
-                  <br></br>
-                  <button type="button" onClick={() => removeSkills(index)}>
-                    REMOVE
-                  </button>
-                </div>
-              ); 
-            })}
-          <br></br>
-          <button type="button" onClick={addSkills}>
-            Add Skills
-          </button>
-        </div>
-      )} */}
           {activeTab === "achievements" && (
             <div>
               {achievements.map((achievement, index) => {
