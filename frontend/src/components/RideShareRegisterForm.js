@@ -49,6 +49,7 @@ const RideShareRegisterForm = () => {
     agreementCheck: false,
     nationalIdImageName: "",
     nationalIdImageBase64: "",
+    userImage: "user.user.profileImagePath",
     userType: "",
     driversLicenceImageBase64: "",
     driversLicenceImageName: "",
@@ -100,9 +101,22 @@ const RideShareRegisterForm = () => {
     formData.append("vehicleModel", values["vehicleModel"]);
     formData.append("noOfPassengers", values["noOfPassengers"]);
 
+    const data = {
+      agreementCheck: values["agreementCheck"],
+      nationalIdImageBase64: "string",
+      userType: values["userType"],
+      driversLicenceImageBase64: "string",
+      vehicleType: values["vehicleType"],
+      vehicleModel: values["vehicleModel"],
+      noOfPassengers: values["noOfPassengers"],
+      userImage: user.user.profileImagePath,
+    }
+
+    console.log("DATAAAAA", user)
+
     const response = await fetch("/api/rideSharing/profile", {
       method: "POST",
-      body: JSON.stringify(values),
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
@@ -274,6 +288,8 @@ const RideShareRegisterForm = () => {
                     )}
                   </Dropzone>
                 </Box>
+
+                <input type="hidden" name="userImage" onChange={handleChange} value={"values.userImage"}/>
 
                 <TextField
                   select
