@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import useStorage from "../hooks/useStorage";
 
-
 const CompanyProfileCreateForm = () => {
   const [CompanyName, setCompanyName] = useState("");
   const [website, setWebsite] = useState("");
@@ -31,6 +30,11 @@ const CompanyProfileCreateForm = () => {
 
     if (!user) {
       setError("You must be logged in");
+      return;
+    }
+    // Check if the input ends with '.com'
+    if (!website.endsWith(".com")) {
+      setError("Enter valid website name");
       return;
     }
 
@@ -117,146 +121,154 @@ const CompanyProfileCreateForm = () => {
 
   return (
     <>
-    <form className="create w-1/2 m-auto max-md:w-96" onSubmit={handleSubmit}>
-      <h3 className="text-black text-3xl text-center mb-5">
-        Create Your Company Profile!
-      </h3>
-      <label>Company Name:</label>
-      <input
-        type="text"
-        onChange={(e) => setCompanyName(e.target.value)}
-        required
-        value={CompanyName}
-        className={emptyFields?.includes("companyName") ? "error" : ""}
-      />
+      <form className="create w-1/2 m-auto max-md:w-96" onSubmit={handleSubmit}>
+        <h3 className="text-black text-3xl text-center mb-5">
+          Create Your Company Profile!
+        </h3>
+        <label>Company Name:</label>
+        <input
+          type="text"
+          onChange={(e) => setCompanyName(e.target.value)}
+          required
+          value={CompanyName}
+          className={emptyFields?.includes("companyName") ? "error" : ""}
+        />
 
-      <label>Website:</label>
-      <input
-        type="text"
-        onChange={(e) => setWebsite(e.target.value)}
-        required
-        value={website}
-        className={emptyFields?.includes("website") ? "error" : ""}
-      />
-      <label>Locations Name:</label>
-      <input
-        type="text"
-        onChange={(e) => setLocationsName(e.target.value)}
-        required
-        value={locationsName}
-        className={emptyFields?.includes("locationsName") ? "error" : ""}
-      />
+        <label>Website:</label>
+        <input
+          type="text"
+          onChange={(e) => {
+            // console.log("herwe");
+            const inputValue = e.target.value;
+            // // Check if the input ends with '.com'
+            // if (inputValue.endsWith(".com")) {
+            //   setWebsite(inputValue);
+            // }
+            setWebsite(inputValue);
+          }}
+          required
+          value={website}
+          className={emptyFields?.includes("website") ? "error" : ""}
+        />
 
-      <label>Founded Year:</label>
-      <input
-        type="text"
-        pattern="[1-9]*"
-        required
-        minLength="4"
-        maxLength="4"
-        onChange={(e) => {
-          const inputYear = e.target.value;
-          if (/^\d{0,4}$/.test(inputYear)) {
-            setFoundedyear(inputYear);
-          }
-        }}
-        value={foundedYear}
-        className={emptyFields?.includes("foundedyear") ? "error" : ""}
-      />
+        <label>Locations Name:</label>
+        <input
+          type="text"
+          onChange={(e) => setLocationsName(e.target.value)}
+          required
+          value={locationsName}
+          className={emptyFields?.includes("locationsName") ? "error" : ""}
+        />
 
-      <label>Members:</label>
-      <input
-        type="text"
-        onChange={(e) => setMembers(e.target.value)}
-        required
-        value={members}
-        className={emptyFields?.includes("members") ? "error" : ""}
-      />
+        <label>Founded Year:</label>
+        <input
+          type="text"
+          pattern="[1-9]*"
+          required
+          minLength="4"
+          maxLength="4"
+          onChange={(e) => {
+            const inputYear = e.target.value;
+            if (/^\d{0,4}$/.test(inputYear)) {
+              setFoundedyear(inputYear);
+            }
+          }}
+          value={foundedYear}
+          className={emptyFields?.includes("foundedyear") ? "error" : ""}
+        />
 
-      <label>Industry:</label>
-      <input
-        type="text"
-        onChange={(e) => setIndustry(e.target.value)}
-        required
-        value={industry}
-        className={emptyFields?.includes("industry") ? "error" : ""}
-      />
+        <label>Members:</label>
+        <input
+          type="text"
+          onChange={(e) => setMembers(e.target.value)}
+          required
+          value={members}
+          className={emptyFields?.includes("members") ? "error" : ""}
+        />
 
-      {/* Other form inputs */}
-      <label>Company Logo:</label>
-      <input
-        type="file"
-        accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
-        onChange={handleFileChange}
-        className={emptyFields?.includes("file") ? "error" : ""}
-      />
+        <label>Industry:</label>
+        <input
+          type="text"
+          onChange={(e) => setIndustry(e.target.value)}
+          required
+          value={industry}
+          className={emptyFields?.includes("industry") ? "error" : ""}
+        />
 
-      <label>Achievements:</label>
-      {achievements.map((achievement, index) => (
-        <div key={index}>
-          <input
-            type="text"
-            onChange={(e) => handleAchievementChange(index, e.target.value)}
-            value={achievement}
-            required
-            className={emptyFields?.includes("achievements") ? "error" : ""}
-          />
-          {index > 0 && (
-            <div className="flex flex-row place-content-end">
-              <button
-                type="button"
-                className="button"
-                class="mb-2 w-fit rounded-lg bg-red-600 px-5 py-2 text-xs font-medium text-white hover:bg-red-500 focus:ring-4 focus:ring-red-400"
-                onClick={() => removeAchievementField(index)}
-              >
-                Remove
-              </button>
-            </div>
-          )}
+        {/* Other form inputs */}
+        <label>Company Logo:</label>
+        <input
+          type="file"
+          accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
+          onChange={handleFileChange}
+          className={emptyFields?.includes("file") ? "error" : ""}
+        />
+
+        <label>Achievements:</label>
+        {achievements.map((achievement, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              onChange={(e) => handleAchievementChange(index, e.target.value)}
+              value={achievement}
+              required
+              className={emptyFields?.includes("achievements") ? "error" : ""}
+            />
+            {index > 0 && (
+              <div className="flex flex-row place-content-end">
+                <button
+                  type="button"
+                  className="button"
+                  class="mb-2 w-fit rounded-lg bg-red-600 px-5 py-2 text-xs font-medium text-white hover:bg-red-500 focus:ring-4 focus:ring-red-400"
+                  onClick={() => removeAchievementField(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+        {achievements.length < 4 && (
+          <button
+            type="button"
+            className="mb-2 w-fit rounded-lg bg-green-600 px-5 py-2 text-xs font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
+            onClick={addAchievementField}
+          >
+            Add Achievement
+          </button>
+        )}
+
+        <label>About your Company:</label>
+        <textarea
+          required
+          type="text"
+          onChange={(e) => setAbout(e.target.value)}
+          value={about}
+          className={emptyFields?.includes("about") ? "error" : "w-full p-3"}
+        />
+
+        <br></br>
+        <br></br>
+        <br></br>
+
+        <div className="flex flex-row gap-6">
+          <button
+            type="button"
+            onClick={cancelCreateProfile}
+            className="text-white hover:text-white border border-red-700 hover:bg-red-800 bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="text-white hover:text-white border border-blue-700 hover:bg-blue-800 bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
+          {error && <div className="error">{error}</div>}
         </div>
-      ))}
-      {achievements.length < 4 && (
-        <button
-          type="button"
-          className="mb-2 w-fit rounded-lg bg-green-600 px-5 py-2 text-xs font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
-          onClick={addAchievementField}
-        >
-          Add Achievement
-        </button>
-      )}
-
-      <label>About your Company:</label>
-      <textarea
-        required
-        type="text"
-        onChange={(e) => setAbout(e.target.value)}
-        value={about}
-        className={emptyFields?.includes("about") ? "error" : "w-full p-3"}
-      />
-
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <div className="flex flex-row gap-6">
-        <button
-          type="button"
-          onClick={cancelCreateProfile}
-          className="text-white hover:text-white border border-red-700 hover:bg-red-800 bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="text-white hover:text-white border border-blue-700 hover:bg-blue-800 bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-        >
-          Submit
-        </button>
-        {error && <div className="error">{error}</div>}
-      </div>
-    </form>
+      </form>
     </>
-
   );
 };
 

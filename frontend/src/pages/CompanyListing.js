@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import ViewProfilesModal from "./ViewProfilesModal";
 
-
-
 const CompanyListing = () => {
   const user = useSelector((state) => state.user.user);
   const [selectedCity, setSelectedCity] = useState(null);
@@ -22,6 +20,7 @@ const CompanyListing = () => {
     "Batticaloa",
     "Colombo",
     "Galle",
+    "Malabe",
     "Gampaha",
     "Hambantota",
     "Jaffna",
@@ -132,12 +131,11 @@ const CompanyListing = () => {
         <h2 className="relative text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
           Companies
         </h2>
-        
-        {showModal&& <ViewProfilesModal
-          company={selectedCompany}
-         onClose={closeModal}
-        />}
-        
+
+        {showModal && (
+          <ViewProfilesModal company={selectedCompany} onClose={closeModal} />
+        )}
+
         <div className="sub w-full flex ml-6 mr-6">
           <div className="w-full ">
             <div className="">
