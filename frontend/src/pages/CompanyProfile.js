@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Sidemenu from "../components/Sidemenu";
 import { useDispatch, useSelector } from "react-redux";
+import Sidemenu from "../components/Sidemenu";
 
-import PostCatd from "../components/PostCatd";
+import { useNavigate } from "react-router-dom";
 import AchievementCard from "../components/AchievementCard";
 import CompanyDetails from "../components/CompanyDetails";
-import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import PostCatd from "../components/PostCatd";
 
 const CompanyProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -59,7 +59,7 @@ const CompanyProfile = () => {
     setRefreshState(!refreshState);
   };
 
-  console.log(post)
+  console.log(post);
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -197,9 +197,9 @@ const CompanyProfile = () => {
           Company Profile
         </h2>
         <div className="sub gap-10 flex">
-          <div className="sidemenu">
+          {/* <div className="sidemenu">
             <Sidemenu />
-          </div>
+          </div> */}
           <div className="w-full m-auto">
             <div className="relative w-full rounded-xl bg-gray-400 px-8 py-8 shadow-lg">
               <div className="flex flex-col gap-10">
@@ -290,6 +290,7 @@ const CompanyProfile = () => {
                                 className="text-left font-semibold text-gray-600 dark:text-white underline"
                                 href={profile && profile[0]?.website}
                                 target="_blank"
+                                rel="noreferrer"
                               >
                                 {getCleanUrl(profile && profile[0]?.website)}
                               </a>
@@ -526,13 +527,13 @@ const CompanyProfile = () => {
                   >
                     View analytics
                   </button>
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => navigate("Candidateshortlist")}
                     className="mb-2 w-2/3 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
                   >
                     Candidate Shortlist
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

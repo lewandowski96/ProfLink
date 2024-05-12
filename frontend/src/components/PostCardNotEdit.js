@@ -148,7 +148,7 @@ export default function PostCardNotEdit(props) {
           <img
             className="h-12 w-12 rounded-full object-cover shadow"
             src={
-              details?.userPhoto ||
+              props?.image ||
               "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
             }
             alt="avatar"
