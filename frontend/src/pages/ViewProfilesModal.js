@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Sidemenu from "../components/Sidemenu";
-
-import { useNavigate } from "react-router-dom";
 import AchievementCard from "../components/AchievementCard";
-import CompanyDetails from "../components/CompanyDetails";
-import Navbar from "../components/Navbar";
 import PostCatd from "../components/PostCatd";
 
-const CompanyProfile = () => {
+import { useNavigate } from "react-router-dom";
+import PostCardNotEdit from "../components/PostCardNotEdit";
+
+export default function ViewProfilesModal({ company, onClose }) {
   const [profile, setProfile] = useState(null);
   const user = useSelector((state) => state.user)?.user;
 
@@ -35,7 +33,7 @@ const CompanyProfile = () => {
     };
 
     const fetchPosts = async () => {
-      const response = await fetch("/api/post/all", {
+      const response = await fetch("/api/post/", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -54,12 +52,15 @@ const CompanyProfile = () => {
     }
   }, [user, refreshState]);
 
+  // if (!company) {
+  //   return null;
+  // }
+
   const handleRefresh = () => {
     console.log("Refreshing....");
     setRefreshState(!refreshState);
   };
 
-  console.log(post);
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -132,25 +133,6 @@ const CompanyProfile = () => {
     navigate("postjob");
   };
 
-  useEffect(() => {
-    const fetchCompanies = async () => {
-      const response = await fetch("/api/profiles/company/all", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        // setCompanies(json);
-      }
-    };
-
-    if (user) {
-      fetchCompanies();
-    }
-  }, [user]);
-
   const filteredCompanies = cities
     ? cities.filter((city) => {
         const matchesCity = !selectedCity || city === selectedCity;
@@ -176,12 +158,6 @@ const CompanyProfile = () => {
     setCompanies(filteredResult); // Update state with filtered result
   };
 
-  console.log(profile && profile[0]);
-  console.log(profile && profile[0]?.achievements);
-
-  const date = new Date(profile && profile[0]?.foundedYear);
-  const year = date.getFullYear();
-
   const getCleanUrl = (url) => {
     if (!url) return;
     // Remove 'http://', 'https://', 'ftp://' from the URL
@@ -189,23 +165,41 @@ const CompanyProfile = () => {
     return cleanUrl;
   };
 
+  const date = new Date(company?.foundedYear);
+  const year = date.getFullYear();
+
+  console.log("debug" + company.achievements.length);
   return (
-    <>
-      <Navbar />
-      <div className="view-consultant-profile">
-        <h2 className="relative text-balck mx-auto mt-4 mb-6 text-center text-4xl font-extrabold font-mono">
-          Company Profile
-        </h2>
-        <div className="sub gap-10 flex">
-          {/* <div className="sidemenu">
-            <Sidemenu />
-          </div> */}
-          <div className="w-full m-auto">
+    <div className="fixed inset-0 flex items-center justify-center z-50 w-full h-full p-8">
+      <div className="fixed inset-0 bg-black opacity-50"></div>
+      <div className="bg-white w-full mx-auto rounded-lg shadow-lg z-50 h-full ">
+        <div className="relative pt-12">
+          <button
+            className="absolute top-0 right-0 m-4 text-gray-600 hover:text-gray-800 "
+            onClick={onClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <div className=" rounded-lg px-6 py-4 overflow-auto h-[79vh]">
             <div className="relative w-full rounded-xl bg-gray-400 px-8 py-8 shadow-lg">
               <div className="flex flex-col gap-10">
                 <div className="mb-5 flex flex-row">
                   <h1 className="text-balck absolute left-36 right-36 top-0 mr-4 mt-4 text-center text-2xl font-semibold">
-                    {profile && profile[0]?.CompanyName}
+                    {company?.CompanyName}
                   </h1>
                   <div className="absolute right-5 top-5 mr-4 mt-4">
                     <button className="border-black-900 rounded-full border-black bg-blue-200 px-4 py-1 text-sm font-semibold text-blue-800 outline-black hover:border-transparent hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
@@ -220,7 +214,7 @@ const CompanyProfile = () => {
                       <img
                         className="h-full w-full object-cover"
                         src={
-                          (profile && profile[0]?.file) ||
+                          company?.file ||
                           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                         }
                         alt="Woman's Face"
@@ -288,11 +282,11 @@ const CompanyProfile = () => {
                               </span>
                               <a
                                 className="text-left font-semibold text-gray-600 dark:text-white underline"
-                                href={profile && profile[0]?.website}
+                                href={company?.website}
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                {getCleanUrl(profile && profile[0]?.website)}
+                                {getCleanUrl(company?.website)}
                               </a>
                             </div>
                             <div className="flex flex-row gap-10">
@@ -300,7 +294,7 @@ const CompanyProfile = () => {
                                 Locations
                               </span>
                               <span className="text-left font-semibold text-gray-600 dark:text-white">
-                                {profile && profile[0]?.locationsName}
+                                {company?.locationsName}
                               </span>
                             </div>
                             <div className="flex flex-row gap-10">
@@ -308,7 +302,7 @@ const CompanyProfile = () => {
                                 Members
                               </span>
                               <span className="text-left font-semibold text-gray-600 dark:text-white">
-                                {profile && profile[0]?.members}
+                                {company?.members}
                               </span>
                             </div>
                             <div className="flex flex-row gap-10">
@@ -316,7 +310,7 @@ const CompanyProfile = () => {
                                 Founded
                               </span>
                               <span className="text-left font-semibold text-gray-600 dark:text-white">
-                                {profile && year}
+                                {company && year}
                               </span>
                             </div>
                             <div className="flex flex-row gap-10">
@@ -324,53 +318,31 @@ const CompanyProfile = () => {
                                 Industry
                               </span>
                               <span className="text-left font-semibold text-gray-600 dark:text-white">
-                                {profile && profile[0]?.industry}
+                                {company?.industry}
                               </span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    {company?.achievements?.length > 0 && (
+                      <div className="w-96 rounded-xl p-2 flex flex-col gap-10">
+                        <AchievementCard achievements={company?.achievements} />
+                      </div>
+                    )}
                   </div>
                   <div className="mt-10 text-center">
-                    <p>{profile && profile[0]?.about}</p>
+                    <p>{company?.about}</p>
                   </div>
                 </div>
               </div>
             </div>
-            {
-              //post section
-            }
-            <div className="w-full flex flex-row mt-10 gap-4 pb-10">
-              <div className="flex flex-col grow bg-stone-500 rounded-xl pb-10">
+
+            <div className="w-full flex flex-col mt-10 gap-4 pb-10">
+              <div className="flex flex-col grow bg-stone-500 rounded-xl pb-10 order-2">
                 <h1 className="mb-2 mt-5 pl-10 text-lg font-semibold text-gray-900">
                   Currently posted jobs...
                 </h1>
-                <div className="flex flex-row place-content-end pr-16">
-                  <button
-                    type="button"
-                    onClick={postNewJob}
-                    className="mb-2 mr-1 w-fit rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
-                  >
-                    <div className="flex flex-row place-content-center items-center gap-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15"
-                        />
-                      </svg>
-                      <span>Add</span>
-                    </div>
-                  </button>
-                </div>
 
                 <div className="flex flex-row place-content-evenly">
                   <div className="relative ">
@@ -396,8 +368,8 @@ const CompanyProfile = () => {
                       id="default-search"
                       className="block h-9 w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                       placeholder="Search for jobs..."
-                      onChange={handleNameSearch}
-                      value={nameSearch}
+                      // onChange={handleNameSearch}
+                      // value={nameSearch}
                       required
                     />
                   </div>
@@ -406,7 +378,7 @@ const CompanyProfile = () => {
                     <button
                       id="dropdownSearchButton"
                       data-dropdown-toggle="dropdownSearch"
-                      onClick={() => setShowDropdown(!showDropdown)}
+                      // onClick={() => setShowDropdown(!showDropdown)}
                       data-dropdown-placement="bottom"
                       className="inline-flex h-9 items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       type="button"
@@ -508,40 +480,22 @@ const CompanyProfile = () => {
                   </button>
                 </div>
 
-                <div className="w-full px-5 py-5 h-[50vh] grid grid-cols-1 md:grid-cols-2 overflow-auto scrollbar-style">
+                <div className="w-full px-5 py-5 h-[50vh] grid grid-cols-1 md:grid-cols-2 min-[1130px]:grid-cols-3 overflow-auto scrollbar-style">
                   {post.map((item) => {
-                    return <PostCatd details={item} callback={handleRefresh} />;
+                    return (
+                      <PostCardNotEdit
+                        details={item}
+                        image={company?.file}
+                        callback={handleRefresh}
+                      />
+                    );
                   })}
-                </div>
-              </div>
-
-              <div className="w-2/6 rounded-xl p-2 flex flex-col gap-10">
-                <AchievementCard
-                  achievements={profile && profile[0]?.achievements}
-                />
-                <div className="flex flex-col items-center">
-                  <button
-                    type="button"
-                    onClick={() => navigate("ComAnalytics")}
-                    className="mb-2 w-2/3 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
-                  >
-                    View analytics
-                  </button>
-                  {/* <button
-                    type="button"
-                    onClick={() => navigate("Candidateshortlist")}
-                    className="mb-2 w-2/3 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-400"
-                  >
-                    Candidate Shortlist
-                  </button> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
-};
-
-export default CompanyProfile;
+}
