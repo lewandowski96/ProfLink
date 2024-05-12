@@ -35,7 +35,7 @@ const CompanyProfile = () => {
     };
 
     const fetchPosts = async () => {
-      const response = await fetch("/api/post/", {
+      const response = await fetch("/api/post/all", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
